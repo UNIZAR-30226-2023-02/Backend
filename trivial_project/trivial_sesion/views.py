@@ -17,6 +17,13 @@ def index(request):
     return render(request, 'trivial_sesion/index.html')
 
 
+#Funcion que recibe los parametros de login
+def login(request):
+    if request.method == 'POST':
+        #El get es del name     
+        print(request.POST.get('nombre_usuario')) 
+    return render(request, 'trivial_sesion/login.html')
+
 def detail(request, question_id):
     # question = get_object_or_404(Question, pk=question_id)
     # return render(request, 'polls/detail.html', {'question': question})

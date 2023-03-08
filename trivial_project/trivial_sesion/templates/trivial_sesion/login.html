@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Formulario de inicio de sesión</title>
+  </head>
+  <body>
+    <h2>Iniciar sesión</h2>
+    <form action="{% url 'trivial_sesion:login'%}" method="post">
+      {% csrf_token %}
+      <label for="nombre_usuario">Nombre de usuario:</label>
+      <input type="text" id="username" name="nombre_usuario"><br><br>
+      <label for="contraseña">Contraseña:</label>
+      <input type="password" id="password" name="contraseña"><br><br>
+      <input type="submit" value="Iniciar sesión">
+    </form>
+  </body>
+</html>
