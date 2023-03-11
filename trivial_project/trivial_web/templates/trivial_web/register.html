@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Registro de usuario</title>
+  </head>
+  <body>
+    <h2>Registro de usuario</h2>
+    <form action="{% url 'trivial_web:register' %}" method="post">
+      {% csrf_token %}
+      <label for="nombre_usuario">Nombre de usuario:</label>
+      <input type="text" name="username" required><br><br>
+      <label for="correo">Correo electrónico:</label>
+      <input type="email" name="email" required><br><br>
+      <label for="fecha_nac">Fecha de nacimiento:</label>
+      <input type="date" name="fecha_nac" required><br><br>
+      <label for="contraseña">Contraseña:</label>
+      <input type="password" name="password" required><br><br>
+      <label for="repite_contraseña">Repite la contraseña:</label>
+      <input type="password" name="confirm_password" required><br><br>
+      <input type="submit" value="Registrarse">
+    </form>
+  </body>
+</html>

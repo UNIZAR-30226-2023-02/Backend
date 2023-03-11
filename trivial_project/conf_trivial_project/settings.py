@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "trivial_sesion.apps.TrivialSesionConfig",
+    "trivial_web.apps.TrivialWebConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
 
 
-app_name = 'trivial_sesion'
+app_name = 'trivial_web'
 urlpatterns = [
     # ex: /polls/
     path('', views.index, name='index'),
@@ -15,4 +15,5 @@ urlpatterns = [
     path('<int:question_id>/vote/', views.vote, name='vote'),
     
     path('login/', views.login, name='login'),
+    path('register/', views.register, name='register'),
 ]

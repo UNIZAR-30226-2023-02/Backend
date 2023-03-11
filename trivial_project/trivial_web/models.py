@@ -27,7 +27,7 @@ class Usuario(models.Model):
     username = models.CharField(max_length=50, primary_key=True)
     correo = models.EmailField(default="example@gmail.com",blank=False,null=False,unique=True)
     fecha_nac = models.DateField(default="1997-10-19")
-    password = models.CharField(default="",max_length=50)
+    password = models.CharField(default="",max_length=200) #La contraseña cifrada ocupa 128 caracteres
     monedas = models.IntegerField(default=0)
 
 
