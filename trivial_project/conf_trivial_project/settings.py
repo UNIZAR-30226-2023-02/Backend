@@ -77,6 +77,9 @@ WSGI_APPLICATION = "conf_trivial_project.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
+        'OPTIONS': {
+            'sql_mode': 'STRICT_TRANS_TABLES',
+        },
         "NAME": "trivial_bbdd",
         "HOST": "localhost",
         "USER": "root",
