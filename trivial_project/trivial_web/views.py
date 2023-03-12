@@ -77,7 +77,7 @@ def register(request):
             # Comprobamos que no exista el usuario
             dict_errors['error_username'] = "El usuario ya existe"
 
-        if password.len() < 8:
+        if len(password) < 8:
             dict_errors['error_password'] = "Contraseña inferior a 8 carácteres"
             any_error = 1
         elif password != confirm_password:
