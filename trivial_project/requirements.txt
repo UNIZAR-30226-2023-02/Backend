@@ -1,0 +1,3 @@
+pip install django-cors-headers
+pip3 install djangorestframework
+pip install whitenoise

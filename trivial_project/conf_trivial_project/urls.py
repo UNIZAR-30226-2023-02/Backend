@@ -16,7 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+
 urlpatterns = [
+    path('api/',include('trivial_web.api.urls')),
     path('trivial/', include('trivial_web.urls')),
     path('admin/', admin.site.urls),
 ]
+
+# Para conectar django con react -> Video(32:35) : https://www.youtube.com/watch?v=EscHWLV43NQ
+#urlpatterns += [re_path(r'^.*',TemplateView.as_viev(template_name='index.html'))]
