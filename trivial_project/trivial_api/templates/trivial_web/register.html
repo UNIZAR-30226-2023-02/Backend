@@ -5,7 +5,7 @@
   </head>
   <body>
     <h2>Registro de usuario</h2>
-    <form action="{% url 'trivial_web:register' %}" method="post">
+    <form action="{% url 'trivial_api:register' %}" method="post">
       {% csrf_token %}
       <label for="nombre_usuario">Nombre de usuario:</label>
       <input type="text" name="username" required><br><br>

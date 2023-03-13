@@ -5,7 +5,7 @@
   </head>
   <body>
     <h2>Iniciar sesión</h2>
-    <form action="{% url 'trivial_web:login'%}" method="post">
+    <form action="{% url 'trivial_api:login'%}" method="post">
       {% csrf_token %}
       <label for="nombre_usuario">Nombre de usuario:</label>
       <input type="text" name="username"><b>{{error_username}}</b><br><br>

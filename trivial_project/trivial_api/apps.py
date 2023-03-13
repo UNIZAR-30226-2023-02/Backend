@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class TrivialWebConfig(AppConfig):
+class TrivialApiConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "trivial_web"
+    name = "trivial_api"

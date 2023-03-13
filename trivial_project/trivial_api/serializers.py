@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from trivial_web.models import *
+from .models import *
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:

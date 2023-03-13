@@ -26,11 +26,12 @@ SITE_NAME = 'Trivial'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1"
-]
-
+# ALLOWED_HOSTS = [
+#     "localhost",
+#     "127.0.0.1"
+# ]
+#Para hacer pruebas permitir todos los hosts
+ALLOWED_HOSTS = ["*"]
 if not DEBUG:
     ALLOWED_HOSTS = [
     ]
@@ -52,7 +53,7 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = [
-    "trivial_web.apps.TrivialWebConfig",
+    "trivial_api.apps.TrivialApiConfig",
 ]
 
 THIRD_PARTY_APPS = [

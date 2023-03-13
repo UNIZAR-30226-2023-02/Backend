@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from trivial_web.models import *
+from .models import *
 from .serializers import *
 
 from rest_framework.views import APIView
