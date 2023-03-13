@@ -105,10 +105,10 @@ DATABASES = {
         'OPTIONS': {
             'sql_mode': 'STRICT_TRANS_TABLES',
         },
-        "NAME": "trivial_bbdd",
+        "NAME": "trivialdb",
         "HOST": "localhost",
-        "USER": "root",
-        "PASSWORD":"",
+        "USER": "trivial",
+        "PASSWORD":"trivialPS2023",
         "PORT":"3306",
     }
 }
