@@ -1,3 +1,6 @@
 pip install django-cors-headers
 pip3 install djangorestframework
 pip install whitenoise
+
+pip install attrs
+pip install channels==3.0.5

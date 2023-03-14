@@ -44,6 +44,7 @@ if not DEBUG:
 # Application definition
 
 DJANGO_APPS = [
+    "channels",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -53,7 +54,8 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = [
-    "trivial_api.apps.TrivialApiConfig",
+    "trivial_api",
+    "sala",
 ]
 
 THIRD_PARTY_APPS = [
@@ -62,6 +64,15 @@ THIRD_PARTY_APPS = [
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
+
+ASGI_APPLICATION = 'conf_trivial_project.asgi.application'
+
+#Esto hay que cambiarlo en produccion(deployment)
+CHANNEL_LAYERS = {
+    'default':{
+        'BACKEND':'channels.layers.InMemoryChannelLayer'
+    }
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -99,19 +110,41 @@ WSGI_APPLICATION = "conf_trivial_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
+# For localhost
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         'OPTIONS': {
             'sql_mode': 'STRICT_TRANS_TABLES',
         },
-        "NAME": "trivialdb",
+        "NAME": "trivial_bbdd",
         "HOST": "localhost",
-        "USER": "trivial",
-        "PASSWORD":"trivialPS2023",
+        "USER": "root",
+        "PASSWORD":"",
         "PORT":"3306",
     }
 }
+
+
+if not DEBUG:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            'OPTIONS': {
+                'sql_mode': 'STRICT_TRANS_TABLES',
+            },
+            "NAME": "trivialdb",
+            "HOST": "localhost",
+            "USER": "trivial",
+            "PASSWORD":"trivialPS2023",
+            "PORT":"3306",
+        }
+    }
+
+
+
+
 
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
