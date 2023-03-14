@@ -24,7 +24,7 @@ SECRET_KEY = "django-insecure-fxjcca#eigq-w_x&k+z!39@nd5a8wn$8zo$f%cm%4i(d)o05cn
 
 SITE_NAME = 'Trivial'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = [
 #     "localhost",
@@ -33,8 +33,7 @@ DEBUG = True
 #Para hacer pruebas permitir todos los hosts
 ALLOWED_HOSTS = ["*"]
 if not DEBUG:
-    ALLOWED_HOSTS = [
-    ]
+    ALLOWED_HOSTS = ["https://trivial-ps.azurewebsites.net"]
 
 # RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 # if RENDER_EXTERNAL_HOSTNAME:
@@ -171,6 +170,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
