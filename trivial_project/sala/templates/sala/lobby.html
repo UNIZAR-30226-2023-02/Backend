@@ -8,7 +8,7 @@
 
 </head>
 <body>
-    <h1>Lets chat!</h1>
+    <h1>Lets chat! In room: {{room_name}}</h1>
 
     <form id="form">
         <input type="text" name="message"/>
@@ -17,7 +17,7 @@
     <div id="messages"></div>
 
     <script type="text/javascript">
-        let roomName = 'my-room-name';  // replace with the actual room name
+        let roomName = "{{room_name}}";  // replace with the actual room name
         let url = `ws://${window.location.host}/ws/socket-server/${roomName}/`;
 
         const chatSocket = new WebSocket(url)
