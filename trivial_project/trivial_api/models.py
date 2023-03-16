@@ -43,7 +43,7 @@ class Usuario(models.Model):
 class Amigos(models.Model):
     username = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='amigos_username')
     amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE,related_name='amigos_amigo')
-
+    #pendiente = models.BooleanField()
     #This method will be called by Django Validation Framework before saving the instance to the database
     # and if the username and amigo are the same will raise an exception
     def clean(self):

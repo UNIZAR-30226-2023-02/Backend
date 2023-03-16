@@ -1,21 +1,20 @@
 from django.shortcuts import render, get_object_or_404
 from .models import *
 from .serializers import *
-
+import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status,permissions,generics
 from rest_framework import permissions
-
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 import re
 from datetime import datetime
 
 
-
-
 # Minuto 57 -> https://www.youtube.com/watch?v=EscHWLV43NQ
 class UsuarioListView(APIView):
-    def get(self,request,format=None):
+    def post(self,request,format=None):
         if Usuario.objects.all().exists():
             queryset = Usuario.objects.all()
             serializer = UsuarioSerializer(queryset,many=True)
@@ -35,7 +34,7 @@ class UsuarioLogin(APIView):
     def post(self, request):
         any_error = 0
         dict_response = {
-            'validate':"",
+            'OK':"",
             'error_username': "",
             'error_password': "",
         }
@@ -56,19 +55,18 @@ class UsuarioLogin(APIView):
                 any_error = 1
 
         if any_error !=0:
-            dict_response['validate'] = "False"
+            dict_response['OK'] = "False"
         else:
-            dict_response['validate'] = "True"
+            dict_response['OK'] = "True"
         
         return Response(dict_response)
-
 
 
 class UsuarioRegistrar(APIView):
     def post(self, request):
         any_error = 0
         dict_response = {
-            'created':"",
+            'OK':"",
             'error_username': "",
             'error_password': "",
             'error_confirm_password': "",
@@ -112,11 +110,81 @@ class UsuarioRegistrar(APIView):
             dict_response['error_fecha_nac'] = "Formato fecha nacimiento invalido(YY-MM-DD)"
 
         if any_error !=0:
-            dict_response['created'] = "False"
+            dict_response['OK'] = "False"
         else:
             # Creamos el registro en la base de datos
             user = Usuario.objects.create(username=username, correo=correo,fecha_nac=fecha_nac,password=password)
             user.set_password(password)
             user.save()
-            dict_response['created'] = "True"
+            dict_response['OK'] = "True"
+
+    
+class UsuarioDatos(APIView):
+    #authentication_classes = [TokenAuthentication]
+    #permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        any_error = 0
+        dict_response = {
+            'OK':"",
+            'username':"",
+            'correo': "",
+            'fecha_nac': "",
+            'monedas': "",
+            'amigos':[],
+        }
+        username = request.GET.get('username')
+        # Comprobamos los posibles errores
+        if Usuario.objects.filter(username=username).exists():
+            user = Usuario.objects.get(username=username)
+            amigos = Amigos.objects.filter(username=username)
+            dict_response['username'] = user.username
+            dict_response['correo'] = user.correo
+            dict_response['fecha_nac'] = user.fecha_nac
+            dict_response['monedas'] = user.monedas    
+            for amigo in amigos:
+                dict_response['amigos'].append(amigo.amigo_id)       
+            dict_response['OK'] = "True"
+        else:
+            dict_response['OK'] = "False"
         return Response(dict_response)
+
+
+class UsuarioAddAmigo(APIView):
+    def post(self, request):
+        any_error = 0
+        dict_response = {
+            'OK':"",
+            'error':""
+        }
+        username = request.data.get('username')
+        amigo = request.data.get('amigo')
+
+        if not Usuario.objects.filter(username=username).exists():
+            any_error = 1
+            dict_response['error'] = "El usuario no existe"
+
+        if Amigos.objects.filter(username=username,amigo=amigo).exists():
+            any_error = 1
+            dict_response['error'] = "Ya tienes el amigo agregado"
+
+        if not Usuario.objects.filter(username=amigo).exists():
+            any_error =1
+            dict_response['error'] = "El usuario que intentas agregar no existe"
+                
+        if username == amigo:
+            any_error =1
+            dict_response['error'] = "El usuario no puede ser amigo de si mismo"
+
+        if any_error ==0:
+            usuario_instance = get_object_or_404(Usuario, username=username)
+            amigo_instance = get_object_or_404(Usuario, username=amigo)
+            amigo_db = Amigos.objects.create(username=usuario_instance,amigo=amigo_instance)
+            amigo_db.save()
+            dict_response['OK'] = "True"
+        else:
+            dict_response["OK"] = "False"
+        return Response(dict_response)
+    
+
+

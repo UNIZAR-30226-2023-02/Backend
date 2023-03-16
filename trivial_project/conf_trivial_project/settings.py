@@ -24,16 +24,16 @@ SECRET_KEY = "django-insecure-fxjcca#eigq-w_x&k+z!39@nd5a8wn$8zo$f%cm%4i(d)o05cn
 
 SITE_NAME = 'Trivial'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-# ALLOWED_HOSTS = [
-#     "localhost",
-#     "127.0.0.1"
-# ]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1"
+]
+
 #Para hacer pruebas permitir todos los hosts
-ALLOWED_HOSTS = ["https://trivial-ps.azurewebsites.net"]
-# if not DEBUG:
-#    ALLOWED_HOSTS = ["https://trivial-ps.azurewebsites.net"]
+if not DEBUG:
+   ALLOWED_HOSTS = ["https://trivial-ps.azurewebsites.net"]
 
 # RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 # if RENDER_EXTERNAL_HOSTNAME:
@@ -60,6 +60,8 @@ PROJECT_APPS = [
 THIRD_PARTY_APPS = [
     'corsheaders',
     'rest_framework',
+    'drf_yasg',
+    'rest_framework.authtoken',
     "whitenoise.runserver_nostatic",
 ]
 
@@ -214,9 +216,16 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny'
+        # Para pedir que esten autenticados al acceder a la API
+        #'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 16,
 }
