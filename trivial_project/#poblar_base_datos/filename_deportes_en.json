@@ -1,0 +1,948 @@
+{
+      "preguntas": [
+            {
+                  "enunciado": "Which of the following sports is not part of the triathlon?",
+                  "r_bien": "Horse-Riding",
+                  "r_mal1": "Cycling",
+                  "r_mal2": "Swimming",
+                  "r_mal3": "Running",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "How many times did Martina Navratilova win the Wimbledon Singles Championship?",
+                  "r_bien": "Nine",
+                  "r_mal1": "Ten",
+                  "r_mal2": "Seven",
+                  "r_mal3": "Eight",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What tool lends it's name to a last-stone advantage in an end in Curling?",
+                  "r_bien": "Hammer",
+                  "r_mal1": "Wrench",
+                  "r_mal2": "Drill",
+                  "r_mal3": "Screwdriver",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who was the British professional wrestler Shirley Crabtree better known as?",
+                  "r_bien": "Big Daddy",
+                  "r_mal1": "Giant Haystacks",
+                  "r_mal2": "Kendo Nagasaki",
+                  "r_mal3": "Masambula",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What is the nickname of Northampton town's rugby union club?",
+                  "r_bien": "Saints",
+                  "r_mal1": "Harlequins",
+                  "r_mal2": "Saracens",
+                  "r_mal3": "Wasps",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "How many soccer players should be on the field at the same time?",
+                  "r_bien": "22",
+                  "r_mal1": "20",
+                  "r_mal2": "24",
+                  "r_mal3": "26",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "In what sport is a \"shuttlecock\" used?",
+                  "r_bien": "Badminton",
+                  "r_mal1": "Table Tennis",
+                  "r_mal2": "Rugby",
+                  "r_mal3": "Cricket",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which team won the 2015-16 English Premier League?",
+                  "r_bien": "Leicester City",
+                  "r_mal1": "Liverpool",
+                  "r_mal2": "Cheslea",
+                  "r_mal3": "Manchester United",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which Formula One driver was nicknamed 'The Professor'?",
+                  "r_bien": "Alain Prost",
+                  "r_mal1": "Ayrton Senna",
+                  "r_mal2": "Niki Lauda",
+                  "r_mal3": "Emerson Fittipaldi",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "In baseball, how many fouls are an out?",
+                  "r_bien": "0",
+                  "r_mal1": "5",
+                  "r_mal2": "3",
+                  "r_mal3": "2",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which nation hosted the FIFA World Cup in 2006?",
+                  "r_bien": "Germany",
+                  "r_mal1": "United Kingdom",
+                  "r_mal2": "Brazil",
+                  "r_mal3": "South Africa",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which country will host the 2020 Summer Olympics?",
+                  "r_bien": "Japan",
+                  "r_mal1": "China",
+                  "r_mal2": "Australia",
+                  "r_mal3": "Germany",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which country is hosting the 2022 FIFA World Cup?",
+                  "r_bien": "Qatar",
+                  "r_mal1": "Uganda",
+                  "r_mal2": "Vietnam",
+                  "r_mal3": "Bolivia",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What was the final score of the Germany vs. Brazil 2014 FIFA World Cup match?",
+                  "r_bien": "7 - 1",
+                  "r_mal1": "0 - 1",
+                  "r_mal2": "3 - 4",
+                  "r_mal3": "16 - 0",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which team was the 2015-2016 NBA Champions?",
+                  "r_bien": "Cleveland Cavaliers",
+                  "r_mal1": "Golden State Warriors",
+                  "r_mal2": "Toronto Raptors",
+                  "r_mal3": "Oklahoma City Thunders",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which team was the 2014-2015 NBA Champions?",
+                  "r_bien": "Golden State Warriors",
+                  "r_mal1": "Cleveland Cavaliers",
+                  "r_mal2": "Houston Rockets",
+                  "r_mal3": "Atlanta Hawks",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Where was the Games of the XXII Olympiad held?",
+                  "r_bien": "Moscow",
+                  "r_mal1": "Barcelona",
+                  "r_mal2": "Tokyo",
+                  "r_mal3": "Los Angeles",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Josh Mansour is part of what NRL team?",
+                  "r_bien": "Penrith Panthers",
+                  "r_mal1": "Melbourne Storm",
+                  "r_mal2": "Sydney Roosters",
+                  "r_mal3": "North Queensland Cowboys",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which car manufacturer won the 2016 24 Hours of Le Mans?",
+                  "r_bien": "Porsche",
+                  "r_mal1": "Toyota",
+                  "r_mal2": "Audi",
+                  "r_mal3": "Ferrari",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which Italian footballer told Neuer where he's putting his shot and dragging it wide, during the match Italy-Germany, UEFA EURO 2016?",
+                  "r_bien": "Pelle",
+                  "r_mal1": "Insigne",
+                  "r_mal2": "Barzagli",
+                  "r_mal3": "Giaccherini",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which female player won the gold medal of table tennis singles in 2016 Olympics Games?",
+                  "r_bien": "DING Ning (China)",
+                  "r_mal1": "LI Xiaoxia (China)",
+                  "r_mal2": "Ai FUKUHARA (Japan)",
+                  "r_mal3": "Song KIM (North Korea)",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which soccer team won the Copa América Centenario 2016?",
+                  "r_bien": "Chile",
+                  "r_mal1": "Argentina",
+                  "r_mal2": "Brazil",
+                  "r_mal3": "Colombia",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which team won 2014 FIFA World Cup in Brazil?",
+                  "r_bien": "Germany",
+                  "r_mal1": "Argentina",
+                  "r_mal2": "Brazil",
+                  "r_mal3": "Netherlands",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What national team won the 2016 edition of UEFA European Championship?",
+                  "r_bien": "Portugal",
+                  "r_mal1": "France",
+                  "r_mal2": "Germany",
+                  "r_mal3": "England",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who won the 2016 Formula 1 World Driver's Championship?",
+                  "r_bien": "Nico Rosberg",
+                  "r_mal1": "Lewis Hamilton",
+                  "r_mal2": "Max Verstappen",
+                  "r_mal3": "Kimi Raikkonen",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "In Formula 1, the Virtual Safety Car was introduced following the fatal crash of which driver?",
+                  "r_bien": "Jules Bianchi",
+                  "r_mal1": "Ayrton Senna",
+                  "r_mal2": "Ronald Ratzenberger",
+                  "r_mal3": "Gilles Villeneuve",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What year did the New Orleans Saints win the Super Bowl?",
+                  "r_bien": "2010",
+                  "r_mal1": "2008",
+                  "r_mal2": "2009",
+                  "r_mal3": "2011",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "This Canadian television sportscaster is known for his \"Hockey Night in Canada\" role, a commentary show during hockey games.",
+                  "r_bien": "Don Cherry",
+                  "r_mal1": "Don McKellar",
+                  "r_mal2": "Don Taylor ",
+                  "r_mal3": "Donald Sutherland",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which team has won the most Stanley Cups in the NHL?",
+                  "r_bien": "Montreal Canadians",
+                  "r_mal1": "Chicago Blackhawks",
+                  "r_mal2": "Toronto Maple Leafs",
+                  "r_mal3": "Detroit Red Wings",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who won the 2015 College Football Playoff (CFP) National Championship? ",
+                  "r_bien": "Ohio State Buckeyes",
+                  "r_mal1": "Alabama Crimson Tide",
+                  "r_mal2": "Clemson Tigers",
+                  "r_mal3": "Wisconsin Badgers",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What year was hockey legend Wayne Gretzky born?",
+                  "r_bien": "1961",
+                  "r_mal1": "1965",
+                  "r_mal2": "1959",
+                  "r_mal3": "1963",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which year was the third Super Bowl held?",
+                  "r_bien": "1969",
+                  "r_mal1": "1968",
+                  "r_mal2": "1971",
+                  "r_mal3": "1970",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Why was The Green Monster at Fenway Park was originally built?",
+                  "r_bien": "To prevent viewing games from outside the park.",
+                  "r_mal1": "To make getting home runs harder.",
+                  "r_mal2": "To display advertisements.",
+                  "r_mal3": "To provide extra seating.",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which NBA player won Most Valuable Player for the 1999-2000 season?",
+                  "r_bien": "Shaquille O'Neal",
+                  "r_mal1": "Allen Iverson",
+                  "r_mal2": "Kobe Bryant",
+                  "r_mal3": "Paul Pierce",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What is the most common type of pitch thrown by pitchers in baseball?",
+                  "r_bien": "Fastball",
+                  "r_mal1": "Slowball",
+                  "r_mal2": "Screwball",
+                  "r_mal3": "Palmball",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What team did England beat to win in the 1966 World Cup final?",
+                  "r_bien": "West Germany",
+                  "r_mal1": "Soviet Union",
+                  "r_mal2": "Portugal",
+                  "r_mal3": "Brazil",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What team did England beat in the semi-final stage to win in the 1966 World Cup final?",
+                  "r_bien": "Portugal",
+                  "r_mal1": "West Germany",
+                  "r_mal2": "Soviet Union",
+                  "r_mal3": "Brazil",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who is often called \"the Maestro\" in the men's tennis circuit?",
+                  "r_bien": "Roger Federer",
+                  "r_mal1": "Bill Tilden",
+                  "r_mal2": "Boris Becker",
+                  "r_mal3": "Pete Sampras",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which African American is in part responsible for integrating  Major League baseball?",
+                  "r_bien": "Jackie Robinson",
+                  "r_mal1": "Curt Flood",
+                  "r_mal2": "Roy Campanella",
+                  "r_mal3": "Satchell Paige",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which player holds the NHL record of 2,857 points?",
+                  "r_bien": "Wayne Gretzky",
+                  "r_mal1": "Mario Lemieux ",
+                  "r_mal2": "Sidney Crosby",
+                  "r_mal3": "Gordie Howe",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "How many premier league trophies did Sir Alex Ferguson win during his time at Manchester United?",
+                  "r_bien": "13",
+                  "r_mal1": "11",
+                  "r_mal2": "20",
+                  "r_mal3": "22",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which of the following player scored a hat-trick during their Manchester United debut?",
+                  "r_bien": "Wayne Rooney",
+                  "r_mal1": "Cristiano Ronaldo",
+                  "r_mal2": "Robin Van Persie",
+                  "r_mal3": "David Beckham",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who did Steven Gerrard win the Champions League with?",
+                  "r_bien": "Liverpool",
+                  "r_mal1": "Real Madrid",
+                  "r_mal2": "Chelsea",
+                  "r_mal3": "Man City",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "\"Stadium of Light\" is the home stadium for which soccer team?",
+                  "r_bien": "Sunderland FC",
+                  "r_mal1": "Barcelona FC",
+                  "r_mal2": "Paris Saints-Germain",
+                  "r_mal3": "Manchester United",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which year did Jenson Button won his first ever Formula One World Drivers' Championship?",
+                  "r_bien": "2009",
+                  "r_mal1": "2010",
+                  "r_mal2": "2007",
+                  "r_mal3": "2006",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who won the 2017 Formula One World Drivers' Championship?",
+                  "r_bien": "Lewis Hamilton",
+                  "r_mal1": "Sebastian Vettel",
+                  "r_mal2": "Nico Rosberg",
+                  "r_mal3": "Max Verstappen",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who won the 2011 Stanley Cup?",
+                  "r_bien": "Boston Bruins",
+                  "r_mal1": "Montreal Canadiens",
+                  "r_mal2": "New York Rangers",
+                  "r_mal3": "Toronto Maple Leafs",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "The Mazda 787B won the 24 Hours of Le Mans in what year?",
+                  "r_bien": "1991",
+                  "r_mal1": "1990",
+                  "r_mal2": "2000",
+                  "r_mal3": "1987",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which basketball team has attended the most NBA grand finals?",
+                  "r_bien": "Los Angeles Lakers",
+                  "r_mal1": "Boston Celtics",
+                  "r_mal2": "Philadelphia 76ers",
+                  "r_mal3": "Golden State Warriors",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "The AHL affiliate team of the Boston Bruins is named what?",
+                  "r_bien": "Providence Bruins",
+                  "r_mal1": "New Haven Bruins",
+                  "r_mal2": "Cambridge Bruins",
+                  "r_mal3": "Hartford Bruins",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "With which team did Michael Schumacher make his Formula One debut at the 1991 Belgian Grand Prix?",
+                  "r_bien": "Jordan",
+                  "r_mal1": "Benetton",
+                  "r_mal2": "Ferrari",
+                  "r_mal3": "Mercedes",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "In golf, what name is given to a hole score of two under par?",
+                  "r_bien": "Eagle",
+                  "r_mal1": "Birdie",
+                  "r_mal2": "Bogey",
+                  "r_mal3": "Albatross",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What cricketing term denotes a batsman being dismissed with a score of zero?",
+                  "r_bien": "Duck",
+                  "r_mal1": "Bye",
+                  "r_mal2": "Beamer",
+                  "r_mal3": "Carry",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "In a game of snooker, what colour ball is worth 3 points?",
+                  "r_bien": "Green",
+                  "r_mal1": "Yellow",
+                  "r_mal2": "Brown",
+                  "r_mal3": "Blue",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "The F1 season of 1994 is remembered for what tragic event?",
+                  "r_bien": "Death of Ayrton Senna (San Marino)",
+                  "r_mal1": "The Showdown (Australia)",
+                  "r_mal2": "Verstappen on Fire (Germany)",
+                  "r_mal3": "Schumacher's Ban (Britain)",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What is the highest belt you can get in Taekwondo?",
+                  "r_bien": "Black",
+                  "r_mal1": "White",
+                  "r_mal2": "Red",
+                  "r_mal3": "Green",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which car company is the only Japanese company which won the 24 Hours of Le Mans?",
+                  "r_bien": "Mazda",
+                  "r_mal1": "Toyota",
+                  "r_mal2": "Subaru",
+                  "r_mal3": "Nissan",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which soccer team won the Copa América 2015 Championship ?",
+                  "r_bien": "Chile",
+                  "r_mal1": "Argentina",
+                  "r_mal2": "Brazil",
+                  "r_mal3": "Paraguay",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "In 2016, who won the Formula 1 World Constructor's Championship for the third time in a row?",
+                  "r_bien": "Mercedes-AMG Petronas",
+                  "r_mal1": "Scuderia Ferrari",
+                  "r_mal2": "McLaren Honda",
+                  "r_mal3": "Red Bull Racing Renault",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which city did the former NHL team \"The Nordiques\" originiate from?",
+                  "r_bien": "Quebec City",
+                  "r_mal1": "Houston",
+                  "r_mal2": "Montreal",
+                  "r_mal3": "New York",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What is the oldest team in Major League Baseball?",
+                  "r_bien": "Atlanta Braves",
+                  "r_mal1": "Chicago Cubs",
+                  "r_mal2": "Cincinnati Reds",
+                  "r_mal3": "St. Louis Cardinals",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which of the following Grand Slam tennis tournaments occurs LAST?",
+                  "r_bien": "US Open",
+                  "r_mal1": "French Open",
+                  "r_mal2": "Wimbledon",
+                  "r_mal3": "Australian Open",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What is the exact length of one non-curved part in Lane 1 of an Olympic Track?",
+                  "r_bien": "84.39m",
+                  "r_mal1": "100m",
+                  "r_mal2": "100yd",
+                  "r_mal3": "109.36yd",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who won the \"Champions League\" in 1999?",
+                  "r_bien": "Manchester United",
+                  "r_mal1": "Barcelona",
+                  "r_mal2": "Bayern Munich",
+                  "r_mal3": "Liverpool",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which sport is NOT traditionally played during the Mongolian Naadam festival?",
+                  "r_bien": "American Football",
+                  "r_mal1": "Wrestling",
+                  "r_mal2": "Archery",
+                  "r_mal3": "Horse-Racing",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "When was the first official international game played?",
+                  "r_bien": "1872",
+                  "r_mal1": "1880",
+                  "r_mal2": "1863",
+                  "r_mal3": "1865",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "In bowling, what is the term used for getting three consecutive strikes?",
+                  "r_bien": "Turkey",
+                  "r_mal1": "Flamingo",
+                  "r_mal2": "Birdie",
+                  "r_mal3": "Eagle",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "How many French Open's did Björn Borg win?",
+                  "r_bien": "6",
+                  "r_mal1": "4",
+                  "r_mal2": "9",
+                  "r_mal3": "2",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which player \"kung-fu kicked\" a Crystal Palace fan in January 1995?",
+                  "r_bien": "Eric Cantona",
+                  "r_mal1": "David Seamen",
+                  "r_mal2": "Ashley Cole",
+                  "r_mal3": "Mark Hughes",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who is Manchester United's leading appearance maker?",
+                  "r_bien": "Ryan Giggs",
+                  "r_mal1": "David Beckham",
+                  "r_mal2": "Wayne Rooney",
+                  "r_mal3": "Eric Cantona",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who won the premier league title in the 2015-2016 season following a fairy tale run?",
+                  "r_bien": "Leicester City",
+                  "r_mal1": "Tottenham Hotspur",
+                  "r_mal2": "Watford",
+                  "r_mal3": "Stoke City",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "The Los Angeles Dodgers were originally from what U.S. city?",
+                  "r_bien": "Brooklyn",
+                  "r_mal1": "Las Vegas",
+                  "r_mal2": "Boston",
+                  "r_mal3": "Seattle",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who was the topscorer for England national football team?",
+                  "r_bien": "Wayne Rooney",
+                  "r_mal1": "David Beckham",
+                  "r_mal2": "Steven Gerrard",
+                  "r_mal3": "Michael Owen",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which country will host the 2022 FIFA World Cup?",
+                  "r_bien": "Qatar",
+                  "r_mal1": "USA",
+                  "r_mal2": "Japan",
+                  "r_mal3": "Switzerland",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which Formula 1 driver switched teams in the middle of the 2017 season?",
+                  "r_bien": "Carlos Sainz Jr.",
+                  "r_mal1": "Daniil Kvyat",
+                  "r_mal2": "Jolyon Palmer",
+                  "r_mal3": "Rio Haryanto",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who won the UEFA Champions League in 2016?",
+                  "r_bien": "Real Madrid C.F.",
+                  "r_mal1": "FC Bayern Munich",
+                  "r_mal2": "Atletico Madrid",
+                  "r_mal3": "Manchester City F.C.",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "In the 2014 FIFA World Cup, what was the final score in the match Brazil - Germany?",
+                  "r_bien": "1-7",
+                  "r_mal1": "1-5",
+                  "r_mal2": "1-6",
+                  "r_mal3": "2-6",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which two teams played in Super Bowl XLII?",
+                  "r_bien": "The New York Giants & The New England Patriots",
+                  "r_mal1": "The Green Bay Packers & The Pittsburgh Steelers",
+                  "r_mal2": "The Philadelphia Eagles & The New England Patriots",
+                  "r_mal3": "The Seattle Seahawks & The Denver Broncos",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What is the name of the AHL affiliate of the Toronto Maple Leafs?",
+                  "r_bien": "Toronto Marlies",
+                  "r_mal1": "Toronto Rock",
+                  "r_mal2": "Toronto Argonauts",
+                  "r_mal3": "Toronto Wolfpack",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who won the 2018 Monaco Grand Prix?",
+                  "r_bien": "Daniel Ricciardo",
+                  "r_mal1": "Sebastian Vettel",
+                  "r_mal2": "Kimi Raikkonen",
+                  "r_mal3": "Lewis Hamilton",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "In Canadian football, scoring a rouge is worth how many points?",
+                  "r_bien": "1",
+                  "r_mal1": "2",
+                  "r_mal2": "3",
+                  "r_mal3": "4",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which German sportswear company's logo is the 'Formstripe'?",
+                  "r_bien": "Puma",
+                  "r_mal1": "Nike",
+                  "r_mal2": "Adidas",
+                  "r_mal3": "Reebok",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "How many scoring zones are there on a conventional dart board?",
+                  "r_bien": "82",
+                  "r_mal1": "62",
+                  "r_mal2": "42",
+                  "r_mal3": "102",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "The Rio 2016 Summer Olympics held it's closing ceremony on what date?",
+                  "r_bien": "August 21",
+                  "r_mal1": "August 23",
+                  "r_mal2": "August 19",
+                  "r_mal3": "August 17",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What is the full name of the footballer \"Cristiano Ronaldo\"?",
+                  "r_bien": "Cristiano Ronaldo dos Santos Aveiro",
+                  "r_mal1": "Cristiano Ronaldo los Santos Diego",
+                  "r_mal2": "Cristiano Armando Diego Ronaldo",
+                  "r_mal3": "Cristiano Luis Armando Ronaldo",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which car manufacturer won the 2017 24 Hours of Le Mans?",
+                  "r_bien": "Porsche",
+                  "r_mal1": "Toyota",
+                  "r_mal2": "Audi",
+                  "r_mal3": "Chevrolet",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which boxer was banned for taking a bite out of Evander Holyfield's ear in 1997?",
+                  "r_bien": "Mike Tyson",
+                  "r_mal1": "Roy Jones Jr.",
+                  "r_mal2": "Evander Holyfield",
+                  "r_mal3": "Lennox Lewis",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "In what sport does Fanny Chmelar compete for Germany?",
+                  "r_bien": "Skiing",
+                  "r_mal1": "Swimming",
+                  "r_mal2": "Showjumping",
+                  "r_mal3": "Gymnastics",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who is Manchester United's top premier league goal scorer?",
+                  "r_bien": "Wayne Rooney",
+                  "r_mal1": "Sir Bobby Charlton",
+                  "r_mal2": "Ryan Giggs",
+                  "r_mal3": "David Beckham",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "When was the FC Schalke 04 founded?",
+                  "r_bien": "1904",
+                  "r_mal1": "1909",
+                  "r_mal2": "2008",
+                  "r_mal3": "1999",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which professional wrestler fell from the rafters to his death during a live Pay-Per-View event in 1999?",
+                  "r_bien": "Owen Hart",
+                  "r_mal1": "Chris Benoit",
+                  "r_mal2": "Lex Luger",
+                  "r_mal3": "Al Snow",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What is Tiger Woods' all-time best career golf-score?",
+                  "r_bien": "61",
+                  "r_mal1": "65",
+                  "r_mal2": "63",
+                  "r_mal3": "67",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who won the UEFA Champions League in 2017?",
+                  "r_bien": "Real Madrid C.F.",
+                  "r_mal1": "Atletico Madrid",
+                  "r_mal2": "AS Monaco FC",
+                  "r_mal3": "Juventus F.C.",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What country hosted the 2014 Winter Olympics?",
+                  "r_bien": "Russia",
+                  "r_mal1": "Canada",
+                  "r_mal2": "United States",
+                  "r_mal3": "Germany",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which NBA player has the most games played over the course of their career?",
+                  "r_bien": "Robert Parish",
+                  "r_mal1": "Kareem Abdul-Jabbar",
+                  "r_mal2": "Kevin Garnett",
+                  "r_mal3": "Kobe Bryant",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which country did Kabaddi, a contact sport involving tackling, originate from?",
+                  "r_bien": "India",
+                  "r_mal1": "Australia",
+                  "r_mal2": "Turkey",
+                  "r_mal3": "Cambodia",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which of these countries' national teams qualified for the 2018 FIFA World Cup in Russia?",
+                  "r_bien": "Tunisia",
+                  "r_mal1": "United States of America",
+                  "r_mal2": "Italy",
+                  "r_mal3": "Netherlands",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who was the top scorer of the 2014 FIFA World Cup?",
+                  "r_bien": "James Rodríguez",
+                  "r_mal1": "Thomas Müller",
+                  "r_mal2": "Lionel Messi",
+                  "r_mal3": "Neymar",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "At which bridge does the annual Oxford and Cambridge boat race start?",
+                  "r_bien": "Putney",
+                  "r_mal1": "Hammersmith",
+                  "r_mal2": "Vauxhall ",
+                  "r_mal3": "Battersea",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which English football club has the nickname 'The Foxes'?",
+                  "r_bien": "Leicester City",
+                  "r_mal1": "Northampton Town",
+                  "r_mal2": "Bradford City",
+                  "r_mal3": "West Bromwich Albion",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "A stimpmeter measures the speed of a ball over what surface?",
+                  "r_bien": "Golf Putting Green",
+                  "r_mal1": " Football Pitch",
+                  "r_mal2": "Cricket Outfield",
+                  "r_mal3": "Pinball Table",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Who won the 2015 Formula 1 World Championship?",
+                  "r_bien": "Lewis Hamilton",
+                  "r_mal1": "Nico Rosberg",
+                  "r_mal2": "Sebastian Vettel",
+                  "r_mal3": "Jenson Button",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What is the oldest team in the NFL?",
+                  "r_bien": "Arizona Cardinals",
+                  "r_mal1": "Chicago Bears",
+                  "r_mal2": "Green Bay Packers",
+                  "r_mal3": "New York Giants",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What is “The Sport of Kings”?",
+                  "r_bien": "Horse Racing",
+                  "r_mal1": "Chess",
+                  "r_mal2": "Jousting",
+                  "r_mal3": "Fencing",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which of these Russian cities did NOT contain a stadium that was used in the 2018 FIFA World Cup?",
+                  "r_bien": "Vladivostok",
+                  "r_mal1": "Rostov-on-Don",
+                  "r_mal2": "Yekaterinburg",
+                  "r_mal3": "Kaliningrad",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which English football team is nicknamed 'The Tigers'?",
+                  "r_bien": "Hull City",
+                  "r_mal1": "Cardiff City",
+                  "r_mal2": "Bristol City",
+                  "r_mal3": "Manchester City",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which of these teams isn't a member of the NHL's \"Original Six\" era?",
+                  "r_bien": "Philadelphia Flyers",
+                  "r_mal1": "New York Rangers",
+                  "r_mal2": "Toronto Maple Leafs",
+                  "r_mal3": "Boston Bruins",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "With which doubles partner did John McEnroe have most success?",
+                  "r_bien": "Peter Fleming",
+                  "r_mal1": "Mark Woodforde",
+                  "r_mal2": "Michael Stich",
+                  "r_mal3": "Mary Carillo",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "In Baseball, how many times does the ball have to be pitched outside of the strike zone before the batter is walked?",
+                  "r_bien": "4",
+                  "r_mal1": "1",
+                  "r_mal2": "2",
+                  "r_mal3": "3",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which portuguese island is soccer player Cristiano Ronaldo from?",
+                  "r_bien": "Madeira",
+                  "r_mal1": "Terceira",
+                  "r_mal2": "Santa Maria",
+                  "r_mal3": "Porto Santo",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which city features all of their professional sports teams' jersey's with the same color scheme?",
+                  "r_bien": "Pittsburgh",
+                  "r_mal1": "New York",
+                  "r_mal2": "Seattle",
+                  "r_mal3": "Tampa Bay",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which male player won the gold medal of table tennis singles in 2016 Olympics Games?",
+                  "r_bien": "Ma Long (China)",
+                  "r_mal1": "Zhang Jike (China)",
+                  "r_mal2": "Jun Mizutani (Japan)",
+                  "r_mal3": "Vladimir Samsonov (Belarus)",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What is the name of Manchester United's home stadium?",
+                  "r_bien": "Old Trafford",
+                  "r_mal1": "Anfield",
+                  "r_mal2": "City of Manchester Stadium",
+                  "r_mal3": "St James Park",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which country has hosted the 2018 FIFA World Cup?",
+                  "r_bien": "Russia",
+                  "r_mal1": "Germany",
+                  "r_mal2": "United States",
+                  "r_mal3": "Saudi Arabia",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "What team won the 2016 MLS Cup?",
+                  "r_bien": "Seattle Sounders",
+                  "r_mal1": "Colorado Rapids",
+                  "r_mal2": "Toronto FC",
+                  "r_mal3": "Montreal Impact",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which driver has been the Formula 1 world champion for a record 7 times?",
+                  "r_bien": "Michael Schumacher",
+                  "r_mal1": "Ayrton Senna",
+                  "r_mal2": "Fernando Alonso",
+                  "r_mal3": "Jim Clark",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "Which of the following pitchers was named National League Rookie of the Year for the 2013 season?",
+                  "r_bien": "Jose Fernandez",
+                  "r_mal1": "Jacob deGrom",
+                  "r_mal2": "Shelby Miller",
+                  "r_mal3": "Matt Harvey",
+                  "tema_id": "deportes"
+            },
+            {
+                  "enunciado": "How many points did LeBron James score in his first NBA game?",
+                  "r_bien": "25",
+                  "r_mal1": "19",
+                  "r_mal2": "69",
+                  "r_mal3": "41",
+                  "tema_id": "deportes"
+            }
+      ]
+}

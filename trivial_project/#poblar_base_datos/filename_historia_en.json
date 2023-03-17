@@ -1,0 +1,2044 @@
+{
+      "preguntas": [
+            {
+                  "enunciado": "In the year 1900, what were the most popular first names given to boy and girl babies born in the United States?",
+                  "r_bien": "John and Mary",
+                  "r_mal1": "Joseph and Catherine",
+                  "r_mal2": "William and Elizabeth",
+                  "r_mal3": "George and Anne",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who discovered Penicillin?",
+                  "r_bien": "Alexander Flemming",
+                  "r_mal1": "Marie Curie",
+                  "r_mal2": "Alfred Nobel",
+                  "r_mal3": "Louis Pasteur",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What number does the Roman numeral \"D\" stand for?",
+                  "r_bien": "500",
+                  "r_mal1": "100",
+                  "r_mal2": "1000",
+                  "r_mal3": "50",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The idea of Socialism was articulated and advanced by whom?",
+                  "r_bien": "Karl Marx",
+                  "r_mal1": "Vladimir Lenin",
+                  "r_mal2": "Joseph Stalin",
+                  "r_mal3": "Vladimir Putin",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "On what day did Germany invade Poland?",
+                  "r_bien": "September 1, 1939",
+                  "r_mal1": "December 7, 1941",
+                  "r_mal2": "June 22, 1941",
+                  "r_mal3": "July 7, 1937",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The Herero genocide was perpetrated in Africa by which of the following colonial nations?",
+                  "r_bien": "Germany",
+                  "r_mal1": "Britain",
+                  "r_mal2": "Belgium",
+                  "r_mal3": "France",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "According to scholarly estimates, what percentage of the world population at the time died due to Tamerlane's conquests?",
+                  "r_bien": "5%",
+                  "r_mal1": "1%",
+                  "r_mal2": "3%",
+                  "r_mal3": "<1%",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following Assyrian kings did NOT rule during the Neo-Assyrian Empire?",
+                  "r_bien": "Shamshi-Adad III",
+                  "r_mal1": "Shalmaneser V",
+                  "r_mal2": "Esharhaddon",
+                  "r_mal3": "Ashur-nasir-pal II",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What age was King Henry V when he died?",
+                  "r_bien": "35",
+                  "r_mal1": "62",
+                  "r_mal2": "87",
+                  "r_mal3": "73",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "On which day did ARPANET suffer a 4 hour long network crash?",
+                  "r_bien": "October 27, 1980",
+                  "r_mal1": "November 21, 1969",
+                  "r_mal2": "October 29, 1969",
+                  "r_mal3": "December 9, 1991",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When was \"The Gadget\", the first nuclear device to be detonated, tested?",
+                  "r_bien": "July 16, 1945",
+                  "r_mal1": "June 22, 1945",
+                  "r_mal2": "August 6, 1945",
+                  "r_mal3": "April 5, 1945",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "On which day did construction start on \"The Pentagon\", the headquarters for the United States Department of Defense?",
+                  "r_bien": "September 11, 1941",
+                  "r_mal1": "June 15, 1947",
+                  "r_mal2": "January 15, 1943",
+                  "r_mal3": "September 2, 1962",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which Apollo mission was the last one in NASA's Apollo program?",
+                  "r_bien": "Apollo 17",
+                  "r_mal1": "Apollo 13",
+                  "r_mal2": "Apollo 11",
+                  "r_mal3": "Apollo 15",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When was the SS or Schutzstaffel established?",
+                  "r_bien": "April 4th, 1925",
+                  "r_mal1": "September 1st, 1941",
+                  "r_mal2": "March 8th, 1935",
+                  "r_mal3": "February 21st, 1926",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When did the Battle of the Somme begin?",
+                  "r_bien": "July 1st, 1916",
+                  "r_mal1": "August 1st, 1916",
+                  "r_mal2": "July 2nd, 1916",
+                  "r_mal3": "June 30th, 1916",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When did the Battle of the Bulge end?",
+                  "r_bien": "January 25, 1945",
+                  "r_mal1": "August 6, 1945",
+                  "r_mal2": "December 7, 1941",
+                  "r_mal3": "December 16, 1944",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what year was the video game company Electronic Arts founded?",
+                  "r_bien": "1982",
+                  "r_mal1": "1999",
+                  "r_mal2": "1981",
+                  "r_mal3": "2005",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who was the first president of the United States?",
+                  "r_bien": "George Washington",
+                  "r_mal1": "James Madison",
+                  "r_mal2": "Thomas Jefferson",
+                  "r_mal3": "James K. Polk",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "During the Roman Triumvirate of 42 BCE, what region of the Roman Republic was given to Lepidus?",
+                  "r_bien": "Hispania ",
+                  "r_mal1": "Italia",
+                  "r_mal2": "Gallia",
+                  "r_mal3": "Asia",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What year were the Marian Reforms instituted in the Roman Republic?",
+                  "r_bien": "107 BCE",
+                  "r_mal1": "42 BCE",
+                  "r_mal2": "264 BCE",
+                  "r_mal3": "102 CE",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the real name of the Albanian national leader Skanderbeg?",
+                  "r_bien": "Gjergj Kastrioti",
+                  "r_mal1": "Diturak Zhulati",
+                  "r_mal2": "Iskander Bejko",
+                  "r_mal3": "Mirash Krasniki",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What year was the United States Declaration of Independence signed?",
+                  "r_bien": "1776",
+                  "r_mal1": "1775",
+                  "r_mal2": "1774",
+                  "r_mal3": "1777",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was Napoleon Bonaparte's name before he changed it?",
+                  "r_bien": "Napoleone di Buonaparte",
+                  "r_mal1": "Naapolion van Bonijpaart",
+                  "r_mal2": "Napoleão do Boaparte",
+                  "r_mal3": "Napoleona de Buenoparte",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the transfer of disease, crops, and people across the Atlantic shortly after the discovery of the Americas called?",
+                  "r_bien": "The Columbian Exchange",
+                  "r_mal1": "Triangle Trade",
+                  "r_mal2": "Transatlantic Slave Trade",
+                  "r_mal3": "The Silk Road",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The Hagia Sophia was commissioned by which emperor of the Byzantine Empire?",
+                  "r_bien": "Justinian I",
+                  "r_mal1": "Constantine IV",
+                  "r_mal2": "Arcadius",
+                  "r_mal3": "Theodosius the Great",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which Nation DID NOT have a Colony in Modern-day America?",
+                  "r_bien": "Portugal",
+                  "r_mal1": "Spain",
+                  "r_mal2": "Sweden",
+                  "r_mal3": "Netherlands",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was Genghis Khan's real name?",
+                  "r_bien": "Temüjin",
+                  "r_mal1": "Möngke",
+                  "r_mal2": "Ögedei",
+                  "r_mal3": "Temür",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The Battle of Hastings was fought in which year?",
+                  "r_bien": "1066",
+                  "r_mal1": "911",
+                  "r_mal2": "1204",
+                  "r_mal3": "1420",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which historical conflict killed the most people?",
+                  "r_bien": "World War II",
+                  "r_mal1": "Taiping Rebellion",
+                  "r_mal2": "Three Kingdoms War",
+                  "r_mal3": "Mongol conquests",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what year did the First World War end?",
+                  "r_bien": "1918",
+                  "r_mal1": "1914",
+                  "r_mal2": "1916",
+                  "r_mal3": "1912",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the total length of the Titanic?",
+                  "r_bien": "882 ft | 268.8 m",
+                  "r_mal1": "759 ft | 231.3 m",
+                  "r_mal2": "1042 ft | 317.6 m",
+                  "r_mal3": "825 ft | 251.5 m",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who was among those killed in the 2010 Smolensk, Russia plane crash tragedy?",
+                  "r_bien": "The Polish President",
+                  "r_mal1": "Pope John Paul II",
+                  "r_mal2": "Bang-Ding Ow",
+                  "r_mal3": "Albert Putin",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following countries was the first to send an object into space?",
+                  "r_bien": "Germany",
+                  "r_mal1": "USA",
+                  "r_mal2": "Russia",
+                  "r_mal3": "China",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When was the \"Siege of Leningrad\" lifted during World War II?",
+                  "r_bien": "January 1944",
+                  "r_mal1": "September 1943",
+                  "r_mal2": "November 1943",
+                  "r_mal3": "March 1944",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "How old was Adolf Hitler when he died?",
+                  "r_bien": "56",
+                  "r_mal1": "43",
+                  "r_mal2": "65",
+                  "r_mal3": "47",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What did the abbreviation \"RMS\" stand for in the RMS Titanic in 1912?",
+                  "r_bien": "Royal Mail Ship",
+                  "r_mal1": "Royal Majesty Service",
+                  "r_mal2": "Regular Maritime Schedule ",
+                  "r_mal3": "Regulated Maelstrom Sensor",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the code name for the German invasion of the Soviet Union in WW2?",
+                  "r_bien": "Operation Barbarossa",
+                  "r_mal1": "Operation Kaiserschlact",
+                  "r_mal2": "Operation Unthinkable",
+                  "r_mal3": "Operation Molotov",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which modern country is known as \"The Graveyard of Empires\"?",
+                  "r_bien": "Afghanistan",
+                  "r_mal1": "China",
+                  "r_mal2": "Iraq",
+                  "r_mal3": "Russia",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who led the Communist Revolution of Russia?",
+                  "r_bien": "Vladimir Lenin",
+                  "r_mal1": "Joseph Stalin",
+                  "r_mal2": "Vladimir Putin",
+                  "r_mal3": "Mikhail Gorbachev",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When was the Grand Patriotic War in the USSR concluded?",
+                  "r_bien": "May 9th, 1945",
+                  "r_mal1": "September 2nd, 1945",
+                  "r_mal2": "August 9th, 1945",
+                  "r_mal3": "December 11th, 1945",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "On what street did the 1666 Great Fire of London start?",
+                  "r_bien": "Pudding Lane",
+                  "r_mal1": "Baker Street",
+                  "r_mal2": "Houses of Parliament",
+                  "r_mal3": "St Paul's Cathedral",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who was the first man to travel into outer space twice?",
+                  "r_bien": "Gus Grissom",
+                  "r_mal1": "Vladimir Komarov",
+                  "r_mal2": "Charles Conrad",
+                  "r_mal3": "Yuri Gagarin",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who was the first Chancellor of a united Germany in 1871? ",
+                  "r_bien": "Otto Von Bismark",
+                  "r_mal1": "Kaiser Wilhelm ",
+                  "r_mal2": "Fredrick the 2nd",
+                  "r_mal3": "Robert Koch",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what year did the Great Northern War, between Russia and Sweden, end?",
+                  "r_bien": "1721",
+                  "r_mal1": "1726",
+                  "r_mal2": "1727",
+                  "r_mal3": "1724",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which U.S. president was said to have been too honest to lie to his father about chopping down a cherry tree?",
+                  "r_bien": "George Washington",
+                  "r_mal1": "Abraham Lincoln",
+                  "r_mal2": "Thomas Jefferson",
+                  "r_mal3": "James Monroe",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The son of which pope supposedly held a lecherous fête involving 50 courtesans in the papal palace?",
+                  "r_bien": "Alexander VI",
+                  "r_mal1": "Innocent V",
+                  "r_mal2": "Urban II",
+                  "r_mal3": "Pius III",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Abolitionist John Brown raided the arsenal in which Virginia Town?",
+                  "r_bien": "Harper's Ferry",
+                  "r_mal1": "Richmond",
+                  "r_mal2": "Harrisonburg",
+                  "r_mal3": "Martinsburg",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The Panama Canal was finished under the administration of which U.S. president?",
+                  "r_bien": "Woodrow Wilson",
+                  "r_mal1": "Franklin Delano Roosevelt",
+                  "r_mal2": "Herbert Hoover",
+                  "r_mal3": "Theodore Roosevelt",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The Ottoman Empire was dissolved after their loss in which war?",
+                  "r_bien": "World War I",
+                  "r_mal1": "Crimean War",
+                  "r_mal2": "Serbian Revolution",
+                  "r_mal3": "Second Balkan War",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What country joined the EU in 2013?",
+                  "r_bien": "Croatia",
+                  "r_mal1": "Bulgaria",
+                  "r_mal2": "Slovenia",
+                  "r_mal3": "Turkey",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which one of these was not a beach landing site in the Invasion of Normandy?",
+                  "r_bien": "Silver",
+                  "r_mal1": "Gold",
+                  "r_mal2": "Juno",
+                  "r_mal3": "Sword",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was William Frederick Cody better known as?",
+                  "r_bien": "Buffalo Bill",
+                  "r_mal1": "Billy the Kid",
+                  "r_mal2": "Wild Bill Hickok",
+                  "r_mal3": "Pawnee Bill",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The Spitfire L.F. Mk IX had what engine?",
+                  "r_bien": "Merlin 66",
+                  "r_mal1": "Griffon 65",
+                  "r_mal2": "Merlin 50",
+                  "r_mal3": "Merlin X",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what year did the Wall Street Crash take place?",
+                  "r_bien": "1929",
+                  "r_mal1": "1932",
+                  "r_mal2": "1930",
+                  "r_mal3": "1925",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the name of the spy ring that helped the United States win the Revolutionary War?",
+                  "r_bien": "Culper Ring",
+                  "r_mal1": "New York Spy Ring",
+                  "r_mal2": "Washington's Spies",
+                  "r_mal3": "Unnamed",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "During WWII, in 1945, the United States dropped atomic bombs on the two Japanese cities of Hiroshima and what other city?",
+                  "r_bien": "Nagasaki",
+                  "r_mal1": "Kawasaki",
+                  "r_mal2": "Tokyo",
+                  "r_mal3": "Kagoshima",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what year was the famous 45 foot tall Hollywood sign first erected?",
+                  "r_bien": "1923",
+                  "r_mal1": "1903",
+                  "r_mal2": "1913",
+                  "r_mal3": "1933",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What year was Canada founded in?",
+                  "r_bien": "1867",
+                  "r_mal1": "1798",
+                  "r_mal2": "1859",
+                  "r_mal3": "1668",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "One of the deadliest pandemics, the \"Spanish Flu\", killed off what percentage of the human world population at the time?",
+                  "r_bien": "3 to 6 percent",
+                  "r_mal1": "6 to 10 percent",
+                  "r_mal2": "1 to 3 percent",
+                  "r_mal3": "less than 1 percent",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The collapse of the Soviet Union took place in which year?",
+                  "r_bien": "1991",
+                  "r_mal1": "1992",
+                  "r_mal2": "1891",
+                  "r_mal3": "1990",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "On which day did the attempted coup d'etat of 1991 in the Soviet Union begin?",
+                  "r_bien": "August 19",
+                  "r_mal1": "August 21",
+                  "r_mal2": "December 26",
+                  "r_mal3": "December 24",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "How old was Lyndon B. Johnson when he assumed the role of President of the United States?",
+                  "r_bien": "55",
+                  "r_mal1": "50",
+                  "r_mal2": "60",
+                  "r_mal3": "54",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What did the first vending machines in the early 1880's dispense?",
+                  "r_bien": "Post cards",
+                  "r_mal1": "Alcohol",
+                  "r_mal2": "Cigarettes",
+                  "r_mal3": "Sodas ",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When was Adolf Hitler appointed as Chancellor of Germany?",
+                  "r_bien": "January 30, 1933",
+                  "r_mal1": "September 1, 1939",
+                  "r_mal2": "February 27, 1933",
+                  "r_mal3": "October 6, 1939",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what year did the North American Video Game Crash occur?",
+                  "r_bien": "1983",
+                  "r_mal1": "1982",
+                  "r_mal2": "1993",
+                  "r_mal3": "1970",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "How many sonatas did Ludwig van Beethoven write?",
+                  "r_bien": "32",
+                  "r_mal1": "50",
+                  "r_mal2": "31",
+                  "r_mal3": "21",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The Second Boer War in 1899 was fought where?",
+                  "r_bien": "South Africa",
+                  "r_mal1": "Argentina",
+                  "r_mal2": "Nepal",
+                  "r_mal3": "Bulgaria",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Adolf Hitler was born on which date?",
+                  "r_bien": "April 20, 1889",
+                  "r_mal1": "June 12, 1889",
+                  "r_mal2": "February 6, 1889",
+                  "r_mal3": "April 16, 1889",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the bloodiest single-day battle during the American Civil War?",
+                  "r_bien": "The Battle of Antietam",
+                  "r_mal1": "The Siege of Vicksburg",
+                  "r_mal2": "The Battle of Gettysburg",
+                  "r_mal3": "The Battles of Chancellorsville",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When did the United States formally declare war on Japan, entering World War II?",
+                  "r_bien": "December 8, 1941",
+                  "r_mal1": "June 6, 1944",
+                  "r_mal2": "June 22, 1941",
+                  "r_mal3": "September 1, 1939",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the code name for the Allied invasion of Southern France on August 15th, 1944?",
+                  "r_bien": "Operation Dragoon",
+                  "r_mal1": "Operation Overlord",
+                  "r_mal2": "Operation Market Garden",
+                  "r_mal3": "Operation Torch",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which Las Vegas casino was originally constructed and operated by mobster Bugsy Siegel?",
+                  "r_bien": "The Flamingo",
+                  "r_mal1": "The MGM Grand",
+                  "r_mal2": "The Sands",
+                  "r_mal3": "The Sahara",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "How long did the Warsaw Uprising during World War II last?",
+                  "r_bien": "63 Days",
+                  "r_mal1": "20 Days",
+                  "r_mal2": "55 Days",
+                  "r_mal3": "224 Days",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When was the People's Republic of China founded?",
+                  "r_bien": "October 1, 1949",
+                  "r_mal1": "April 3, 1947",
+                  "r_mal2": "May 7, 1945",
+                  "r_mal3": "December 6, 1950",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the last colony the UK ceded marking the end of the British Empire?",
+                  "r_bien": "Hong Kong",
+                  "r_mal1": "India",
+                  "r_mal2": "Australia",
+                  "r_mal3": "Ireland",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In addition to his career as an astrologer and \"prophet\", Nostradamus published a 1555 treatise that included a section on what?",
+                  "r_bien": "Making jams and jellies",
+                  "r_mal1": "Teaching parrots to talk",
+                  "r_mal2": "Cheating at card games",
+                  "r_mal3": "Digging graves",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following was Brazil was a former colony under?",
+                  "r_bien": "Portugal",
+                  "r_mal1": "Spain",
+                  "r_mal2": "The Netherlands",
+                  "r_mal3": "France",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who crowned Charlemagne as Holy Roman Emperor on Christmas Day in 800?",
+                  "r_bien": "Pope Leo III",
+                  "r_mal1": "Pope Urban IV",
+                  "r_mal2": "Pope Stephen V",
+                  "r_mal3": "Pope Valentine",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which King of England was faced with the Peasants' Revolt in 1381?",
+                  "r_bien": "Richard II",
+                  "r_mal1": "Edward III",
+                  "r_mal2": "Edward II",
+                  "r_mal3": "Henry IV",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the name of the planned invasion of Japan towards the end of World War II?",
+                  "r_bien": "Operation Downfall",
+                  "r_mal1": "Operation Boarding Party",
+                  "r_mal2": "Operation Ironclad",
+                  "r_mal3": "Operation Aflame",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which countries participated in the Lobster War?",
+                  "r_bien": "France and Brazil",
+                  "r_mal1": "Canada and Norway",
+                  "r_mal2": "Australia and New Zealand",
+                  "r_mal3": "United States and England",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following is not in the Indo-European language family?",
+                  "r_bien": "Finnish",
+                  "r_mal1": "English",
+                  "r_mal2": "Hindi",
+                  "r_mal3": "Russian",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what year was the M1911 pistol designed?",
+                  "r_bien": "1911",
+                  "r_mal1": "1907",
+                  "r_mal2": "1899",
+                  "r_mal3": "1917",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When did O, Canada officially become the national anthem?",
+                  "r_bien": "1980",
+                  "r_mal1": "1950",
+                  "r_mal2": "1920",
+                  "r_mal3": "1880",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The Bohemian Revolt (1618-1620) started after Protestants in Prague did what to their Catholic Lords Regents?",
+                  "r_bien": "Threw them out of a window",
+                  "r_mal1": "Insulted their mothers",
+                  "r_mal2": "Locked them in stockades",
+                  "r_mal3": "Hung them.",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The Thirty Years War ended with which treaty?",
+                  "r_bien": "Peace of Westphalia",
+                  "r_mal1": "Treaty of Versailles",
+                  "r_mal2": "Treaty of Paris",
+                  "r_mal3": "Peace of Prague",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which is the hull NO. of the Fletcher class destroyer Fletcher?",
+                  "r_bien": "DD-445",
+                  "r_mal1": "DD-992",
+                  "r_mal2": "DD-444",
+                  "r_mal3": "DD-446",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which Nazi General was known as the \"Desert Fox\"?",
+                  "r_bien": "Erwin Rommel",
+                  "r_mal1": "Gerd von Rundstadt",
+                  "r_mal2": "Wilhelm Keitel",
+                  "r_mal3": "Heinz Guderian ",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which Roman Emperor led the Roman Empire to reach its maximum territorial extent?",
+                  "r_bien": "Trajan",
+                  "r_mal1": "Julius Caesar",
+                  "r_mal2": "Claudius",
+                  "r_mal3": "Constantine the Great",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The seed drill was invented by which British inventor?",
+                  "r_bien": "Jethro Tull",
+                  "r_mal1": "Charles Babbage",
+                  "r_mal2": "Isaac Newton",
+                  "r_mal3": "J.J Thomson",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "During the Mongolian invasions of Japan, what were the Mongol boats mostly stopped by?",
+                  "r_bien": "Typhoons",
+                  "r_mal1": "Tornados",
+                  "r_mal2": "Economic depression",
+                  "r_mal3": "Samurai",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what year did Neil Armstrong and Buzz Aldrin land on the moon?",
+                  "r_bien": "1969",
+                  "r_mal1": "1965",
+                  "r_mal2": "1966",
+                  "r_mal3": "1973",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": " What Russian automatic gas-operated assault rifle was developed in the Soviet Union in 1947, and is still popularly used today?",
+                  "r_bien": "AK-47",
+                  "r_mal1": "RPK",
+                  "r_mal2": "M16",
+                  "r_mal3": "MG 42",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The Tsar Bomba, the most powerful nuclear bomb ever tested, had a yield of 50 megatons but theoretically had a maximum yield of how much?",
+                  "r_bien": "100 Megatons",
+                  "r_mal1": "200 Megatons",
+                  "r_mal2": "75 Megatons",
+                  "r_mal3": "150 Megatons",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the capital of South Vietnam before the Vietnam War?",
+                  "r_bien": "Saigon",
+                  "r_mal1": "Ho Chi Minh City",
+                  "r_mal2": "Hanoi",
+                  "r_mal3": "Hue",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who was the Prime Minister of the United Kingdom for most of World War II?",
+                  "r_bien": "Winston Churchill",
+                  "r_mal1": "Neville Chamberlain",
+                  "r_mal2": "Harold Macmillan",
+                  "r_mal3": "Edward Heath",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following is NOT classified as a Semetic language?",
+                  "r_bien": "Sumerian",
+                  "r_mal1": "Maltese",
+                  "r_mal2": "Akkadian",
+                  "r_mal3": "Mandaic",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "All of the following are names of the Seven Warring States EXCEPT:",
+                  "r_bien": "Zhai (翟)",
+                  "r_mal1": "Zhao (趙)",
+                  "r_mal2": "Qin (秦)",
+                  "r_mal3": "Qi (齊)",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what year was the last natural case of smallpox documented?",
+                  "r_bien": "1977",
+                  "r_mal1": "1982",
+                  "r_mal2": "1980",
+                  "r_mal3": "1990",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which famous world leader is famed for the saying, \"Let them eat cake\", yet is rumored that he/she never said it at all?",
+                  "r_bien": "Marie Antoinette",
+                  "r_mal1": "Czar Nicholas II",
+                  "r_mal2": "Elizabeth I",
+                  "r_mal3": "Henry VIII",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The original Roman alphabet lacked the following letters EXCEPT:",
+                  "r_bien": "X",
+                  "r_mal1": "W",
+                  "r_mal2": "U",
+                  "r_mal3": "J",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "During the Wars of the Roses (1455 - 1487) which Englishman was dubbed \"the Kingmaker\"?",
+                  "r_bien": "Richard Neville",
+                  "r_mal1": "Richard III",
+                  "r_mal2": "Henry V",
+                  "r_mal3": "Thomas Warwick",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Bohdan Khmelnytsky was which of the following?",
+                  "r_bien": "Leader of the Ukrainian Cossacks",
+                  "r_mal1": "General Secretary of the Communist Party of the USSR",
+                  "r_mal2": "Prince of Wallachia",
+                  "r_mal3": "Grand Prince of Novgorod",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who tutored Alexander the Great?",
+                  "r_bien": "Aristotle",
+                  "r_mal1": "Socrates",
+                  "r_mal2": "Plato",
+                  "r_mal3": "King Philip",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Joseph Stalin had a criminal past doing what?",
+                  "r_bien": "Robbing Trains",
+                  "r_mal1": "Murder for Hire",
+                  "r_mal2": "Tax Evasion",
+                  "r_mal3": "Identity Fraud",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who invented the \"Flying Shuttle\" in 1738; one of the key developments in the industrialization of weaving?",
+                  "r_bien": "John Kay",
+                  "r_mal1": "James Hargreaves",
+                  "r_mal2": "Richard Arkwright",
+                  "r_mal3": "John Deere",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When did Lithuania declare independence from the Soviet Union?",
+                  "r_bien": "March 11th, 1990",
+                  "r_mal1": "December 25th, 1991",
+                  "r_mal2": "December 5th, 1991",
+                  "r_mal3": "April 20th, 1989",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which building was set aflame on August 24th, 1812?",
+                  "r_bien": "The White House",
+                  "r_mal1": "Parliament Building",
+                  "r_mal2": "Grand National Assembly Building",
+                  "r_mal3": "Palace of the Nation",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what dialogue did Socrates defend himself to the court of Athens? ",
+                  "r_bien": "The Apology",
+                  "r_mal1": "The Euthyphro",
+                  "r_mal2": "The Laws",
+                  "r_mal3": "The Republic",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "How long did World War II last?",
+                  "r_bien": "6 years",
+                  "r_mal1": "4 years",
+                  "r_mal2": "5 years",
+                  "r_mal3": "7 years",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "How many women joined the United States Armed Services during World War II?",
+                  "r_bien": "350,000",
+                  "r_mal1": "225,000",
+                  "r_mal2": "100,000",
+                  "r_mal3": "500,000",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The \"Trail of Tears\" was a result of which United States President's Indian Removal Policy?",
+                  "r_bien": "Andrew Jackson",
+                  "r_mal1": "Harry S. Truman",
+                  "r_mal2": "Martin Van Buren",
+                  "r_mal3": "John Quincy Adams",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the name of one of the surviving palaces of Henry VIII located near Richmond, London?",
+                  "r_bien": "Hampton Court",
+                  "r_mal1": "St James's Palace",
+                  "r_mal2": "Buckingham Palace",
+                  "r_mal3": "Coughton Court",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In which year was Constantinople conquered by the Turks?",
+                  "r_bien": "1453",
+                  "r_mal1": "1435",
+                  "r_mal2": "1454",
+                  "r_mal3": "1440",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In 1961, an American B-52 aircraft crashed and nearly detonated two 4mt nuclear bombs over which US city?",
+                  "r_bien": "Goldsboro, North Carolina",
+                  "r_mal1": "Hicksville, New York",
+                  "r_mal2": "Jacksonville, Florida",
+                  "r_mal3": "Conway, Arkansas",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The minigun was designed in 1960 by which manufacturer.",
+                  "r_bien": "General Electric",
+                  "r_mal1": "Colt Firearms",
+                  "r_mal2": "Heckler & Koch",
+                  "r_mal3": "Sig Sauer",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which day did World War I begin?",
+                  "r_bien": "July 28",
+                  "r_mal1": "January 28",
+                  "r_mal2": "June 28",
+                  "r_mal3": "April 28",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "On which aircraft carrier did the Doolitte Raid launch from on April 18, 1942 during World War II?",
+                  "r_bien": "USS Hornet",
+                  "r_mal1": "USS Enterprise",
+                  "r_mal2": "USS Lexington",
+                  "r_mal3": "USS Saratoga",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When did construction of the Suez Canal finish?",
+                  "r_bien": "1869",
+                  "r_mal1": "1859",
+                  "r_mal2": "1860",
+                  "r_mal3": "1850",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the name commonly given to the ancient trade routes that connected the East and West of Eurasia?",
+                  "r_bien": "Silk Road",
+                  "r_mal1": "Spice Road",
+                  "r_mal2": "Clay Road",
+                  "r_mal3": "Salt Road",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "During World War I, which nation's monarchs were blood related?",
+                  "r_bien": "England, Germany, Russia",
+                  "r_mal1": "France, Russia, Germany",
+                  "r_mal2": "Serbia, Russia, Croatia",
+                  "r_mal3": "Germany, Spain, Austria",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who was the last Roman emperor in the Year of Four Emperors (69 AD)?",
+                  "r_bien": "Vespasian",
+                  "r_mal1": "Vitellius",
+                  "r_mal2": "Otho",
+                  "r_mal3": "Galba",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What does the United States of America celebrate during the 4th of July?",
+                  "r_bien": "The signing of the Declaration of Independence",
+                  "r_mal1": "The anniversary of the Battle of Gettysburg",
+                  "r_mal2": "The crossing of the Delaware River",
+                  "r_mal3": "The ratification of the Constitution",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The coat of arms of the King of Spain contains the arms from the monarchs of Castille, Leon, Aragon and which other former Iberian kingdom?",
+                  "r_bien": "Navarre",
+                  "r_mal1": "Galicia",
+                  "r_mal2": "Granada",
+                  "r_mal3": "Catalonia",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of these theoretical phycisists first predicted the existence of antimatter?",
+                  "r_bien": "Paul Dirac",
+                  "r_mal1": "Niels Bohr",
+                  "r_mal2": "Albert Einstein",
+                  "r_mal3": "Werner Heisenberg",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of these positions did the astronomer and physicist Isaac Newton not hold?",
+                  "r_bien": "Surveyor to the City of London",
+                  "r_mal1": "Professor of Mathematics",
+                  "r_mal2": "Warden of the Royal Mint",
+                  "r_mal3": "Member of Parliament",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who is the creator of the soft drink, Dr. Pepper?",
+                  "r_bien": "Charles Alderton",
+                  "r_mal1": "James Wellington",
+                  "r_mal2": "Johnson Hinsin",
+                  "r_mal3": "Boris Heviltik",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When did the French Revolution begin?",
+                  "r_bien": "1789",
+                  "r_mal1": "1823",
+                  "r_mal2": "1756",
+                  "r_mal3": "1799",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Pianist Frédéric Chopin was a composer of which musical era?",
+                  "r_bien": "Romantic",
+                  "r_mal1": "Classic",
+                  "r_mal2": "Baroque",
+                  "r_mal3": "Renaissance",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "During what war did the \"Cuban Missile Crisis\" occur?",
+                  "r_bien": "Cold War",
+                  "r_mal1": "World War I",
+                  "r_mal2": "World War II",
+                  "r_mal3": "Revolutionary War",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which country had an \"Orange Revolution\" between 2004 and 2005?",
+                  "r_bien": "Ukraine",
+                  "r_mal1": "Belarus",
+                  "r_mal2": "Latvia",
+                  "r_mal3": "Lithuania",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The Battle of the Somme in World War I took place in which country?",
+                  "r_bien": "France",
+                  "r_mal1": "Germany",
+                  "r_mal2": "Italy",
+                  "r_mal3": "Austria",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following ancient Near Eastern peoples still exists as a modern ethnic group?",
+                  "r_bien": "Assyrians",
+                  "r_mal1": "Babylonians",
+                  "r_mal2": "Hittites",
+                  "r_mal3": "Elamites",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What is the name of the US Navy spy ship which was attacked and captured by North Korean forces in 1968?",
+                  "r_bien": "USS Pueblo",
+                  "r_mal1": "USS North Carolina",
+                  "r_mal2": "USS Constitution",
+                  "r_mal3": "USS Indianapolis",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In the War of the Pacific (1879 - 1883), Bolivia lost its access to the Pacific Ocean after being defeated by which South American country?",
+                  "r_bien": "Chile",
+                  "r_mal1": "Peru",
+                  "r_mal2": "Brazil",
+                  "r_mal3": "Argentina",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In which year did the Invasion of Kuwait by Iraq occur?",
+                  "r_bien": "1990",
+                  "r_mal1": "1992",
+                  "r_mal2": "1988",
+                  "r_mal3": "1986",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When did Canada leave the confederation to become their own nation?",
+                  "r_bien": "July 1st, 1867",
+                  "r_mal1": "July 1st, 1763",
+                  "r_mal2": "July 1st, 1832",
+                  "r_mal3": "July 1st, 1902",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which one of these rulers did not belong to the Habsburg dynasty?",
+                  "r_bien": "Philip V",
+                  "r_mal1": "Charles V",
+                  "r_mal2": "Philip II",
+                  "r_mal3": "Francis Joseph",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What nationality was sultan Saladin?",
+                  "r_bien": "Kurdish",
+                  "r_mal1": "Arab",
+                  "r_mal2": "Egyptian",
+                  "r_mal3": "Syrian",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What were the first states to break away from Yugoslavia?",
+                  "r_bien": "Slovenia, Croatia",
+                  "r_mal1": "Macedonia, Montenegro",
+                  "r_mal2": "Slovenia, Macedonia",
+                  "r_mal3": "Montenegro, Slovenia",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "How was Socrates executed?",
+                  "r_bien": "Poison",
+                  "r_mal1": "Decapitation",
+                  "r_mal2": "Firing squad",
+                  "r_mal3": "Crucifixion ",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who was the President of the United States during the signing of the Gadsden Purchase?",
+                  "r_bien": "Franklin Pierce",
+                  "r_mal1": "Andrew Johnson",
+                  "r_mal2": "Abraham Lincoln",
+                  "r_mal3": "James Polk",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When was the city of Rome, Italy founded?",
+                  "r_bien": "753 BCE",
+                  "r_mal1": "902 BCE",
+                  "r_mal2": "524 BCE",
+                  "r_mal3": "697 BCE",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the unofficial name for Germany between 1919 and 1933?",
+                  "r_bien": "Weimar Republic",
+                  "r_mal1": "German Democratic Republic",
+                  "r_mal2": "Federal Republic of Germany",
+                  "r_mal3": "Oesterreich ",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following countries was not an axis power during World War II?",
+                  "r_bien": " Soviet Union",
+                  "r_mal1": "Italy",
+                  "r_mal2": "Germany",
+                  "r_mal3": "Japan",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In 1939, Britain and France declared war on Germany after it invaded which country?",
+                  "r_bien": "Poland",
+                  "r_mal1": "Czechoslovakia",
+                  "r_mal2": "Austria",
+                  "r_mal3": "Hungary",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What year did Australia become a federation?",
+                  "r_bien": "1901",
+                  "r_mal1": "1910",
+                  "r_mal2": "1899",
+                  "r_mal3": "1911",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "To what political party did Abraham Lincoln belong when elected POTUS?",
+                  "r_bien": "Republican",
+                  "r_mal1": "Democrat",
+                  "r_mal2": "Independent",
+                  "r_mal3": "Whig",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The United States Army Air Corps became the United States Air Force on what date?",
+                  "r_bien": "September 18, 1947",
+                  "r_mal1": "December 14, 1946",
+                  "r_mal2": "October 27, 1945",
+                  "r_mal3": "November 08, 1944",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In World War I, what was the name of the alliance of Germany, Austria-Hungary, the Ottoman Empire, and Bulgaria?",
+                  "r_bien": "The Central Powers",
+                  "r_mal1": "The Axis Powers",
+                  "r_mal2": "The Federation of Empires",
+                  "r_mal3": "Authoritarian Alliance",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following was not one of Joseph Stalin's ten blows during World War II?",
+                  "r_bien": "Vistula-Oder Offensive",
+                  "r_mal1": "Crimean Offensive",
+                  "r_mal2": "Leningrad-Novgorod Offensive",
+                  "r_mal3": "Operation Bagration",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What is the historical name of Sri Lanka?",
+                  "r_bien": "Ceylon",
+                  "r_mal1": "Myanmar",
+                  "r_mal2": "Colombo",
+                  "r_mal3": "Badulla",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which U.S. President was in office when the Gulf War began?",
+                  "r_bien": "George H. W. Bush",
+                  "r_mal1": "Richard Nixon",
+                  "r_mal2": "George W. Bush ",
+                  "r_mal3": "Ronald Regan",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what year did Texas secede from Mexico?",
+                  "r_bien": "1836",
+                  "r_mal1": "1838",
+                  "r_mal2": "1845",
+                  "r_mal3": "1844",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following Physicists aided Nazi Germany in their production of a nuclear weapon?",
+                  "r_bien": "Werner Heisenberg",
+                  "r_mal1": "John von Neumann",
+                  "r_mal2": "Albert Einstein",
+                  "r_mal3": "Max Planck",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The ontological argument for the proof of God's existence is first attributed to whom?",
+                  "r_bien": "Anselm of Canterbury",
+                  "r_mal1": "René Descartes",
+                  "r_mal2": "Immanuel Kant",
+                  "r_mal3": "Aristotle",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "After his loss at the Battle of Waterloo, Napoleon Bonaparte was exiled to which island?",
+                  "r_bien": "St. Helena",
+                  "r_mal1": "Elba",
+                  "r_mal2": "Corsica",
+                  "r_mal3": "Canary",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of these facilities was not present on the Titanic?",
+                  "r_bien": "Fainting room",
+                  "r_mal1": "Turkish bath",
+                  "r_mal2": "Kennel",
+                  "r_mal3": "Squash court",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which country did the Eureka Rebellion, an 1856 battle against colonial rule, take place in?",
+                  "r_bien": "Australia",
+                  "r_mal1": "India",
+                  "r_mal2": "Canada",
+                  "r_mal3": "Brazil",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "King Henry VIII was the second monarch of which European royal house?",
+                  "r_bien": "Tudor",
+                  "r_mal1": "York",
+                  "r_mal2": "Stuart",
+                  "r_mal3": "Lancaster",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which king was killed at the Battle of Bosworth Field in 1485? ",
+                  "r_bien": "Richard III",
+                  "r_mal1": "Edward V",
+                  "r_mal2": "Henry VII",
+                  "r_mal3": "James I",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In relation to the British Occupation in Ireland, what does the IRA stand for.",
+                  "r_bien": "Irish Republican Army",
+                  "r_mal1": "Irish Rebel Alliance",
+                  "r_mal2": "Irish Reformation Army",
+                  "r_mal3": "Irish-Royal Alliance",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which one of these tanks was designed and operated by the United Kingdom?",
+                  "r_bien": "Tog II",
+                  "r_mal1": "M4 Sherman",
+                  "r_mal2": "Tiger H1",
+                  "r_mal3": "T-34",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of his six wives was Henry VIII married to the longest?",
+                  "r_bien": "Catherine of Aragon",
+                  "r_mal1": "Anne Boleyn",
+                  "r_mal2": "Jane Seymour",
+                  "r_mal3": "Catherine Parr",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which dictator killed the most people?",
+                  "r_bien": "Mao Zedong",
+                  "r_mal1": "Joseph Stalin",
+                  "r_mal2": "Adolf Hitler",
+                  "r_mal3": "Kim Il Sung",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which modern day country is the region that was known as Phrygia in ancient times?",
+                  "r_bien": "Turkey",
+                  "r_mal1": "Syria",
+                  "r_mal2": "Greece",
+                  "r_mal3": "Egypt",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In which year did the First World War begin?",
+                  "r_bien": "1914",
+                  "r_mal1": "1930",
+                  "r_mal2": "1917",
+                  "r_mal3": "1939",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In which year did the Tokyo Subway Sarin Attack occur?",
+                  "r_bien": "1995",
+                  "r_mal1": "2001",
+                  "r_mal2": "2011",
+                  "r_mal3": "1991",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who was the Prime Minister of Japan when Japan declared war on the US?",
+                  "r_bien": "Hideki Tojo",
+                  "r_mal1": "Michinomiya Hirohito",
+                  "r_mal2": "Isoroku Yamamoto",
+                  "r_mal3": "Fumimaro Konoe",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what year did Kentucky become the 15th state to join the union?",
+                  "r_bien": "1792",
+                  "r_mal1": "1782",
+                  "r_mal2": "1798",
+                  "r_mal3": "1788",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "These two countries held a commonwealth from the 16th to 18th century.",
+                  "r_bien": "Poland and Lithuania",
+                  "r_mal1": "Hutu and Rwanda",
+                  "r_mal2": "North Korea and South Korea",
+                  "r_mal3": "Bangladesh and Bhutan",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Before the American colonies switched to the Gregorian calendar in 1752, on what date did their new year start?",
+                  "r_bien": "March 25th",
+                  "r_mal1": "June 1st",
+                  "r_mal2": "September 25th",
+                  "r_mal3": "December 1st",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Toussaint Louverture led a successful slave revolt in which country?",
+                  "r_bien": "Haiti",
+                  "r_mal1": "France",
+                  "r_mal2": "Cuba",
+                  "r_mal3": "United States",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In 1845, a series of wars named after which indigenous people began in New Zealand?",
+                  "r_bien": "Māori",
+                  "r_mal1": "Papuans",
+                  "r_mal2": "Aborigines",
+                  "r_mal3": "Polynesians",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who assassinated President James A. Garfield?",
+                  "r_bien": "Charles Guiteau",
+                  "r_mal1": "Sirhan Sirhan",
+                  "r_mal2": "Leon Czolgosz",
+                  "r_mal3": "John Wilkes Booth",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What happened on June 6, 1944?",
+                  "r_bien": "D-Day",
+                  "r_mal1": "Atomic bombings of Hiroshima and Nagasaki",
+                  "r_mal2": "Attack on Pearl Harbor",
+                  "r_mal3": "The Liberation of Paris",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who rode on horseback to warn the Minutemen that the British were coming during the U.S. Revolutionary War?",
+                  "r_bien": "Paul Revere",
+                  "r_mal1": "Thomas Paine",
+                  "r_mal2": "Henry Longfellow",
+                  "r_mal3": "Nathan Hale",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The fraudelent doctor John R. Brinkley acummulated great fame and wealth in the early 1900s offering what service?",
+                  "r_bien": "Goat testicles transplant",
+                  "r_mal1": "Pig blood transfusion",
+                  "r_mal2": "Cow liver transplant",
+                  "r_mal3": "Turkey breast implants",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What event marked the start of World War II?",
+                  "r_bien": "Invasion of Poland (1939)",
+                  "r_mal1": "Invasion of Russia (1942)",
+                  "r_mal2": "Battle of Britain (1940)",
+                  "r_mal3": "Invasion of Normandy (1944)",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What disease crippled President Franklin D. Roosevelt and led him to help the nation find a cure? ",
+                  "r_bien": "Polio",
+                  "r_mal1": "Cancer",
+                  "r_mal2": "Meningitis",
+                  "r_mal3": "HIV",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which German field marshal was known as the `Desert Fox`?",
+                  "r_bien": "Erwin Rommel",
+                  "r_mal1": "Ernst Busch",
+                  "r_mal2": "Wolfram Freiherr von Richthofen",
+                  "r_mal3": "Wilhelm List",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Joseph Smith was the founder of what religion?",
+                  "r_bien": "Mormonism",
+                  "r_mal1": "Buddhism",
+                  "r_mal2": "Christianity",
+                  "r_mal3": "Hinduism",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When did Spanish Peninsular War start?",
+                  "r_bien": "1808",
+                  "r_mal1": "1806",
+                  "r_mal2": "1810",
+                  "r_mal3": "1809",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of these countries remained neutral during World War II?",
+                  "r_bien": "Switzerland",
+                  "r_mal1": "United Kingdom",
+                  "r_mal2": "France",
+                  "r_mal3": "Italy",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When was the United States National Security Agency established?",
+                  "r_bien": "November 4, 1952",
+                  "r_mal1": "July 26, 1908",
+                  "r_mal2": " July 1, 1973",
+                  "r_mal3": " November 25, 2002",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "During the Spanish Civil War (1936), Francisco Franco fought for which political faction?",
+                  "r_bien": "Nationalist Spain",
+                  "r_mal1": "Republican Spain",
+                  "r_mal2": "Popular Front",
+                  "r_mal3": "Papal State",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What is the mnemonic device for remembering the fates of the wives of Henry VIII?",
+                  "r_bien": "Divorced, Beheaded, Died, Divorced, Beheaded, Survived",
+                  "r_mal1": "Beheaded, Died, Divorced, Divorced, Beheaded, Survived",
+                  "r_mal2": "Died, Beheaded, Divorced, Beheaded, Survived, Divorced",
+                  "r_mal3": "Survived, Beheaded, Died, Divorced, Divorced, Beheaded",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which American civilization is the source of the belief that the world would end or drastically change on December 21st, 2012?",
+                  "r_bien": "The Mayans",
+                  "r_mal1": "The Incas",
+                  "r_mal2": "The Aztecs",
+                  "r_mal3": "The Navajos",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When did Norway become free from Sweden?",
+                  "r_bien": "1905",
+                  "r_mal1": "1925",
+                  "r_mal2": "1814",
+                  "r_mal3": "1834",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which U.S. president took part in the Potsdam Conference, where the Allies reached a peace settlement with Germany?",
+                  "r_bien": "Harry S. Truman",
+                  "r_mal1": "Dwight D. Eisenhower",
+                  "r_mal2": "Franklin D. Roosevelt",
+                  "r_mal3": "Herbert Hoover",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When did the British hand-over sovereignty of Hong Kong back to China?",
+                  "r_bien": "1997",
+                  "r_mal1": "1999",
+                  "r_mal2": "1841",
+                  "r_mal3": "1900",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What is the name of the ship which was only a few miles away from the RMS Titanic when it struck an iceberg on April 14, 1912?",
+                  "r_bien": "Californian",
+                  "r_mal1": "Carpathia",
+                  "r_mal2": "Cristol",
+                  "r_mal3": "Commerce",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who was the only US President to be elected four times?",
+                  "r_bien": "Franklin Roosevelt",
+                  "r_mal1": "Theodore Roosevelt",
+                  "r_mal2": "George Washington",
+                  "r_mal3": "Abraham Lincoln",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "From 1940 to 1942, what was the capital-in-exile of Free France ?",
+                  "r_bien": "Brazzaville",
+                  "r_mal1": "Algiers",
+                  "r_mal2": "Paris",
+                  "r_mal3": "Tunis",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When did the Crisis of the Third Century begin?",
+                  "r_bien": "235 AD",
+                  "r_mal1": "235 BC",
+                  "r_mal2": "242 AD",
+                  "r_mal3": "210 AD",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "During which American Civil War campaign did Union troops dig a tunnel beneath Confederate troops to detonate explosives underneath them?",
+                  "r_bien": "Siege of Petersburg",
+                  "r_mal1": "Siege of Vicksburg",
+                  "r_mal2": "Antietam Campaign",
+                  "r_mal3": "Gettysburg Campagin",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who assassinated Archduke Franz Ferdinand?",
+                  "r_bien": "Gavrilo Princip",
+                  "r_mal1": "Nedeljko Čabrinović",
+                  "r_mal2": "Oskar Potiorek",
+                  "r_mal3": "Ferdinand Cohen-Blind",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "After the 1516 Battle of Marj Dabiq, the Ottoman Empire took control of Jerusalem from which sultanate?",
+                  "r_bien": "Mamluk",
+                  "r_mal1": "Ayyubid",
+                  "r_mal2": "Ummayyad",
+                  "r_mal3": "Seljuq",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following physicists did NOT work on the Manhattan project?",
+                  "r_bien": "Murray Gell-Mann",
+                  "r_mal1": "Richard Feynman",
+                  "r_mal2": "J. Robert Oppenheimer",
+                  "r_mal3": "John Von-Neumann",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the name of the chemical that was dropped on Vietnam during the Vietnam war?",
+                  "r_bien": "Agent Orange",
+                  "r_mal1": "Phosgene",
+                  "r_mal2": "Mustard Gas",
+                  "r_mal3": "Hydrogen Cyanide",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of these countries was sea charted in 1500 by the Portuguese maritime explorations?",
+                  "r_bien": "Brazil",
+                  "r_mal1": "India",
+                  "r_mal2": "Mozambique",
+                  "r_mal3": "Madagascar",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following African countries was most successful in resisting colonization?",
+                  "r_bien": "Ethiopia",
+                  "r_mal1": "Côte d’Ivoire",
+                  "r_mal2": "Congo",
+                  "r_mal3": "Namibia",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following ancient peoples was NOT classified as Hellenic (Greek)?",
+                  "r_bien": "Illyrians",
+                  "r_mal1": "Dorians",
+                  "r_mal2": "Achaeans",
+                  "r_mal3": "Ionians",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was Manfred von Richthofen's nickname?",
+                  "r_bien": "The Red Baron",
+                  "r_mal1": "The High Flying Ace",
+                  "r_mal2": "The Blue Serpent ",
+                  "r_mal3": "The Germany Gunner",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When was Google founded?",
+                  "r_bien": "September 4, 1998",
+                  "r_mal1": "October 9, 1997",
+                  "r_mal2": "December 12, 1989",
+                  "r_mal3": "Feburary 7th, 2000",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What year did the Boxing Day earthquake & tsunami occur in the Indian Ocean?",
+                  "r_bien": "2004",
+                  "r_mal1": "2006",
+                  "r_mal2": "2008",
+                  "r_mal3": "2002",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which WWII tank ace is credited with having destroyed the most tanks?",
+                  "r_bien": "Kurt Knispel",
+                  "r_mal1": "Michael Wittmann",
+                  "r_mal2": "Walter Kniep",
+                  "r_mal3": "Otto Carius",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What is the bloodiest event in United States history, in terms of casualties?",
+                  "r_bien": "Battle of Antietam",
+                  "r_mal1": "Pearl Harbor",
+                  "r_mal2": "September 11th",
+                  "r_mal3": "D-Day",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The Fallingwater House, located in Pennsylvania, was designed by which architect?",
+                  "r_bien": "Frank Lloyd Wright",
+                  "r_mal1": "Antoni Gaudi",
+                  "r_mal2": "Frank Gehry",
+                  "r_mal3": "Le Corbusier",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the original name of New York City?",
+                  "r_bien": "New Amsterdam",
+                  "r_mal1": "New London",
+                  "r_mal2": "New Paris",
+                  "r_mal3": "New Rome",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which country was Josef Stalin born in?",
+                  "r_bien": "Georgia",
+                  "r_mal1": "Russia",
+                  "r_mal2": "Germany",
+                  "r_mal3": "Poland",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The ancient city of Chichén Itzá was built by which civilization?",
+                  "r_bien": "Mayans",
+                  "r_mal1": "Aztecs",
+                  "r_mal2": "Incas",
+                  "r_mal3": "Toltecs",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which English king was married to Eleanor of Aquitaine?",
+                  "r_bien": "Henry II",
+                  "r_mal1": "Richard I",
+                  "r_mal2": "Henry I",
+                  "r_mal3": "Henry V",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The pantheon in Rome was used to worship what god?",
+                  "r_bien": "Any god they wanted",
+                  "r_mal1": "Athena",
+                  "r_mal2": "Zeus",
+                  "r_mal3": "Both Athena and Zeus",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which famous military commander marched an army, which included war elephants, over the Alps during the Second Punic War?",
+                  "r_bien": "Hannibal",
+                  "r_mal1": "Garmanicus",
+                  "r_mal2": "Alexander the Great",
+                  "r_mal3": "Tiberius",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The crown of the Empire State Building was originally built for what purpose?",
+                  "r_bien": "Airship Dock",
+                  "r_mal1": "Lightning Rod",
+                  "r_mal2": "Antennae",
+                  "r_mal3": "Flag Pole",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When did Jamaica recieve its independence from England? ",
+                  "r_bien": "1962",
+                  "r_mal1": "1492",
+                  "r_mal2": "1963",
+                  "r_mal3": "1987",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following battles is often considered as marking the beginning of the fall of the Western Roman Empire?",
+                  "r_bien": "Battle of Adrianople",
+                  "r_mal1": "Battle of Thessalonica",
+                  "r_mal2": "Battle of Pollentia",
+                  "r_mal3": "Battle of Constantinople",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which infamous European traitor was known as \"the last person to enter Parliament with honest intentions\"?",
+                  "r_bien": "Guy Fawkes",
+                  "r_mal1": "Robert Catesby",
+                  "r_mal2": "Francis Tresham",
+                  "r_mal3": "Everard Digby",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of these countries was NOT a part of the Soviet Union?",
+                  "r_bien": "Afghanistan",
+                  "r_mal1": "Turkmenistan",
+                  "r_mal2": "Kazakhstan",
+                  "r_mal3": "Uzbekistan",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who is attributed credit for recording the epic poem The Odyssey?",
+                  "r_bien": "Homer",
+                  "r_mal1": "Aristotle",
+                  "r_mal2": "Odysseus",
+                  "r_mal3": "Socrates",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In which years did the Battle of Gallipoli take place?",
+                  "r_bien": "1915 - 1916",
+                  "r_mal1": "1914 - 1918",
+                  "r_mal2": "1914 - 1915",
+                  "r_mal3": "1915 - 1918",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The main objective of the German operation \"Case Blue\" during World War II was originally to capture what?",
+                  "r_bien": "Caucasus",
+                  "r_mal1": "Stalingrad",
+                  "r_mal2": "Crimea",
+                  "r_mal3": "Voronezh",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which U.S. President was famously 'attacked' by a swimming rabbit?",
+                  "r_bien": "Jimmy Carter",
+                  "r_mal1": "Ronald Reagan",
+                  "r_mal2": "Lydon B. Johnson",
+                  "r_mal3": "Gerald Ford",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "With which Greek philosopher would you associate the phrase, \"I know that I know nothing\"?",
+                  "r_bien": "Socrates",
+                  "r_mal1": "Aristotle",
+                  "r_mal2": "Plato",
+                  "r_mal3": "Pythagoras",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "How many manned moon landings have there been?",
+                  "r_bien": "6",
+                  "r_mal1": "1",
+                  "r_mal2": "3",
+                  "r_mal3": "7",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Against which country did the Dutch Republic fight the Eighty Years' War?",
+                  "r_bien": "Spain",
+                  "r_mal1": "France",
+                  "r_mal2": "England",
+                  "r_mal3": "Portugal",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following snipers has the highest amount of confirmed kills?",
+                  "r_bien": "Simo Häyhä",
+                  "r_mal1": "Chris Kyle",
+                  "r_mal2": "Vasily Zaytsev",
+                  "r_mal3": "Craig Harrison",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who was the first prime minister of Canada?",
+                  "r_bien": "John Macdonald",
+                  "r_mal1": "John Abbott",
+                  "r_mal2": "Alexander Mackenzie",
+                  "r_mal3": "Robert Borden",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who was the first president born in the independent United States?",
+                  "r_bien": "Martin Van Buren",
+                  "r_mal1": "John Adams",
+                  "r_mal2": "George Washington",
+                  "r_mal3": "James Monroe ",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what year did the Berlin Wall fall?",
+                  "r_bien": "1989",
+                  "r_mal1": "1987",
+                  "r_mal2": "1991",
+                  "r_mal3": "1993",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which country gifted the Statue of Liberty to the United States of America?",
+                  "r_bien": "France",
+                  "r_mal1": "Spain",
+                  "r_mal2": "England",
+                  "r_mal3": "Germany",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "How many years did the Hundred Years' War last?",
+                  "r_bien": "116",
+                  "r_mal1": "100",
+                  "r_mal2": "90",
+                  "r_mal3": "101",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of the following Presidents of the United States was assassinated?",
+                  "r_bien": "William McKinley",
+                  "r_mal1": "Lyndon Johnson",
+                  "r_mal2": "Chester Arthur",
+                  "r_mal3": "Franklin Roosevelt",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What is the name of the Boeing B-29 that dropped the 'Little Boy' atomic bomb on Hiroshima?",
+                  "r_bien": "Enola Gay",
+                  "r_mal1": "Necessary Evil",
+                  "r_mal2": "The Great Artiste",
+                  "r_mal3": "Full House",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who was the first American in space?",
+                  "r_bien": "Alan Shephard",
+                  "r_mal1": "Neil Armstrong",
+                  "r_mal2": "John Glenn",
+                  "r_mal3": "Jim Lovell",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The creator of the Enigma Cypher and Machine was of what nationality?",
+                  "r_bien": "German",
+                  "r_mal1": "American",
+                  "r_mal2": "British",
+                  "r_mal3": "Polish",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What year did the Battle of Agincourt take place?",
+                  "r_bien": "1415",
+                  "r_mal1": "1463",
+                  "r_mal2": "1401",
+                  "r_mal3": "1422",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Who was the leader of the Communist Party of Yugoslavia ?",
+                  "r_bien": "Josip Broz Tito",
+                  "r_mal1": "Karadjordje Petrovic",
+                  "r_mal2": "Milos Obilic",
+                  "r_mal3": "Aleskandar Petrovic",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What year did the Vietnam War end?",
+                  "r_bien": "1975",
+                  "r_mal1": "1978",
+                  "r_mal2": "1967",
+                  "r_mal3": "1969",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of these founding fathers of the United States of America later became president?",
+                  "r_bien": "James Monroe",
+                  "r_mal1": "Alexander Hamilton",
+                  "r_mal2": "Samuel Adams",
+                  "r_mal3": "Roger Sherman",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Spain was formed in 1469 with the marriage of Isabella I of Castile and Ferdinand II of what other Iberian kingdom?",
+                  "r_bien": "Aragon",
+                  "r_mal1": "Galicia",
+                  "r_mal2": "León",
+                  "r_mal3": "Navarre",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "How many times was Albert Einstein married in his lifetime?",
+                  "r_bien": "Twice",
+                  "r_mal1": "Five",
+                  "r_mal2": "Thrice",
+                  "r_mal3": "Once",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What year did World War I begin?",
+                  "r_bien": "1914",
+                  "r_mal1": "1905",
+                  "r_mal2": "1919",
+                  "r_mal3": "1925",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "The Korean War started in what year?",
+                  "r_bien": "1950",
+                  "r_mal1": "1945",
+                  "r_mal2": "1960",
+                  "r_mal3": "1912",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "John Moses Browning, the designer of the M1918 BAR (Browning Automatic Rifle) was a part of which religion?",
+                  "r_bien": "Mormon",
+                  "r_mal1": "Catholic",
+                  "r_mal2": "Jewish",
+                  "r_mal3": "Atheist",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "America's Strategic Defense System during the Cold War was nicknamed after this famous movie.",
+                  "r_bien": "Star Wars",
+                  "r_mal1": "Jaws",
+                  "r_mal2": "Blade Runner",
+                  "r_mal3": "Alien",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In 1720, England was in massive debt, and became in involved in the South Sea Bubble. Who was the main mastermind behind it?",
+                  "r_bien": "John Blunt",
+                  "r_mal1": "Daniel Defoe",
+                  "r_mal2": "Robert Harley",
+                  "r_mal3": "John Churchill",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "When Christopher Columbus sailed to America, what was the first region he arrived in?",
+                  "r_bien": "The Bahamas Archipelago",
+                  "r_mal1": "Florida",
+                  "r_mal2": "Isthmus of Panama",
+                  "r_mal3": "Nicaragua",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In what prison was Adolf Hitler held in 1924?",
+                  "r_bien": "Landsberg Prison",
+                  "r_mal1": "Spandau Prison",
+                  "r_mal2": "Ebrach Abbey",
+                  "r_mal3": "Hohenasperg",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What year is considered to be the year that the British Empire ended?",
+                  "r_bien": "1997",
+                  "r_mal1": "1986",
+                  "r_mal2": "1981",
+                  "r_mal3": "1971",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the aim of the \"Umbrella Revolution\" in Hong Kong in 2014?",
+                  "r_bien": "Genuine universal suffrage",
+                  "r_mal1": "Gaining Independence",
+                  "r_mal2": "Go back under British Rule",
+                  "r_mal3": "Lower taxes",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "What was the name of the German offensive operation in October 1941 to take Moscow before winter?",
+                  "r_bien": "Operation Typhoon",
+                  "r_mal1": "Operation Sunflower",
+                  "r_mal2": "Operation Barbarossa",
+                  "r_mal3": "Case Blue",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "In 1453, which important city fell?",
+                  "r_bien": "Constantinople",
+                  "r_mal1": "Rome",
+                  "r_mal2": "Hamburg",
+                  "r_mal3": "Athens",
+                  "tema_id": "historia"
+            },
+            {
+                  "enunciado": "Which of these 1900s tanks were designed and built BEFORE the others?",
+                  "r_bien": "Renault FT",
+                  "r_mal1": "M4 Sherman",
+                  "r_mal2": " Panzer IV",
+                  "r_mal3": "Cromwell ",
+                  "tema_id": "historia"
+            }
+      ]
+}

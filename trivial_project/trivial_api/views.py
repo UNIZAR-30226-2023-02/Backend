@@ -117,6 +117,7 @@ class UsuarioRegistrar(APIView):
             user.set_password(password)
             user.save()
             dict_response['OK'] = "True"
+        return Response(dict_response)
 
     
 class UsuarioDatos(APIView):

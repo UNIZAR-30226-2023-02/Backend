@@ -26,10 +26,7 @@ SITE_NAME = 'Trivial'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1"
-]
+ALLOWED_HOSTS = ["*"]
 
 #Para hacer pruebas permitir todos los hosts
 if not DEBUG:
@@ -60,7 +57,6 @@ PROJECT_APPS = [
 THIRD_PARTY_APPS = [
     'corsheaders',
     'rest_framework',
-    'drf_yasg',
     'rest_framework.authtoken',
     "whitenoise.runserver_nostatic",
 ]
