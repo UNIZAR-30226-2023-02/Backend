@@ -4,30 +4,30 @@ from .serializers import *
 import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status,permissions,generics
-from rest_framework import permissions
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
 import re
 from datetime import datetime
 
+#Token
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
 
-# Minuto 57 -> https://www.youtube.com/watch?v=EscHWLV43NQ
-class UsuarioListView(APIView):
-    def post(self,request,format=None):
-        if Usuario.objects.all().exists():
-            queryset = Usuario.objects.all()
-            serializer = UsuarioSerializer(queryset,many=True)
-            return Response({'usuarios': serializer.data})
-        else:
-            return Response({'error':'No users found'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# # Minuto 57 -> https://www.youtube.com/watch?v=EscHWLV43NQ
+# class UsuarioListView(APIView):
+#     def post(self,request,format=None):
+#         if Usuario.objects.all().exists():
+#             queryset = Usuario.objects.all()
+#             serializer = UsuarioSerializer(queryset,many=True)
+#             return Response({'usuarios': serializer.data})
+#         else:
+#             return Response({'error':'No users found'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
   
-class UsuarioDetailView(APIView):
-    def get(self,request,username,format=None):
-        usuario = get_object_or_404(Usuario,username=username)
-        serializer = UsuarioSerializer(usuario)
-        return Response({'usuario':serializer.data},status=status.HTTP_200_OK)
+# class UsuarioDetailView(APIView):
+#     def get(self,request,username,format=None):
+#         usuario = get_object_or_404(Usuario,username=username)
+#         serializer = UsuarioSerializer(usuario)
+#         return Response({'usuario':serializer.data},status=status.HTTP_200_OK)
     
 
 class UsuarioLogin(APIView):
@@ -35,6 +35,7 @@ class UsuarioLogin(APIView):
         any_error = 0
         dict_response = {
             'OK':"",
+            'token':"",
             'error_username': "",
             'error_password': "",
         }
@@ -57,6 +58,10 @@ class UsuarioLogin(APIView):
         if any_error !=0:
             dict_response['OK'] = "False"
         else:
+            #Se crea un token asociado al usuario
+            token,_ = Token.objects.get_or_create(user=user)
+            dict_response['token'] = token.key
+            print(token.key)
             dict_response['OK'] = "True"
         
         return Response(dict_response)
@@ -71,13 +76,13 @@ class UsuarioRegistrar(APIView):
             'error_password': "",
             'error_confirm_password': "",
             'error_fecha_nac': "",
-            'error_email': "",
+            'error_correo': "",
         }
         username = request.data.get('username')
         password = request.data.get('password')
         confirm_password = request.data.get('confirm_password')
         fecha_nac = request.data.get('fecha_nac')
-        correo = request.data.get('email')
+        correo = request.data.get('correo')
 
         # Comprobamos los posibles errores
         if Usuario.objects.filter(username=username).exists():
@@ -94,13 +99,13 @@ class UsuarioRegistrar(APIView):
         
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' 
         if not correo:
-            dict_response['error_email'] = "Correo no puede estar vacio"
+            dict_response['error_correo'] = "Correo no puede estar vacio"
             any_error = 1
         elif not re.search(regex,correo):
-            dict_response['error_email'] = "Correo no valido"
+            dict_response['error_correo'] = "Correo no valido"
             any_error = 1
         elif Usuario.objects.filter(correo=correo).exists():
-            dict_response['error_email'] = "El correo ya esta en uso"
+            dict_response['error_correo'] = "El correo ya esta en uso"
             any_error = 1
 
         # Fecha nacimiento formato
@@ -121,8 +126,8 @@ class UsuarioRegistrar(APIView):
 
     
 class UsuarioDatos(APIView):
-    #authentication_classes = [TokenAuthentication]
-    #permission_classes = [IsAuthenticated]
+    #Necesita la autenticazion
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         any_error = 0

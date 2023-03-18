@@ -211,19 +211,19 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+
+
+AUTH_USER_MODEL = "trivial_api.Usuario"
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES': [
-        # Para pedir que esten autenticados al acceder a la API
-        #'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.permissions.AllowAny',
-    ],
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 16,
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     # Para pedir que esten autenticados al acceder a la API
+    #     'rest_framework.permissions.IsAuthenticated',
+    #     'rest_framework.permissions.AllowAny',
+    # ],
 }
 
 AUTHENTICATION_BACKENDS = (

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password,check_password
+from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 # Modelos de la base de datos
 
@@ -23,19 +24,19 @@ class Pregunta(models.Model):
         db_table = "Pregunta"
 
 
-class Usuario(models.Model):
-    username = models.CharField(max_length=50, primary_key=True)
+class Usuario(AbstractUser):
+    username = models.CharField(default="ad",max_length=50, unique=True)
     correo = models.EmailField(default="example@gmail.com",blank=False,null=False,unique=True)
     fecha_nac = models.DateField(default="1997-10-19")
     password = models.CharField(default="",max_length=200) #La contraseña cifrada ocupa 128 caracteres
     monedas = models.IntegerField(default=0)
 
 
-    def set_password(self, raw_password):
-        self.password = make_password(raw_password)
+    # def set_password(self, raw_password):
+    #     self.password = make_password(raw_password)
 
-    def check_password(self, raw_password):
-        return check_password(raw_password, self.password)
+    # def check_password(self, raw_password):
+    #     return check_password(raw_password, self.password)
     
     class Meta:
         db_table = "Usuario"
