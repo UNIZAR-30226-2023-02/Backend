@@ -134,8 +134,8 @@ if not DEBUG:
             },
             "NAME": "trivialdb",
             "HOST": "localhost",
-            "USER": "trivial",
-            "PASSWORD":"trivialPS2023",
+            "USER": "api",
+            "PASSWORD":"servidorPS2223",
             "PORT":"3306",
         }
     }

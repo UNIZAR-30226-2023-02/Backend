@@ -1,5 +1,4 @@
 from django.urls import path,re_path
-from rest_framework.authtoken import views
 from .views import *
 from rest_framework import permissions
 
