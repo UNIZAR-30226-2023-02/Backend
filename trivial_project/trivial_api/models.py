@@ -32,18 +32,18 @@ class Usuario(AbstractUser):
     monedas = models.IntegerField(default=0)
 
 
-    # def set_password(self, raw_password):
-    #     self.password = make_password(raw_password)
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
 
-    # def check_password(self, raw_password):
-    #     return check_password(raw_password, self.password)
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
     
     class Meta:
         db_table = "Usuario"
 
 class Amigos(models.Model):
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='amigos_username')
-    amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE,related_name='amigos_amigo')
+    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username', related_name='amigos_username')
+    amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',related_name='amigos_amigo')
     #pendiente = models.BooleanField()
     #This method will be called by Django Validation Framework before saving the instance to the database
     # and if the username and amigo are the same will raise an exception
