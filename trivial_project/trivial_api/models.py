@@ -42,8 +42,8 @@ class Usuario(AbstractUser):
         db_table = "Usuario"
 
 class Amigos(models.Model):
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username', related_name='amigos_username')
-    amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',related_name='amigos_amigo')
+    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username", related_name='amigos_username')
+    amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="amigo",related_name='amigos_amigo')
     #pendiente = models.BooleanField()
     #This method will be called by Django Validation Framework before saving the instance to the database
     # and if the username and amigo are the same will raise an exception
@@ -75,7 +75,7 @@ class Partida(models.Model):
 
 class Historico(models.Model):
     id_partida = models.ForeignKey(Partida, on_delete=models.CASCADE,related_name='historico_id_partida')
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,related_name='historico_username')
+    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username",related_name='historico_username')
     he_ganado = models.BooleanField()
     preguntas_respondidas = models.IntegerField(0)
     quesitos = models.IntegerField(0)
@@ -94,7 +94,7 @@ class Historico(models.Model):
 
 
 class Estadisticas(models.Model):
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,related_name='estadisticas_username')
+    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username",related_name='estadisticas_username')
     geografia_bien = models.IntegerField(default=0)
     geografia_mal = models.IntegerField(default=0)
     arte_y_literatura_bien = models.IntegerField(default=0)
@@ -127,7 +127,7 @@ class Fichas_tableros(models.Model):
 
 
 class Adquirido(models.Model):
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,related_name='adquirido_username')
+    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username",related_name='adquirido_username')
     id_objeto = models.ForeignKey(Fichas_tableros, on_delete=models.CASCADE,related_name='adquirido_id_objeto')
     adquirido = models.BooleanField()
 
@@ -140,7 +140,7 @@ class Adquirido(models.Model):
 
 class Sala(models.Model):
     nombre_sala = models.CharField(max_length=50)
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,related_name='sala_username')
+    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username",related_name='sala_username')
     n_jugadores = models.IntegerField(default=0)
     password_sala = models.CharField(max_length=50)
     PARTIDA_CHOICES = [

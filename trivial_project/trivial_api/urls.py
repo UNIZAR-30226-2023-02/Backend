@@ -10,7 +10,7 @@ urlpatterns = [
     path('usuarios/register/', UsuarioRegistrar.as_view()),
     # Posible problema, que un usuarios que no sea el vea o agrege amigos a otros usuarios
     path('usuarios/datos/', UsuarioDatos.as_view()),
-    path('usuarios/add/amigo', UsuarioAddAmigo.as_view()),
+    path('usuarios/add/amigo/', UsuarioAddAmigo.as_view()),
 
     #path('salas/crear/', UsuarioDatos.as_view()),
      

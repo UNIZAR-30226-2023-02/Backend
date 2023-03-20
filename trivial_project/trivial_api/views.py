@@ -16,23 +16,30 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 
 
-# # Minuto 57 -> https://www.youtube.com/watch?v=EscHWLV43NQ
-# class UsuarioListView(APIView):
-#     def post(self,request,format=None):
-#         if Usuario.objects.all().exists():
-#             queryset = Usuario.objects.all()
-#             serializer = UsuarioSerializer(queryset,many=True)
-#             return Response({'usuarios': serializer.data})
-#         else:
-#             return Response({'error':'No users found'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
-  
-# class UsuarioDetailView(APIView):
-#     def get(self,request,username,format=None):
-#         usuario = get_object_or_404(Usuario,username=username)
-#         serializer = UsuarioSerializer(usuario)
-#         return Response({'usuario':serializer.data},status=status.HTTP_200_OK)
-    
+def extract_token(token):
+    return token[6:]
+
+#Comprobamos que el token pertenece al usuario que realmente quiere acceder
+def isAuthorized(token,username):
+    user_id = get_object_or_404(Usuario, username=username).id
+    token_user_id = Token.objects.get(key=token).user_id
+    if(user_id == token_user_id):
+        return True
+    return False
+
+def get_username_and_token(request):
+    if request.method == 'POST':
+        username = request.data.get('username')
+    elif request.method == 'GET':
+        username = request.GET.get('username')
+    token= request.headers['Authorization']
+    return username,extract_token(token)
+
+def get_token(request):
+    token= request.headers['Authorization']
+    return extract_token(token)
+
+
 
 class UsuarioLogin(APIView):
     def post(self, request):
@@ -59,14 +66,14 @@ class UsuarioLogin(APIView):
                 dict_response['error_password'] = "Contraseña invalida"
                 any_error = 1
 
-        if any_error !=0:
-            dict_response['OK'] = "False"
-        else:
+        if any_error == 0:
             #Se crea un token asociado al usuario
             token,_ = Token.objects.get_or_create(user=user)
             dict_response['token'] = token.key
             print(token.key)
             dict_response['OK'] = "True"
+        else:
+            dict_response['OK'] = "False"
         
         return Response(dict_response)
 
@@ -74,6 +81,7 @@ class UsuarioLogin(APIView):
 class UsuarioRegistrar(APIView):
     def post(self, request):
         any_error = 0
+        # Diccionario con lo que devolvera en la peticion
         dict_response = {
             'OK':"",
             'error_username': "",
@@ -93,6 +101,7 @@ class UsuarioRegistrar(APIView):
             # Comprobamos que no exista el usuario
             dict_response['error_username'] = "El usuario ya existe"
 
+        # Comprobamos la contraseña
         if len(password) < 8:
             dict_response['error_password'] = "Contraseña inferior a 8 carácteres"
             any_error = 1
@@ -101,6 +110,7 @@ class UsuarioRegistrar(APIView):
             dict_response['error_confirm_password'] = "Contraseñas diferentes"
             any_error = 1
         
+        # Comprobamos el correo
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' 
         if not correo:
             dict_response['error_correo'] = "Correo no puede estar vacio"
@@ -112,20 +122,21 @@ class UsuarioRegistrar(APIView):
             dict_response['error_correo'] = "El correo ya esta en uso"
             any_error = 1
 
-        # Fecha nacimiento formato
+        # Comprobamos el formato de la fecha de nacimiento
         try:
             datetime.strptime(fecha_nac, '%Y-%m-%d')
         except ValueError:
             dict_response['error_fecha_nac'] = "Formato fecha nacimiento invalido(YY-MM-DD)"
 
-        if any_error !=0:
-            dict_response['OK'] = "False"
-        else:
+        # Si tenemos errores
+        if any_error ==0:
             # Creamos el registro en la base de datos
             user = Usuario.objects.create(username=username, correo=correo,fecha_nac=fecha_nac,password=password)
             user.set_password(password)
             user.save()
             dict_response['OK'] = "True"
+        else:
+            dict_response['OK'] = "False"
         return Response(dict_response)
 
     
@@ -134,6 +145,11 @@ class UsuarioDatos(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        #Con esto comprobamos si el usuario tiene acceso a la informacion
+        username, token = get_username_and_token(request)
+        if(not isAuthorized(token,username)):
+            return Response({"detail":"No tienes acceso a la informacion"}, status=401)
+        
         any_error = 0
         dict_response = {
             'OK':"",
@@ -143,8 +159,7 @@ class UsuarioDatos(APIView):
             'monedas': "",
             'amigos':[],
         }
-        username = request.GET.get('username')
-        # Comprobamos los posibles errores
+
         if Usuario.objects.filter(username=username).exists():
             user = Usuario.objects.get(username=username)
             amigos = Amigos.objects.filter(username=username)
@@ -153,7 +168,8 @@ class UsuarioDatos(APIView):
             dict_response['fecha_nac'] = user.fecha_nac
             dict_response['monedas'] = user.monedas    
             for amigo in amigos:
-                dict_response['amigos'].append(amigo.amigo_id)       
+                dict_response['amigos'].append(str(amigo.amigo))      
+            print(dict_response) 
             dict_response['OK'] = "True"
         else:
             dict_response['OK'] = "False"
@@ -161,13 +177,20 @@ class UsuarioDatos(APIView):
 
 
 class UsuarioAddAmigo(APIView):
+    #Necesita la autenticazion
+    permission_classes = [IsAuthenticated]
     def post(self, request):
+        #Con esto comprobamos si el usuario tiene acceso a la informacion
+        username, token = get_username_and_token(request)
+        if(not isAuthorized(token,username)):
+            return Response({"detail":"No tienes acceso a la informacion"}, status=401)
+        
         any_error = 0
         dict_response = {
             'OK':"",
             'error':""
         }
-        username = request.data.get('username')
+
         amigo = request.data.get('amigo')
 
         if not Usuario.objects.filter(username=username).exists():
@@ -189,7 +212,7 @@ class UsuarioAddAmigo(APIView):
         if any_error ==0:
             usuario_instance = get_object_or_404(Usuario, username=username)
             amigo_instance = get_object_or_404(Usuario, username=amigo)
-            amigo_db = Amigos.objects.create(username=usuario_instance,amigo=amigo_instance)
+            amigo_db = Amigos.objects.create(username_id=usuario_instance,amigo_id=amigo_instance)
             amigo_db.save()
             dict_response['OK'] = "True"
         else:
