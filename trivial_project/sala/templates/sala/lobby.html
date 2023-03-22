@@ -19,7 +19,7 @@
 
     <script type="text/javascript">
         let room_name = "{{room_name}}";  // replace with the actual room name
-        let url = `ws://${window.location.host}/ws/socket-server/${room_name}/`;
+        let url = `wss://${window.location.host}/ws/socket-server/${room_name}/`;
 
         const chatSocket = new WebSocket(url)
 
