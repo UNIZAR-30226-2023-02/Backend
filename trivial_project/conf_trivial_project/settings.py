@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ["*"]
 
 #Para hacer pruebas permitir todos los hosts
 if not DEBUG:
-   ALLOWED_HOSTS = ["https://trivial-ps.azurewebsites.net"]
+   ALLOWED_HOSTS = ["*"]
 
 # RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 # if RENDER_EXTERNAL_HOSTNAME:
