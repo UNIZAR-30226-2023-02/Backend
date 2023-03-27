@@ -69,10 +69,11 @@ ASGI_APPLICATION = 'conf_trivial_project.asgi.application'
 #Esto hay que cambiarlo en produccion(deployment)
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
-        },
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+        # "BACKEND": "channels_redis.core.RedisChannelLayer",
+        # "CONFIG": {
+        #     "hosts": [("127.0.0.1", 6379)],
+        # },
     },
 }
 
@@ -148,6 +149,7 @@ if not DEBUG:
 
 
 
+
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 CORS_ORIGIN_WHITELIST = [
@@ -160,15 +162,18 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
 ]
 
+
+
+
 if not DEBUG:
     CORS_ORIGIN_WHITELIST = [
-
+    'http://51.142.118.71:8000',
     ]
 
     CSRF_TRUSTED_ORIGINS = [
-
+    'http://51.142.118.71:8000',
     ]
-
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Password validation
@@ -205,10 +210,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -233,3 +234,5 @@ AUTHENTICATION_BACKENDS = (
 )
 
 FILE_UPLOAD_PERMISSIONS = 0o640
+
+STATIC_URL = '/static/'

@@ -14,11 +14,7 @@
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
         const chatSocket = new WebSocket(
-            'wss://'
-            + window.location.host
-            + '/ws/chat/'
-            + roomName
-            + '/'
+            'ws://'+ window.location.host+ '/ws/chat/'+ roomName+ '/'  // windows.locationlhost es la ip + puerto
         );
 
         chatSocket.onmessage = function(e) {
