@@ -40,7 +40,6 @@ def get_token(request):
     return extract_token(token)
 
 
-
 class UsuarioLogin(APIView):
     def post(self, request):
         any_error = 0
@@ -89,19 +88,25 @@ class UsuarioRegistrar(APIView):
             'error_confirm_password': "",
             'error_fecha_nac': "",
             'error_correo': "",
+            'error_telefono':"",
         }
         username = request.data.get('username')
         password = request.data.get('password')
         confirm_password = request.data.get('confirm_password')
         fecha_nac = request.data.get('fecha_nac')
         correo = request.data.get('correo')
+        telefono = request.data.get('telefono')
 
-        # Comprobamos los posibles errores
-        if Usuario.objects.filter(username=username).exists():
+        # Check usuario
+        if not username:
+            dict_response['error_username'] = "El usuario no puede ser vacio"
+            any_error = 1
+        elif Usuario.objects.filter(username=username).exists():
             # Comprobamos que no exista el usuario
             dict_response['error_username'] = "El usuario ya existe"
+            any_error = 1
 
-        # Comprobamos la contraseña
+        # Check contraseña
         if len(password) < 8:
             dict_response['error_password'] = "Contraseña inferior a 8 carácteres"
             any_error = 1
@@ -110,7 +115,7 @@ class UsuarioRegistrar(APIView):
             dict_response['error_confirm_password'] = "Contraseñas diferentes"
             any_error = 1
         
-        # Comprobamos el correo
+        # # Check correo
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' 
         if not correo:
             dict_response['error_correo'] = "Correo no puede estar vacio"
@@ -122,7 +127,15 @@ class UsuarioRegistrar(APIView):
             dict_response['error_correo'] = "El correo ya esta en uso"
             any_error = 1
 
-        # Comprobamos el formato de la fecha de nacimiento
+        # Check telefono
+        if not telefono:
+            dict_response['error_telefono'] = "El telefono no puede estar vacio"
+            any_error = 1
+        elif len(telefono) < 9:
+            dict_response['error_telefono'] = "Telefono inferior a 9 numeros"
+            any_error = 1
+            
+        # Check fecha nacimiento
         try:
             datetime.strptime(fecha_nac, '%Y-%m-%d')
         except ValueError:
@@ -131,7 +144,7 @@ class UsuarioRegistrar(APIView):
         # Si tenemos errores
         if any_error ==0:
             # Creamos el registro en la base de datos
-            user = Usuario.objects.create(username=username, correo=correo,fecha_nac=fecha_nac,password=password)
+            user = Usuario.objects.create(username=username, correo=correo,telefono = telefono,fecha_nac=fecha_nac,password=password)
             user.set_password(password)
             user.save()
             dict_response['OK'] = "True"
@@ -139,7 +152,6 @@ class UsuarioRegistrar(APIView):
             dict_response['OK'] = "False"
         return Response(dict_response)
 
-    
 class UsuarioDatos(APIView):
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]

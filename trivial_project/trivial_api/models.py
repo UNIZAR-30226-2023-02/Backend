@@ -27,6 +27,7 @@ class Pregunta(models.Model):
 class Usuario(AbstractUser):
     username = models.CharField(default="ad",max_length=50, unique=True)
     correo = models.EmailField(default="example@gmail.com",blank=False,null=False,unique=True)
+    telefono = models.IntegerField(default=0)
     fecha_nac = models.DateField(default="1997-10-19")
     password = models.CharField(default="",max_length=200) #La contraseña cifrada ocupa 128 caracteres
     monedas = models.IntegerField(default=0)
@@ -139,10 +140,6 @@ class Adquirido(models.Model):
 
 
 class Sala(models.Model):
-    nombre_sala = models.CharField(max_length=50)
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username",related_name='sala_username')
-    n_jugadores = models.IntegerField(default=0)
-    password_sala = models.CharField(max_length=50)
     PARTIDA_CHOICES = [
         ('C', 'Clasico'),
         ('E', 'Equipo'),
@@ -154,7 +151,10 @@ class Sala(models.Model):
         ('Pub', 'Publico'),
         ('Priv', 'Privado'),
     ]
-
+    nombre_sala = models.CharField(max_length=50)
+    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username",related_name='sala_username')
+    n_jugadores = models.IntegerField(default=0)
+    password_sala = models.CharField(max_length=50)
     tipo_partida = models.CharField(max_length=10,choices=PARTIDA_CHOICES)
     tipo_sala = models.CharField(max_length=10,choices=SALA_CHOICES)
 
