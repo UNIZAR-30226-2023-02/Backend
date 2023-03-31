@@ -11,9 +11,15 @@ urlpatterns = [
     # Posible problema, que un usuarios que no sea el vea o agrege amigos a otros usuarios
     path('usuarios/datos/', UsuarioDatos.as_view()),
     path('usuarios/add/amigo/', UsuarioAddAmigo.as_view()),
+    path('salas/crear/', SalaCrear.as_view()),
+    path('salas/unir/', SalaUnirse.as_view()),
+    path('salas/lista-salas/', SalaLista.as_view()),
+    path('salas/lista-jugadores-sala/', SalaListaJugadoresSala.as_view()),
 
-    #path('salas/crear/', UsuarioDatos.as_view()),
-     
+    path('partidas/empezar/', SalaUnirse.as_view()),
+
+
+
     #path('usuarios/eliminar/', .as_view()),
     
 

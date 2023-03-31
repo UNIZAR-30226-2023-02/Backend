@@ -24,7 +24,7 @@ SECRET_KEY = "django-insecure-fxjcca#eigq-w_x&k+z!39@nd5a8wn$8zo$f%cm%4i(d)o05cn
 
 SITE_NAME = 'Trivial'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -56,7 +56,7 @@ PROJECT_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    #'corsheaders',
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     "whitenoise.runserver_nostatic",
@@ -78,7 +78,7 @@ CHANNEL_LAYERS = {
 }
 
 MIDDLEWARE = [
-    #'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -146,10 +146,6 @@ if not DEBUG:
     }
 
 
-
-
-
-
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # CORS_ORIGIN_WHITELIST = [
@@ -157,10 +153,10 @@ DATABASES["default"]["ATOMIC_REQUESTS"] = True
 #     'http://localhost:8000',
 # ]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     'http://localhost:3000',
-#     'http://localhost:8000',
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://localhost:8000',
+]
 
 
 

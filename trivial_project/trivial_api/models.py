@@ -139,22 +139,23 @@ class Adquirido(models.Model):
         db_table = "Adquirido"
 
 
+
 class Sala(models.Model):
     PARTIDA_CHOICES = [
-        ('C', 'Clasico'),
-        ('E', 'Equipo'),
-        ('D', 'Desafio'),
-        ('T', 'Tematico'),
+        ('Clasico', 'Clasico'),
+        ('Equipo', 'Equipo'),
+        ('Tematico', 'Tematico'),
     ]
 
     SALA_CHOICES = [
-        ('Pub', 'Publico'),
-        ('Priv', 'Privado'),
+        ('Publico', 'Publico'),
+        ('Privado', 'Privado'),
     ]
-    nombre_sala = models.CharField(max_length=50)
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username",related_name='sala_username')
+    nombre_sala = models.CharField(max_length=50,primary_key=True)
+    creador = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="creador",related_name='creador_sala')
+    tiempo_respuesta = models.IntegerField(default=15)
     n_jugadores = models.IntegerField(default=0)
-    password_sala = models.CharField(max_length=50)
+    password_sala = models.CharField(default="",max_length=200) #La contraseña cifrada ocupa 128 caracteres
     tipo_partida = models.CharField(max_length=10,choices=PARTIDA_CHOICES)
     tipo_sala = models.CharField(max_length=10,choices=SALA_CHOICES)
 
@@ -165,7 +166,16 @@ class Sala(models.Model):
         return check_password(raw_password, self.password_sala)
     
     class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['nombre_sala', 'username'], name='sala_pk')
-        ] 
         db_table = "Sala"
+
+
+#Guardamos los usuarios de la sala y al equipo que pertenecen
+class UsuariosSala(models.Model):
+    nombre_sala = models.ForeignKey(Sala,on_delete=models.CASCADE,to_field='nombre_sala',db_column="nombre_sala",related_name='usuarios_sala_usuario_nombre_sala')
+    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username",related_name='usuarios_sala_usuario')
+    equipo = models.IntegerField(default=1)
+    class Meta:
+        constraints = [
+        models.UniqueConstraint(fields=['nombre_sala', 'username'], name='usuario_sala_pk')
+        ] 
+        db_table = "UsuariosSala"

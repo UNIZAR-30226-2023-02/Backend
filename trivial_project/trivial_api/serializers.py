@@ -1,10 +1,26 @@
-# from rest_framework import serializers
-# from .models import *
-# from datetime import datetime
-# import re
-# #Token
-# from rest_framework.authtoken.models import Token
-# from rest_framework.permissions import IsAuthenticated
+from rest_framework import serializers
+from .models import *
+from datetime import datetime
+import re
+#Token
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
+
+
+#Serializador de la sala
+class SalaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sala
+        fields = ('nombre_sala', 'creador', 'tiempo_respuesta', 'n_jugadores', 'tipo_partida', 'tipo_sala')
+
+
+
+
+
+
+
+
+
 
 # class UsuarioLoginSerializer(serializers.Serializer):
 #     username = serializers.CharField()
