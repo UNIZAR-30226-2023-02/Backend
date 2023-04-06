@@ -5,22 +5,23 @@ from rest_framework import permissions
 
 
 urlpatterns = [
-    #path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
+
+    # Endpoints para usuarios
     path('usuarios/login/', UsuarioLogin.as_view()),
     path('usuarios/register/', UsuarioRegistrar.as_view()),
-    # Posible problema, que un usuarios que no sea el vea o agrege amigos a otros usuarios
     path('usuarios/datos/', UsuarioDatos.as_view()),
     path('usuarios/add/amigo/', UsuarioAddAmigo.as_view()),
+
+    #Endpoints para las salas
     path('salas/crear/', SalaCrear.as_view()),
     path('salas/unir/', SalaUnirse.as_view()),
     path('salas/lista-salas/', SalaLista.as_view()),
     path('salas/lista-jugadores-sala/', SalaListaJugadoresSala.as_view()),
 
+    #Endpoints para las partidas
     path('partidas/empezar/', SalaUnirse.as_view()),
 
 
-
-    #path('usuarios/eliminar/', .as_view()),
     
 
 

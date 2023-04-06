@@ -16,6 +16,10 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 
 
+def isascii(s):
+    """Check if the characters in string s are in ASCII, U+0-U+7F."""
+    return len(s) == len(s.encode())
+
 def extract_token(token):
     return token[6:]
 
@@ -98,7 +102,13 @@ class UsuarioRegistrar(APIView):
         telefono = request.data.get('telefono')
 
         # Check usuario
-        if not username:
+        if isascii(username):
+            dict_response['error_username'] = "El usuario no puede tener caracteres no ASCII"
+            any_error = 1
+        elif len(username) < 1 and len(username) > 20:
+            dict_response['error_username'] = "El usuario no tiene la longitud correcta. (1,20)"
+            any_error = 1
+        elif not username:
             dict_response['error_username'] = "El usuario no puede ser vacio"
             any_error = 1
         elif Usuario.objects.filter(username=username).exists():
@@ -107,7 +117,10 @@ class UsuarioRegistrar(APIView):
             any_error = 1
 
         # Check contraseña
-        if len(password) < 8:
+        if isascii(password):
+            dict_response['error_password'] = "Contraseña no ASCII"
+            any_error = 1
+        elif len(password) < 8:
             dict_response['error_password'] = "Contraseña inferior a 8 carácteres"
             any_error = 1
         elif password != confirm_password:
@@ -115,7 +128,7 @@ class UsuarioRegistrar(APIView):
             dict_response['error_confirm_password'] = "Contraseñas diferentes"
             any_error = 1
         
-        # # Check correo
+        # Check correo
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' 
         if not correo:
             dict_response['error_correo'] = "Correo no puede estar vacio"
@@ -131,7 +144,10 @@ class UsuarioRegistrar(APIView):
         if not telefono:
             dict_response['error_telefono'] = "El telefono no puede estar vacio"
             any_error = 1
-        elif len(telefono) < 9:
+        elif not telefono.isnumeric():
+            dict_response['error_telefono'] = "Telefono no numerico "
+            any_error = 1
+        elif len(telefono) < 9 :
             dict_response['error_telefono'] = "Telefono inferior a 9 numeros"
             any_error = 1
             
@@ -139,7 +155,7 @@ class UsuarioRegistrar(APIView):
         try:
             datetime.strptime(fecha_nac, '%Y-%m-%d')
         except ValueError:
-            dict_response['error_fecha_nac'] = "Formato fecha nacimiento invalido(YY-MM-DD)"
+            dict_response['error_fecha_nac'] = "Formato fecha nacimiento invalido(YYYY-MM-DD)"
 
         # Si tenemos errores
         if any_error ==0:
@@ -156,7 +172,7 @@ class UsuarioDatos(APIView):
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def post(self, request):
         #Con esto comprobamos si el usuario tiene acceso a la informacion
         username, token = get_username_and_token(request)
         if(not isAuthorized(token,username)):
@@ -264,7 +280,10 @@ class SalaCrear(APIView):
         if Sala.objects.filter(nombre_sala=nombre_sala).exists():
             any_error = 1
             dict_response['error_nombre_sala'] = "La sala ya existe, selecciona otro nombre"
-        
+        elif not nombre_sala.isascii():
+            any_error = 1
+            dict_response['error_nombre_sala'] = "La sala no puede tener valores no ASCII"
+            
         #Check tipo_sala
         if tipo_sala not in dict(Sala.SALA_CHOICES):
             any_error = 1
