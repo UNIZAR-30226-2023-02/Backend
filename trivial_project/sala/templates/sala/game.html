@@ -14,7 +14,7 @@
         const gameName = JSON.parse(document.getElementById('game-name').textContent);
 
         const gameSocket = new WebSocket(
-            'ws://'+ window.location.host+ '/ws/lobby/'+ gameName+ '/'  // windows.locationlhost es la ip + puerto
+            'ws://'+ window.location.host+ '/ws/game/'+ gameName+ '/'  // windows.locationlhost es la ip + puerto
         );
 
         gameSocket.onmessage = function(e) {
