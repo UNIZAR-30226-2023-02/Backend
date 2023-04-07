@@ -21,8 +21,7 @@ urlpatterns = [
     path('',RedirectView.as_view(url='/api/', permanent=True)),
     path('api/',include('trivial_api.urls')),
     path('admin/', admin.site.urls),
-    path('lobby/', include('sala.urls')),
-    path('game/', include('sala.urls'))
+    path('lobby/', include('sala.urls'))
 ]
 
 # Para conectar django con react -> Video(32:35) : https://www.youtube.com/watch?v=EscHWLV43NQ
