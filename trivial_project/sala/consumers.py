@@ -1,4 +1,4 @@
-# chat/consumers.py
+# lobby/consumers.py
 import json
 from trivial_api.models import *
 from asgiref.sync import async_to_sync,sync_to_async
@@ -10,7 +10,7 @@ from channels.generic.websocket import WebsocketConsumer
 class SalaConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
-        self.room_group_name = "chat_%s" % self.room_name
+        self.room_group_name = "lobby_%s" % self.room_name
 
         #Comprobamos si la sala existe, en caso de que no exista denegamos el acceso
         if not Sala.objects.filter(nombre_sala=self.room_name).exists():
@@ -34,10 +34,10 @@ class SalaConsumer(WebsocketConsumer):
         )
 
 
-class ChatConsumer(WebsocketConsumer):
+class lobbyConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
-        self.room_group_name = "chat_%s" % self.room_name
+        self.room_group_name = "lobby_%s" % self.room_name
 
         #Comprobamos si la sala existe, en caso de que no exista denegamos el acceso
         if not Sala.objects.filter(nombre_sala=self.room_name).exists():
@@ -68,11 +68,11 @@ class ChatConsumer(WebsocketConsumer):
 
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name, {"type": "chat_message", "message": message}
+            self.room_group_name, {"type": "lobby_message", "message": message}
         )
 
     # Receive message from room group
-    def chat_message(self, event):
+    def lobby_message(self, event):
         message = event["message"]
 
         # Send message to WebSocket

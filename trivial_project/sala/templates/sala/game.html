@@ -1,29 +1,29 @@
-<!-- lobby/templates/lobby/room.html -->
+<!-- chat/templates/chat/game.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>Room</title>
+    <title>Game</title>
 </head>
 <body>
     <textarea id="chat-log" cols="100" rows="20"></textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
-    {{ room_name|json_script:"room-name" }}
+    {{ game_name|json_script:"game-name" }}
     <script>
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const gameName = JSON.parse(document.getElementById('game-name').textContent);
 
-        const lobbySocket = new WebSocket(
-            'ws://'+ window.location.host+ '/ws/lobby/'+ roomName+ '/'  // windows.locationlhost es la ip + puerto
+        const gameSocket = new WebSocket(
+            'ws://'+ window.location.host+ '/ws/lobby/'+ gameName+ '/'  // windows.locationlhost es la ip + puerto
         );
 
-        lobbySocket.onmessage = function(e) {
+        gameSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             document.querySelector('#chat-log').value += (data.message + '\n');
         };
 
-        lobbySocket.onclose = function(e) {
-            console.error('lobby socket closed unexpectedly');
+        gameSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
         };
 
         document.querySelector('#chat-message-input').focus();
@@ -36,7 +36,7 @@
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
-            lobbySocket.send(JSON.stringify({
+            gameSocket.send(JSON.stringify({
                 'message': message
             }));
             messageInputDom.value = '';
