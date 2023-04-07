@@ -18,7 +18,7 @@ from rest_framework.permissions import IsAuthenticated
 
 def isascii(s):
     """Check if the characters in string s are in ASCII, U+0-U+7F."""
-    return s.isascii()
+    return len(s) != len(s.encode())
 
 def extract_token(token):
     return token[6:]
