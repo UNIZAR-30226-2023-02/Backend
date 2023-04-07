@@ -44,6 +44,7 @@
         };
 
         document.querySelector('#game-start').onclick = function(e) {
+            lobbySocket.close();
             window.location.pathname = '/game/' + roomName + '/';
         };
     </script>
