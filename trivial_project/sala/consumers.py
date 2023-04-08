@@ -119,6 +119,7 @@ class GameConsumers(WebsocketConsumer):
             'RC': "",
             'queso': "",
             'esCorrecta': "",
+            'mensage_chat': "",
             'error': "",
         }
 
