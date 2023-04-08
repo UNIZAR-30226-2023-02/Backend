@@ -77,3 +77,101 @@ class lobbyConsumer(WebsocketConsumer):
 
         # Send message to WebSocket
         self.send(text_data=json.dumps({"message": message}))
+
+class GameConsumers(WebsocketConsumer):
+    def connect(self):
+        
+        #Calcular numero de usuarios conectados, si es 6 o igual a el numero de jugdores en la sala anteriro se empieza
+        self.accept()
+    
+    def disconnect(self, close_code):
+        # Leave room group
+        
+    
+    def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        fin = false
+        response = gestionar_mensaje_entrante(self, text_data_json, fin)
+
+
+        if fin == false:
+            self.send(response)
+        else:
+            self.close()
+
+    def gestionar_mensaje_entrante(self, text_data_json, fin):
+
+        response = {
+
+            'OK':"",
+            'jugador':"",
+            'type':"",
+            'subtype': "",
+            'valor_dado': "",
+            'casilla_anterior': "",
+            'casilla_elegida': "",
+            'casillas_nuevas': "",
+            'pregunta': "",
+            'r1': "",
+            'r2': "",
+            'r3': "",
+            'r4': "",
+            'RC': "",
+            'queso': "",
+            'esCorrecta': "",
+            'error': "",
+        }
+
+        if text_data_json["OK"] == "true":
+            if text_data_json["type"] == "Peticion":
+                if text_data_json["subtype"] == "Tirar dado":
+                    tirada = tirar_dado()
+                    casillas_posibles = calcular_sig_movimiento(tirada, text_data_json["casilla_anterior"])
+                    response['valor_dado'] = tirada
+                    response['jugador'] = text_data_json["jugador"]
+                    response['casillas_nuevas'] = casillas_nuevas
+                    response['type'] = "Respuesta"
+                    response['subtype'] = "Dado_casillas"
+
+                elif text_data_json["subtype"] == "Movimiento casilla":
+                    pregunta = elegir_pregunta(text_data_json["casilla_elegida"])
+                    response['pregunta'] = pregunta[0]
+                    response['r1'] = pregunta[1]
+                    response['r2'] = pregunta[2]
+                    response['r3'] = pregunta[3]
+                    response['r4'] = pregunta[4]
+                    response['RC'] = pregunta[5]
+                    response['queso'] = pregunta[6]
+                    response['jugador'] = text_data_json["jugador"]
+                    response['type'] = "Respuesta"
+                    response['subtype'] = "Pregunta"
+                
+            elif text_data_json["type"] == "Actualizacion":
+                if text_data_json["esCorrecta"] == "true":
+                    fin = false
+                    if text_data_json["queso"] != "false":
+                        fin = marcar_queso(text_data_json["queso"]) #Se envia que categoria de queso es Historia, arte... o false si no es
+
+                    response['jugador'] = text_data_json["jugador"]
+                    if fin == true:
+                        response['type'] = "Fin"
+                    else:
+                        response['type'] = "Accion"
+                        response['subtype'] = "Dados"
+                elif text_data_json["esCorrecta"] == "false":
+                    response['jugador'] = calcular_sig_jugador(text_data_json["jugador"])
+                    response['type'] = "Accion"
+                    response['subtype'] = "Dados"
+                else:
+                    #error
+            elif text_data_json["type"] == "Fin":
+                fin = true
+            else:
+                #Error el backend solo recive Peticiones y Actualizaciones
+            
+            response['OK'] = "true"
+        else:
+            response['OK'] = "false"
+            response['error'] = text_data_json["error"]
+
+        return json.dumps(response)
