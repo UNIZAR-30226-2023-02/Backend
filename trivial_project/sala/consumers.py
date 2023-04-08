@@ -81,6 +81,7 @@ class lobbyConsumer(WebsocketConsumer):
 class GameConsumers(WebsocketConsumer):
     def connect(self):
         
+        ###TODO
         #Calcular numero de usuarios conectados, si es 6 o igual a el numero de jugdores en la sala anteriro se empieza
         self.accept()
     
@@ -92,7 +93,6 @@ class GameConsumers(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         fin = false
         response = gestionar_mensaje_entrante(self, text_data_json, fin)
-
 
         if fin == false:
             self.send(response)
@@ -124,17 +124,17 @@ class GameConsumers(WebsocketConsumer):
 
         if text_data_json["OK"] == "true":
             if text_data_json["type"] == "Peticion":
-                if text_data_json["subtype"] == "Tirar dado":
-                    tirada = tirar_dado()
-                    casillas_posibles = calcular_sig_movimiento(tirada, text_data_json["casilla_anterior"])
+                if text_data_json["subtype"] == "Tirar_dado":
+                    tirada = tirar_dado()###TODO
+                    casillas_posibles = calcular_sig_movimiento(tirada, text_data_json["casilla_anterior"])###TODO
                     response['valor_dado'] = tirada
                     response['jugador'] = text_data_json["jugador"]
                     response['casillas_nuevas'] = casillas_nuevas
                     response['type'] = "Respuesta"
                     response['subtype'] = "Dado_casillas"
 
-                elif text_data_json["subtype"] == "Movimiento casilla":
-                    pregunta = elegir_pregunta(text_data_json["casilla_elegida"])
+                elif text_data_json["subtype"] == "Movimiento_casilla":
+                    pregunta = elegir_pregunta(text_data_json["casilla_elegida"])###TODO
                     response['pregunta'] = pregunta[0]
                     response['r1'] = pregunta[1]
                     response['r2'] = pregunta[2]
@@ -150,7 +150,7 @@ class GameConsumers(WebsocketConsumer):
                 if text_data_json["esCorrecta"] == "true":
                     fin = false
                     if text_data_json["queso"] != "false":
-                        fin = marcar_queso(text_data_json["queso"]) #Se envia que categoria de queso es Historia, arte... o false si no es
+                        fin = marcar_queso(text_data_json["queso"])###TODO
 
                     response['jugador'] = text_data_json["jugador"]
                     if fin == true:
@@ -159,7 +159,7 @@ class GameConsumers(WebsocketConsumer):
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
                 elif text_data_json["esCorrecta"] == "false":
-                    response['jugador'] = calcular_sig_jugador(text_data_json["jugador"])
+                    response['jugador'] = calcular_sig_jugador(text_data_json["jugador"])###TODO
                     response['type'] = "Accion"
                     response['subtype'] = "Dados"
                 else:
