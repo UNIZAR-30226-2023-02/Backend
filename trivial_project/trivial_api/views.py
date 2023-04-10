@@ -18,7 +18,7 @@ from rest_framework.permissions import IsAuthenticated
 
 def isascii(s):
     """Check if the characters in string s are in ASCII, U+0-U+7F."""
-    return len(s) != len(s.encode())
+    return len(s) == len(s.encode())
 
 def extract_token(token):
     return token[6:]
@@ -102,14 +102,14 @@ class UsuarioRegistrar(APIView):
         telefono = request.data.get('telefono')
 
         # Check usuario
-        if isascii(username):
+        if not isascii(username):
             dict_response['error_username'] = "El usuario no puede tener caracteres no ASCII"
-            any_error = 1
-        elif len(username) < 1 and len(username) > 20:
-            dict_response['error_username'] = "El usuario no tiene la longitud correcta. (1,20)"
             any_error = 1
         elif not username:
             dict_response['error_username'] = "El usuario no puede ser vacio"
+            any_error = 1
+        elif len(username) < 1 or len(username) > 20:
+            dict_response['error_username'] = "El usuario no tiene la longitud correcta. (1,20)"
             any_error = 1
         elif Usuario.objects.filter(username=username).exists():
             # Comprobamos que no exista el usuario
@@ -117,13 +117,13 @@ class UsuarioRegistrar(APIView):
             any_error = 1
 
         # Check contraseña
-        if isascii(password):
+        if not isascii(password):
             dict_response['error_password'] = "Contraseña no ASCII"
             any_error = 1
         elif len(password) < 8:
             dict_response['error_password'] = "Contraseña inferior a 8 carácteres"
             any_error = 1
-        elif password != confirm_password:
+        elif password != confirm_password: # Hacer que comprueben que es la misma en el front-end
             dict_response['error_password'] = "Contraseñas diferentes"
             dict_response['error_confirm_password'] = "Contraseñas diferentes"
             any_error = 1
