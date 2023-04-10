@@ -87,17 +87,8 @@ class GameConsumers(WebsocketConsumer):
     
     def disconnect(self, close_code):
         # Leave room group
+        print("")
         
-    
-    def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        fin = false
-        response = gestionar_mensaje_entrante(self, text_data_json, fin)
-
-        if fin == false:
-            self.send(response)
-        else:
-            self.close()
 
     def gestionar_mensaje_entrante(self, text_data_json, fin):
 
@@ -130,7 +121,7 @@ class GameConsumers(WebsocketConsumer):
                     casillas_posibles = calcular_sig_movimiento(tirada, text_data_json["casilla_anterior"])###TODO
                     response['valor_dado'] = tirada
                     response['jugador'] = text_data_json["jugador"]
-                    response['casillas_nuevas'] = casillas_nuevas
+                    response['casillas_nuevas'] = casillas_posibles
                     response['type'] = "Respuesta"
                     response['subtype'] = "Dado_casillas"
 
@@ -149,12 +140,12 @@ class GameConsumers(WebsocketConsumer):
                 
             elif text_data_json["type"] == "Actualizacion":
                 if text_data_json["esCorrecta"] == "true":
-                    fin = false
+                    fin = False
                     if text_data_json["queso"] != "false":
                         fin = marcar_queso(text_data_json["queso"])###TODO
 
                     response['jugador'] = text_data_json["jugador"]
-                    if fin == true:
+                    if fin == True:
                         response['type'] = "Fin"
                     else:
                         response['type'] = "Accion"
@@ -164,11 +155,10 @@ class GameConsumers(WebsocketConsumer):
                     response['type'] = "Accion"
                     response['subtype'] = "Dados"
                 else:
-                    #error
-            elif text_data_json["type"] == "Fin":
-                fin = true
+                    print("")
             else:
                 #Error el backend solo recive Peticiones y Actualizaciones
+                print("")
             
             response['OK'] = "true"
         else:
@@ -176,3 +166,13 @@ class GameConsumers(WebsocketConsumer):
             response['error'] = text_data_json["error"]
 
         return json.dumps(response)
+
+    def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        fin = False
+        response = self.gestionar_mensaje_entrante(text_data_json, fin)
+
+        if fin == False:
+            self.send(response)
+        else:
+            self.close()
