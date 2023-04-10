@@ -78,6 +78,7 @@ class lobbyConsumer(WebsocketConsumer):
         # Send message to WebSocket
         self.send(text_data=json.dumps({"message": message}))
 
+"""
 class GameConsumers(WebsocketConsumer):
     def connect(self):
         
@@ -176,3 +177,4 @@ class GameConsumers(WebsocketConsumer):
             self.send(response)
         else:
             self.close()
+"""
