@@ -24,20 +24,21 @@ def extract_token(token):
     return token[6:]
 
 #Comprobamos que el token pertenece al usuario que realmente quiere acceder
-def isAuthorized(token,username):
-    user_id = get_object_or_404(Usuario, username=username).id
-    token_user_id = Token.objects.get(key=token).user_id
-    if(user_id == token_user_id):
-        return True
-    return False
+# def isAuthorized(token):
+#     #user_id = get_object_or_404(Usuario, username=username).id
+#     token_user = Token.objects.filter(key=token).first() or None
+#     if(token_user):
+#         return True
+#     return False
 
 def get_username_and_token(request):
-    if request.method == 'POST':
-        username = request.data.get('username')
-    elif request.method == 'GET':
-        username = request.GET.get('username')
     token= request.headers['Authorization']
-    return username,extract_token(token)
+    token = extract_token(token)
+    user_id = Token.objects.filter(key=token).first().user_id or None
+    user = Usuario.objects.filter(id=user_id).first() or None
+    username = user.username
+
+    return username,token
 
 def get_token(request):
     token= request.headers['Authorization']
@@ -175,8 +176,6 @@ class UsuarioDatos(APIView):
     def post(self, request):
         #Con esto comprobamos si el usuario tiene acceso a la informacion
         username, token = get_username_and_token(request)
-        if(not isAuthorized(token,username)):
-            return Response({"detail":"No tienes acceso a la informacion"}, status=401)
         
         any_error = 0
         dict_response = {
@@ -210,8 +209,6 @@ class UsuarioAddAmigo(APIView):
     def post(self, request):
         #Con esto comprobamos si el usuario tiene acceso a la informacion
         username, token = get_username_and_token(request)
-        if(not isAuthorized(token,username)):
-            return Response({"detail":"No tienes acceso a la informacion"}, status=401)
         
         any_error = 0
         dict_response = {
