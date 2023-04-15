@@ -3,4 +3,5 @@ django-cors-headers
 djangorestframework
 whitenoise
 attrs
+daphne
 channels==3.0.5

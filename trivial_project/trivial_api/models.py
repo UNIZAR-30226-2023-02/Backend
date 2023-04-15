@@ -23,6 +23,12 @@ class Pregunta(models.Model):
     class Meta:
         db_table = "Pregunta"
 
+class Tablero(models.Model):
+    casilla_actual = models.IntegerField(max_length = 2,primary_key = True)
+    tirada_dado = models.IntegerField(max_length = 2, null = False)
+    casilla_nueva = models.IntegerField(max_length = 2, null = False)
+    class Meta:
+        db_table = "Tablero"
 
 # Tiene un campo que es id, el cual es la clave primaria
 class Usuario(AbstractUser):
