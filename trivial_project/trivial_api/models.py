@@ -24,6 +24,7 @@ class Pregunta(models.Model):
         db_table = "Pregunta"
 
 
+# Tiene un campo que es id, el cual es la clave primaria
 class Usuario(AbstractUser):
     username = models.CharField(default="ad",max_length=50, unique=True)
     correo = models.EmailField(default="example@gmail.com",blank=False,null=False,unique=True)
@@ -43,19 +44,19 @@ class Usuario(AbstractUser):
         db_table = "Usuario"
 
 class Amigos(models.Model):
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username", related_name='amigos_username')
-    amigo = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="amigo",related_name='amigos_amigo')
+    user_id = models.ForeignKey(Usuario, on_delete=models.CASCADE,db_column="user_id", related_name='amigos_username_id')
+    amigo_id = models.ForeignKey(Usuario, on_delete=models.CASCADE,db_column="amigo_id",related_name='amigos_amigo_id')
     #pendiente = models.BooleanField()
     #This method will be called by Django Validation Framework before saving the instance to the database
     # and if the username and amigo are the same will raise an exception
     def clean(self):
-        if self.username == self.amigo:
+        if self.user_id == self.amigo_id:
             raise ValidationError('Username and amigo must be different.')
         
     class Meta:
         #Para indicar que la clave primaria es multiple
         constraints = [
-            models.UniqueConstraint(fields=['username', 'amigo'], name='amigos_pk')
+            models.UniqueConstraint(fields=['user_id', 'amigo_id'], name='amigos_pk')
         ] 
         db_table = "Amigos"
     
@@ -76,7 +77,7 @@ class Partida(models.Model):
 
 class Historico(models.Model):
     id_partida = models.ForeignKey(Partida, on_delete=models.CASCADE,related_name='historico_id_partida')
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username",related_name='historico_username')
+    user_id = models.ForeignKey(Usuario,on_delete=models.CASCADE,db_column="user_id",related_name='historico_username')
     he_ganado = models.BooleanField()
     preguntas_respondidas = models.IntegerField(0)
     quesitos = models.IntegerField(0)
@@ -89,13 +90,13 @@ class Historico(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['id_partida', 'username'], name='historico_pk')
+            models.UniqueConstraint(fields=['id_partida', 'user_id'], name='historico_pk')
         ] 
         db_table = "Historico"
 
 
 class Estadisticas(models.Model):
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username",related_name='estadisticas_username')
+    user_id = models.ForeignKey(Usuario,on_delete=models.CASCADE,db_column="user_id",related_name='estadisticas_username')
     geografia_bien = models.IntegerField(default=0)
     geografia_mal = models.IntegerField(default=0)
     arte_y_literatura_bien = models.IntegerField(default=0)
@@ -128,13 +129,13 @@ class Fichas_tableros(models.Model):
 
 
 class Adquirido(models.Model):
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username",related_name='adquirido_username')
+    user_id = models.ForeignKey(Usuario,on_delete=models.CASCADE,db_column="user_id",related_name='adquirido_username')
     id_objeto = models.ForeignKey(Fichas_tableros, on_delete=models.CASCADE,related_name='adquirido_id_objeto')
     adquirido = models.BooleanField()
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['username', 'id_objeto'], name='adquirido_pk')
+            models.UniqueConstraint(fields=['user_id', 'id_objeto'], name='adquirido_pk')
         ] 
         db_table = "Adquirido"
 
@@ -152,7 +153,7 @@ class Sala(models.Model):
         ('Privado', 'Privado'),
     ]
     nombre_sala = models.CharField(max_length=50,primary_key=True)
-    creador = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="creador",related_name='creador_sala')
+    creador_id = models.ForeignKey(Usuario,on_delete=models.CASCADE,db_column="creador_id",related_name='creador_sala')
     tiempo_respuesta = models.IntegerField(default=15)
     n_jugadores = models.IntegerField(default=0)
     password_sala = models.CharField(default="",max_length=200) #La contraseña cifrada ocupa 128 caracteres
@@ -172,10 +173,10 @@ class Sala(models.Model):
 #Guardamos los usuarios de la sala y al equipo que pertenecen
 class UsuariosSala(models.Model):
     nombre_sala = models.ForeignKey(Sala,on_delete=models.CASCADE,to_field='nombre_sala',db_column="nombre_sala",related_name='usuarios_sala_usuario_nombre_sala')
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,to_field='username',db_column="username",related_name='usuarios_sala_usuario')
+    user_id = models.ForeignKey(Usuario,on_delete=models.CASCADE,db_column="user_id",related_name='usuarios_sala_usuario')
     equipo = models.IntegerField(default=1)
     class Meta:
         constraints = [
-        models.UniqueConstraint(fields=['nombre_sala', 'username'], name='usuario_sala_pk')
+        models.UniqueConstraint(fields=['nombre_sala', 'user_id'], name='usuario_sala_pk')
         ] 
         db_table = "UsuariosSala"

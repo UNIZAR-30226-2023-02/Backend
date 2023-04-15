@@ -6,13 +6,19 @@ import re
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 
+from trivial_api.funciones_auxiliares import *
 
 #Serializador de la sala
 class SalaSerializer(serializers.ModelSerializer):
+    creador = serializers.SerializerMethodField()
     class Meta:
+        
         model = Sala
+        
         fields = ('nombre_sala', 'creador', 'tiempo_respuesta', 'n_jugadores', 'tipo_partida', 'tipo_sala')
 
+    def get_creador(self, obj):
+        return str(obj.creador_id)
 
 
 

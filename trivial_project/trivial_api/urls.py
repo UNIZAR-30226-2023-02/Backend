@@ -10,6 +10,7 @@ urlpatterns = [
     path('usuarios/login/', UsuarioLogin.as_view()),
     path('usuarios/register/', UsuarioRegistrar.as_view()),
     path('usuarios/datos/', UsuarioDatos.as_view()),
+    path('usuarios/cambiar-datos/', UsuarioCambiarDatos.as_view()),
     path('usuarios/add/amigo/', UsuarioAddAmigo.as_view()),
 
     #Endpoints para las salas

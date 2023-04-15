@@ -5,14 +5,7 @@ from asgiref.sync import async_to_sync,sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.generic.websocket import WebsocketConsumer
 from rest_framework.authtoken.models import Token
-
-def get_username_by_token(token):
-    username = None
-    usuario = Token.objects.filter(key=token).first() or None
-    if(usuario):
-        user = Usuario.objects.filter(id=usuario.user_id).first() or None
-        username = user.username
-    return username
+from trivial_api.funciones_auxiliares import *
 
 class SalaConsumer(WebsocketConsumer):
     def connect(self):
