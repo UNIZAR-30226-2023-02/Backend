@@ -18,7 +18,7 @@ def extract_token(token):
 
 def get_username_by_id(user_id):
     print(user_id)
-    user = Usuario.objects.filter(id=user_id).first() or None
+    user = Usuario.objects.filter(username=user_id).first() or None
     if(user):
         return user.username
     else:
@@ -35,7 +35,7 @@ def get_username_and_token(request):
         if(user_token):
             user_id = user_token.user_id
         print(user_id)
-        user = Usuario.objects.filter(id=user_id).first() or None
+        user = Usuario.objects.filter(username=user_id).first() or None
         print(user)
         username = user.username
     except:
@@ -66,7 +66,7 @@ def get_username_by_token(token):
     username = None
     usuario = Token.objects.filter(key=token).first() or None
     if(usuario):
-        user = Usuario.objects.filter(id=usuario.user_id).first() or None
+        user = Usuario.objects.filter(username=usuario.user_id).first() or None
         username = user.username
     return username
 
@@ -74,7 +74,7 @@ def get_userID_by_username(username):
     user_id = None
     user = Usuario.objects.filter(username=username).first() or None
     if(user):
-        user_id = user.id
+        user_id = user.username
     else:
         user_id = None
     return user_id

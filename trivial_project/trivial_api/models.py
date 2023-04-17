@@ -5,35 +5,37 @@ from django.core.exceptions import ValidationError
 # Modelos de la base de datos
 
 
-class Tematica(models.Model):
-    tema = models.CharField(default="NO_ESPECIFICADO",max_length=100,blank=False,null=False, primary_key=True)
+class Casilla_Tematica(models.Model):
+    casilla = models.IntegerField(primary_key = True)
+    tematica = models.CharField(max_length = 50, null = False)
+    quesito = models.BooleanField(null = False)
 
     class Meta:
-        db_table = "Tematica"
-
-
-class Pregunta(models.Model):
-    enunciado = models.CharField(max_length=200,primary_key=True)
-    r_bien = models.CharField(max_length=200,blank=True,null=False)
-    r_mal1 = models.CharField(max_length=200,blank=True,null=False)
-    r_mal2 = models.CharField(max_length=200,blank=True,null=False)
-    r_mal3 = models.CharField(max_length=200,blank=True,null=False)
-    tema = models.ForeignKey(Tematica, on_delete=models.CASCADE,default="NO_ESPECIFICADO")
-    #Si ponemos esto cambia el nombre de la tabla
-    class Meta:
-        db_table = "Pregunta"
+        db_table = "Casilla_Tematica"
 
 class Tablero(models.Model):
-    casilla_actual = models.IntegerField(null = False)
+    casilla_actual = models.ForeignKey(Casilla_Tematica, on_delete = models.CASCADE, db_column="casilla_actual", related_name='tablero_ac')
     tirada_dado = models.IntegerField(null = False)
-    casilla_nueva = models.IntegerField(null = False)
+    casilla_nueva = models.ForeignKey(Casilla_Tematica, on_delete = models.CASCADE, db_column="casilla_nueva", related_name='tablero_nu')
+    
     class Meta:
         db_table = "Tablero"
         unique_together = (("casilla_actual", "casilla_nueva"),)
 
-# Tiene un campo que es id, el cual es la clave primaria
+class Pregunta(models.Model):
+    enunciado = models.CharField(max_length = 200, primary_key = True)
+    r1 = models.CharField(max_length = 200, blank = True, null = False)
+    r2 = models.CharField(max_length = 200, blank = True, null = False)
+    r2 = models.CharField(max_length = 200, blank = True, null = False)
+    r4 = models.CharField(max_length = 200, blank = True, null = False)
+    rc = models.IntegerField(null = False)
+    categoria = models.CharField(max_length = 50, null = False)
+    
+    class Meta:
+        db_table = "Pregunta"
+
 class Usuario(AbstractUser):
-    username = models.CharField(default="ad",max_length=50, unique=True)
+    username = models.CharField(default="ad",max_length=50, primary_key = True)
     correo = models.EmailField(default="example@gmail.com",blank=False,null=False,unique=True)
     telefono = models.IntegerField(default=0)
     fecha_nac = models.DateField(default="1997-10-19")
@@ -51,101 +53,79 @@ class Usuario(AbstractUser):
         db_table = "Usuario"
 
 class Amigos(models.Model):
-    user_id = models.ForeignKey(Usuario, on_delete=models.CASCADE,db_column="user_id", related_name='amigos_username_id')
-    amigo_id = models.ForeignKey(Usuario, on_delete=models.CASCADE,db_column="amigo_id",related_name='amigos_amigo_id')
-    #pendiente = models.BooleanField()
-    #This method will be called by Django Validation Framework before saving the instance to the database
-    # and if the username and amigo are the same will raise an exception
+    user1 = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "user1", related_name = 'user1')
+    user2 = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "user2", related_name = 'user2')
+    
     def clean(self):
         if self.user_id == self.amigo_id:
             raise ValidationError('Username and amigo must be different.')
         
     class Meta:
         #Para indicar que la clave primaria es multiple
-        constraints = [
-            models.UniqueConstraint(fields=['user_id', 'amigo_id'], name='amigos_pk')
-        ] 
         db_table = "Amigos"
+        unique_together = (("user1", "user2"),)
     
-
 class Partida(models.Model):
-    id_partida = models.AutoField(primary_key=True)
-    PARTIDA_CHOICES = [
-        ('C', 'Clasico'),
-        ('E', 'Equipo'),
-        ('D', 'Desafio'),
-        ('T', 'Tematico'),
-    ]
-    tipo = models.CharField(max_length=50,choices=PARTIDA_CHOICES) #Para guardar se pone la inicial.
+    tipo = models.CharField(max_length = 50, null = False)
+    terminada = models.BooleanField(null = False, default = False)
+    orden_jugadores = models.CharField(max_length = 100, null = False)
+    turno_actual = models.IntegerField(null = False, default = 0)
 
     class Meta:
         db_table = "Partida"
 
-
-class Historico(models.Model):
-    id_partida = models.ForeignKey(Partida, on_delete=models.CASCADE,related_name='historico_id_partida')
-    user_id = models.ForeignKey(Usuario,on_delete=models.CASCADE,db_column="user_id",related_name='historico_username')
-    he_ganado = models.BooleanField()
-    preguntas_respondidas = models.IntegerField(0)
-    quesitos = models.IntegerField(0)
-    EQUIPO_CHOICES = [
-        ('E1', 'Equipo1'),
-        ('E2', 'Equipo2'),
-        ('E3', 'Equipo3'),
-    ]
-    equipo = models.CharField(max_length=15,choices=EQUIPO_CHOICES)
+class Juega(models.Model):
+    id_jugador = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "id_jugador", related_name = 'id_jugador')
+    id_partida = models.ForeignKey(Partida, on_delete = models.CASCADE, db_column = "id_partida", related_name = 'id_partida')
+    posicion = models.IntegerField(null = False, default = 72)
+    q_historia = models.BooleanField(null = False, default = False)
+    q_arte = models.BooleanField(null = False, default = False)
+    q_deporte = models.BooleanField(null = False, default = False)
+    q_ciencia = models.BooleanField(null = False, default = False)
+    q_entretenimiento = models.BooleanField(null = False, default = False)
+    q_geografia = models.BooleanField(null = False, default = False)
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['id_partida', 'user_id'], name='historico_pk')
-        ] 
-        db_table = "Historico"
+        db_table = "Juega"
+        unique_together = (("id_jugador", "id_partida"),)
 
+class Objetos(models.Model):
+    objeto = models.AutoField(primary_key = True)
+    coste = models.IntegerField(default = 5, null = False)
+    link_imagen = models.CharField(max_length = 100)
+    tipo = models.CharField(max_length = 7, null = False)
+
+    class Meta:
+        db_table = "Objetos"
+
+class Tiene(models.Model):
+    id_objeto = models.ForeignKey(Objetos, on_delete = models.CASCADE, db_column = "id_objeto", related_name = 'id_objeto')
+    id_usuario = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "id_usuario", related_name = 'id_usuario')
+
+    class Meta:
+        db_table = "Tiene"
+        unique_together = (("id_objeto", "id_usuario"),)
 
 class Estadisticas(models.Model):
-    user_id = models.ForeignKey(Usuario,on_delete=models.CASCADE,db_column="user_id",related_name='estadisticas_username')
-    geografia_bien = models.IntegerField(default=0)
-    geografia_mal = models.IntegerField(default=0)
-    arte_y_literatura_bien = models.IntegerField(default=0)
-    arte_y_literatura_mal = models.IntegerField(default=0)
-    historia_bien = models.IntegerField(default=0)
-    historia_mal = models.IntegerField(default=0)
-    entretenimiento_bien = models.IntegerField(default=0)
-    entretenimiento_mal = models.IntegerField(default=0)
-    ciencias_bien = models.IntegerField(default=0)
-    ciencias_mal = models.IntegerField(default=0)
-    deportes_bien = models.IntegerField(default=0)
-    deportes_mal = models.IntegerField(default=0)
+    user_id = models.OneToOneField(Usuario, on_delete=models.CASCADE,db_column = "user_id", related_name = 'estadisticas_username', primary_key = True)
+    geografia_bien = models.IntegerField(default = 0)
+    geografia_mal = models.IntegerField(default = 0)
+    arte_y_literatura_bien = models.IntegerField(default = 0)
+    arte_y_literatura_mal = models.IntegerField(default = 0)
+    historia_bien = models.IntegerField(default = 0)
+    historia_mal = models.IntegerField(default = 0)
+    entretenimiento_bien = models.IntegerField(default = 0)
+    entretenimiento_mal = models.IntegerField(default = 0)
+    ciencias_bien = models.IntegerField(default = 0)
+    ciencias_mal = models.IntegerField(default = 0)
+    deportes_bien = models.IntegerField(default = 0)
+    deportes_mal = models.IntegerField(default = 0)
+    quesitos = models.IntegerField(default = 0)
+    partidas_ganadas = models.IntegerField(default = 0)
+    partidas_perdidas = models.IntegerField(default = 0)
 
     class Meta:
         db_table = "Estadisticas"
-
-
-class Fichas_tableros(models.Model):
-    id_objeto = models.AutoField(primary_key=True)
-    coste = models.IntegerField(default=5)
-    link_imagen = models.CharField(max_length=100)
-    TIPO_CHOICES = [
-        ('T', 'Tablero'),
-        ('F', 'Ficha'),
-    ]
-    tipo = models.CharField(max_length=7, choices=TIPO_CHOICES) #To save you will have to put, 'T' or 'F'
-
-    class Meta:
-        db_table = "Fichas_tableros"
-
-
-class Adquirido(models.Model):
-    user_id = models.ForeignKey(Usuario,on_delete=models.CASCADE,db_column="user_id",related_name='adquirido_username')
-    id_objeto = models.ForeignKey(Fichas_tableros, on_delete=models.CASCADE,related_name='adquirido_id_objeto')
-    adquirido = models.BooleanField()
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['user_id', 'id_objeto'], name='adquirido_pk')
-        ] 
-        db_table = "Adquirido"
-
 
 
 class Sala(models.Model):

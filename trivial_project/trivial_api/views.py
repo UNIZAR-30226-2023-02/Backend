@@ -148,7 +148,7 @@ class UsuarioDatos(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        user_id, token = get_userID_and_token(request)
+        username, token = get_username_and_token(request)
         any_error = 0
         dict_response = {
             'OK':"",
@@ -159,16 +159,19 @@ class UsuarioDatos(APIView):
             'amigos':[],
         }
 
-        if Usuario.objects.filter(id=user_id).exists():
-            user = Usuario.objects.get(id=user_id)
-            amigos = Amigos.objects.filter(user_id=user_id)
-
+        if Usuario.objects.filter(username=username).exists():
+            user = Usuario.objects.get(username=username)
+            amigos = Amigos.objects.filter(user1=username)
+            amigos2 = Amigos.objects.filter(user2=username)
             dict_response['username'] = user.username
             dict_response['correo'] = user.correo
             dict_response['fecha_nac'] = user.fecha_nac
             dict_response['monedas'] = user.monedas    
             for amigo in amigos:
-                dict_response['amigos'].append(str(amigo.amigo_id))      
+                dict_response['amigos'].append(str(amigo.user2)) 
+            for amigo in amigos2:
+                dict_response['amigos'].append(str(amigo.user1)) 
+
             dict_response['OK'] = "True"
         else:
             dict_response['OK'] = "False"
@@ -189,61 +192,41 @@ class UsuarioCambiarDatos(APIView):
             'error_telefono':""
         }
         
-        user_id, token = get_userID_and_token(request)
-        usuario_instancia = Usuario.objects.filter(id=user_id).first() or None
-        username = request.data.get('username')
+        username, token = get_username_and_token(request)
+        usuario_instancia = Usuario.objects.filter(username=username).first() or None
         fecha_nac = request.data.get('fecha_nac')
         correo = request.data.get('correo')
         telefono = request.data.get('telefono')
+        usuario_correo = Usuario.objects.filter(correo=correo).first() or None
         
-        #Comprobamos si existe el usuario que nos han pasado
-        if(usuario_instancia):
-            # Check usuario
-            if not isascii(username):
-                dict_response['error_username'] = "Usuario con caracteres no permitidos"
-                any_error = 1
-            elif not username:
-                dict_response['error_username'] = "El usuario no puede ser vacio"
-                any_error = 1
-            elif len(username) < 1 or len(username) > 20:
-                dict_response['error_username'] = "El usuario no tiene la longitud correcta(1-20)"
-                any_error = 1
-            elif Usuario.objects.filter(username=username).exists() and usuario_instancia.user_id != user_id:
-                # Comprobamos que no exista el usuario, o que el usuario sea distinto al que ya esta
-                dict_response['error_username'] = "El usuario ya existe"
-                any_error = 1
-
-            # Check correo
-            regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' 
-            if not correo:
-                dict_response['error_correo'] = "El correo no puede estar vacio"
-                any_error = 1
-            elif not re.search(regex,correo):
-                dict_response['error_correo'] = "Correo no valido"
-                any_error = 1
-            elif Usuario.objects.filter(correo=correo).exists() and usuario_instancia.user_id != user_id:
-                dict_response['error_correo'] = "El correo ya esta en uso"
-                any_error = 1
-
-            # Check telefono
-            if not telefono:
-                dict_response['error_telefono'] = "El telefono no puede estar vacio"
-                any_error = 1
-            elif not telefono.isnumeric():
-                dict_response['error_telefono'] = "Telefono no numerico"
-                any_error = 1
-            elif len(telefono) < 9 :
-                dict_response['error_telefono'] = "Telefono inferior a 9 numeros"
-                any_error = 1
-                
-            # Check fecha nacimiento
-            try:
-                datetime.strptime(fecha_nac, '%Y-%m-%d')
-            except ValueError:
-                dict_response['error_fecha_nac'] = "Formato fecha nacimiento invalido(YYYY-MM-DD)"
-        else:
-            dict_response['error_username'] = "El token no es valido"
+        # Check correo
+        regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' 
+        if not correo:
+            dict_response['error_correo'] = "El correo no puede estar vacio"
             any_error = 1
+        elif not re.search(regex,correo):
+            dict_response['error_correo'] = "Correo no valido"
+            any_error = 1
+        elif usuario_correo and usuario_correo.username != username:
+            dict_response['error_correo'] = "El correo ya esta en uso"
+            any_error = 1
+        print("Any error: " + str(any_error))
+        # Check telefono
+        if not telefono:
+            dict_response['error_telefono'] = "El telefono no puede estar vacio"
+            any_error = 1
+        elif not telefono.isnumeric():
+            dict_response['error_telefono'] = "Telefono no numerico"
+            any_error = 1
+        elif len(telefono) < 9 :
+            dict_response['error_telefono'] = "Telefono inferior a 9 numeros"
+            any_error = 1
+                
+        # Check fecha nacimiento
+        try:
+            datetime.strptime(fecha_nac, '%Y-%m-%d')
+        except ValueError:
+            dict_response['error_fecha_nac'] = "Formato fecha nacimiento invalido(YYYY-MM-DD)"
 
         # Si tenemos errores
         if any_error ==0:
@@ -261,47 +244,45 @@ class UsuarioCambiarDatos(APIView):
 
 
 
-
-
-
 class UsuarioAddAmigo(APIView):
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
     def post(self, request):
         #Con esto comprobamos si el usuario tiene acceso a la informacion
-        user_id, token = get_userID_and_token(request)
+        username, token = get_username_and_token(request)
+        amigo_username = request.data.get('amigo')
         
         any_error = 0
         dict_response = {
             'OK':"",
             'error':""
         }
-
-        amigo = request.data.get('amigo')
-        print(amigo)
-        amigo_id = get_userID_by_username(amigo)
-        print(amigo_id)
-
-        if not Usuario.objects.filter(id=user_id).exists():
+        if not Usuario.objects.filter(username=username).exists():
             any_error = 1
             dict_response['error'] = "El usuario no existe"
-
-        if Amigos.objects.filter(user_id=user_id,amigo_id=amigo_id).exists():
-            any_error = 1
-            dict_response['error'] = "Ya tienes el amigo agregado"
-
-        if not Usuario.objects.filter(id=amigo_id).exists():
+            
+        if not Usuario.objects.filter(username=amigo_username).exists():
             any_error =1
             dict_response['error'] = "El usuario que intentas agregar no existe"
+
+        if username > amigo_username:
+            
+            aux = username
+            username = amigo_username
+            amigo_username = aux
+
+        if Amigos.objects.filter(user1=username,user2=amigo_username).exists():
+            any_error = 1
+            dict_response['error'] = "Ya tienes el amigo agregado"
                 
-        if user_id == amigo_id:
+        if username == amigo_username:
             any_error =1
             dict_response['error'] = "El usuario no puede ser amigo de si mismo"
 
         if any_error ==0:
-            usuario_instance = get_object_or_404(Usuario, id=user_id)
-            amigo_instance = get_object_or_404(Usuario, id=amigo_id)
-            amigo_db = Amigos.objects.create(user_id=usuario_instance,amigo_id=amigo_instance)
+            usuario_instance = get_object_or_404(Usuario, username=username)
+            amigo_instance = get_object_or_404(Usuario, username=amigo_username)
+            amigo_db = Amigos.objects.create(user1=usuario_instance,user2=amigo_instance)
             amigo_db.save()
             dict_response['OK'] = "True"
         else:
@@ -364,7 +345,7 @@ class SalaCrear(APIView):
             dict_response['error_tiempo_respuesta'] = "Tiempo de respuesta invalido(10-50)"
 
         if any_error ==0:
-            usuario_instance = get_object_or_404(Usuario, id=user_id)
+            usuario_instance = get_object_or_404(Usuario, username=user_id)
             # Creamos la sala
             sala = Sala.objects.create(nombre_sala=nombre_sala,creador_id=usuario_instance,tiempo_respuesta=tiempo_respuesta
                                        ,n_jugadores=n_jugadores,password_sala=password_sala,tipo_partida=tipo_partida,tipo_sala=tipo_sala)
@@ -390,7 +371,7 @@ class SalaUnirse(APIView):
         user_id, token = get_userID_and_token(request)
         nombre_sala = request.data.get('nombre_sala')
         sala = Sala.objects.filter(nombre_sala=nombre_sala).first() or None
-        usuario_instance = Usuario.objects.filter(id=user_id).first() or None
+        usuario_instance = Usuario.objects.filter(username=user_id).first() or None
         #Check if sala exists
         if sala:
             jugadores_en_partida =  UsuariosSala.objects.filter(nombre_sala=nombre_sala).count()
