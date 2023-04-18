@@ -63,7 +63,10 @@ class Amigos(models.Model):
     class Meta:
         #Para indicar que la clave primaria es multiple
         db_table = "Amigos"
-        unique_together = (("user1", "user2"),)
+        constraints = [
+        models.UniqueConstraint(fields=['user1', 'user2'], name='usuario_amigo_pk')
+        ] 
+
     
 class Partida(models.Model):
     tipo = models.CharField(max_length = 50, null = False)
@@ -75,7 +78,7 @@ class Partida(models.Model):
         db_table = "Partida"
 
 class Juega(models.Model):
-    id_jugador = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "id_jugador", related_name = 'id_jugador')
+    username = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "id_jugador", related_name = 'id_jugador')
     id_partida = models.ForeignKey(Partida, on_delete = models.CASCADE, db_column = "id_partida", related_name = 'id_partida')
     posicion = models.IntegerField(null = False, default = 72)
     q_historia = models.BooleanField(null = False, default = False)
@@ -87,7 +90,9 @@ class Juega(models.Model):
 
     class Meta:
         db_table = "Juega"
-        unique_together = (("id_jugador", "id_partida"),)
+        constraints = [
+        models.UniqueConstraint(fields=['username', 'id_partida'], name='usuario_partida_pk')
+        ] 
 
 class Objetos(models.Model):
     objeto = models.AutoField(primary_key = True)
@@ -100,11 +105,13 @@ class Objetos(models.Model):
 
 class Tiene(models.Model):
     id_objeto = models.ForeignKey(Objetos, on_delete = models.CASCADE, db_column = "id_objeto", related_name = 'id_objeto')
-    id_usuario = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "id_usuario", related_name = 'id_usuario')
+    username = models.ForeignKey(Usuario, on_delete = models.CASCADE,related_name="username_objeto")
 
     class Meta:
         db_table = "Tiene"
-        unique_together = (("id_objeto", "id_usuario"),)
+        constraints = [
+        models.UniqueConstraint(fields=['id_objeto', 'username'], name='usuario_objeto_pk')
+        ] 
 
 class Estadisticas(models.Model):
     user_id = models.OneToOneField(Usuario, on_delete=models.CASCADE,db_column = "user_id", related_name = 'estadisticas_username', primary_key = True)
@@ -140,7 +147,7 @@ class Sala(models.Model):
         ('Privado', 'Privado'),
     ]
     nombre_sala = models.CharField(max_length=50,primary_key=True)
-    creador_id = models.ForeignKey(Usuario,on_delete=models.CASCADE,db_column="creador_id",related_name='creador_sala')
+    creador_username = models.ForeignKey(Usuario,on_delete=models.CASCADE,related_name='creador_sala')
     tiempo_respuesta = models.IntegerField(default=15)
     n_jugadores = models.IntegerField(default=0)
     password_sala = models.CharField(default="",max_length=200) #La contraseña cifrada ocupa 128 caracteres
@@ -159,11 +166,11 @@ class Sala(models.Model):
 
 #Guardamos los usuarios de la sala y al equipo que pertenecen
 class UsuariosSala(models.Model):
-    nombre_sala = models.ForeignKey(Sala,on_delete=models.CASCADE,to_field='nombre_sala',db_column="nombre_sala",related_name='usuarios_sala_usuario_nombre_sala')
-    user_id = models.ForeignKey(Usuario,on_delete=models.CASCADE,db_column="user_id",related_name='usuarios_sala_usuario')
+    nombre_sala = models.ForeignKey(Sala,on_delete=models.CASCADE,db_column="nombre_sala",related_name='usuarios_sala_usuario_nombre_sala')
+    username = models.ForeignKey(Usuario,on_delete=models.CASCADE,related_name='usuarios_sala_usuario')
     equipo = models.IntegerField(default=1)
     class Meta:
         constraints = [
-        models.UniqueConstraint(fields=['nombre_sala', 'user_id'], name='usuario_sala_pk')
+        models.UniqueConstraint(fields=['nombre_sala', 'username'], name='usuario_sala_pk')
         ] 
         db_table = "UsuariosSala"
