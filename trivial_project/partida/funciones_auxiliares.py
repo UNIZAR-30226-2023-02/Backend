@@ -32,7 +32,8 @@ def calcular_siguiente_movimiento(tirada, ca):
 # @return vector(pregunta, r1, r2, r3, r4, rc, queso)
 def elegir_pregunta(casilla):
 
-    all_preguntas = Pregunta.objects.values_list('enunciado', 'r1', 'r2', 'r3', 'r4', 'rc', 'queso')#.filter()TODO filtrar por tematica dependiendo de la casilla
+    tematica = Casilla_Tematica.objects.values_list(tematica).filter(casilla = casilla)
+    all_preguntas = Pregunta.objects.values_list('enunciado', 'r1', 'r2', 'r3', 'r4', 'rc', 'queso').filter(categoria = tematica)
     pregunta_devolver = all_preguntas[random.randint(1,len(all_preguntas))]
 
     return pregunta_devolver
