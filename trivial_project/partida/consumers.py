@@ -52,7 +52,7 @@ class GameConsumers(WebsocketConsumer):
             if text_data_json["type"] == "Peticion":
                 if text_data_json["subtype"] == "Tirar_dado":
                     tirada = tirar_dado()###TODO
-                    casillas_posibles = calcular_sig_movimiento(tirada, text_data_json["casilla_anterior"])###TODO
+                    casillas_posibles = calcular_siguiente_movimiento(tirada, text_data_json["casilla_anterior"])###TODO
                     response['valor_dado'] = tirada
                     response['jugador'] = text_data_json["jugador"]
                     response['casillas_nuevas'] = casillas_posibles
@@ -85,7 +85,7 @@ class GameConsumers(WebsocketConsumer):
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
                 elif text_data_json["esCorrecta"] == "false":
-                    response['jugador'] = calcular_sig_jugador(text_data_json["jugador"])###TODO
+                    response['jugador'] = calcular_sig_jugador()###TODO
                     response['type'] = "Accion"
                     response['subtype'] = "Dados"
                 else:

@@ -26,7 +26,7 @@ class Pregunta(models.Model):
     enunciado = models.CharField(max_length = 200, primary_key = True)
     r1 = models.CharField(max_length = 200, blank = True, null = False)
     r2 = models.CharField(max_length = 200, blank = True, null = False)
-    r2 = models.CharField(max_length = 200, blank = True, null = False)
+    r3 = models.CharField(max_length = 200, blank = True, null = False)
     r4 = models.CharField(max_length = 200, blank = True, null = False)
     rc = models.IntegerField(null = False)
     categoria = models.CharField(max_length = 50, null = False)
