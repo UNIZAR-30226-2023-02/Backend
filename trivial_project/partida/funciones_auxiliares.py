@@ -18,10 +18,11 @@ def tirar_dado():
 # @param string(tirada [1-6])
 # @param string(casilla [1-72])
 # @return 
-def calcular_siguiente_movimiento(tirada, ca):
+def calcular_siguiente_movimiento(tirada, jugador, Partida_id):
 
     Casillas = ""
-    for i in Tablero.objects.filter(casilla_actual=ca, tirada_dado=tirada).values('casilla_nueva'):
+    posicion = Juega.objects.filter(username = jugador, id_partida = Partida_id).values("posicion").first()
+    for i in Tablero.objects.filter(casilla_actual=posicion['posicion'], tirada_dado=tirada).values('casilla_nueva'):
         Casillas =  Casillas + str(i['casilla_nueva']) + ","
     
     Casillas = Casillas[:-1]
@@ -40,7 +41,6 @@ def elegir_pregunta(casilla):
 
     pregunta_devolver |= Casilla_Tematica.objects.filter(casilla = casilla).values('quesito').first()
 
-    print(pregunta_devolver)
     return pregunta_devolver
 
 # Marca el queso de la categoria que sea para el judaro dado y comprobar si es el ultimo queso
@@ -50,16 +50,15 @@ def elegir_pregunta(casilla):
 # @return True si el jugador ha conseguido todos los quesos
 def marcar_queso(queso, jugador, Partida_id):
     
-    juega = Juega.objects.filter(username = jugador, id_partida = Partida_id).first() or None
+    juega = Juega.objects.filter(username = jugador, id_partida = Partida_id).first()
+    
     
     if Partida == None:
-        return 'Error, no existe partida'
+        return False
     else:
-
         if queso == 'historia':
             if juega.q_historia == False:
                 juega.q_historia = True
-            
         elif queso == 'arte':
             if juega.q_arte == False:
                 juega.q_arte = True
@@ -84,21 +83,21 @@ def marcar_queso(queso, jugador, Partida_id):
         if juega.q_geografia and juega.q_historia and juega.q_deporte and juega.q_ciencia and juega.q_arte and juega.q_entretenimiento:
             return True
         else:
-
-             return False   
+            return False   
 
 # Calcula el siguente jugador a jugar dado el jugador que ha jugado en el ultimo turno
 # @Partida_id
 # @return jugador(username)
 def calcular_sig_jugador(Partida_id):
 
-    Partdia = Partida.objects.filter(Partida_id).first() or None
-    if Partida == None:
+    game = Partida.objects.filter(id = Partida_id).first()
+    if game == None:
         return 'Error, no existe partida'
     else:
-        lista_j = Partida.orden_jugadores
-        turno = Partida.turno_actual
-        Partida.turno_actual = (turno + 1) % 6
-        Partida.save()
+        lista_j = game.orden_jugadores
+        lista_j = lista_j.split(',')
+        turno = game.turno_actual
+        game.turno_actual = str((int(turno) + 1) % 2)
+        game.save()
 
-        return lista_j[turno % 6]
+        return lista_j[turno % 2]

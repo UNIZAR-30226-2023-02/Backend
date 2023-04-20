@@ -41,7 +41,7 @@ class Partida(APIView):
             if request.data.get('type') == "Peticion":
                 if request.data.get('subtype') == "Tirar_dado":
                     tirada = tirar_dado()
-                    casillas_posibles = calcular_siguiente_movimiento(tirada, request.data.get('casilla_anterior'))
+                    casillas_posibles = calcular_siguiente_movimiento(tirada, request.data.get('jugador'), id_partida, )
                     response['valor_dado'] = tirada
                     response['jugador'] = request.data.get('jugador')
                     response['casillas_nuevas'] = casillas_posibles
@@ -61,19 +61,19 @@ class Partida(APIView):
                     response['type'] = "Respuesta"
                     response['subtype'] = "Pregunta"
                 
-            elif request["type"] == "Actualizacion":
-                if request["esCorrecta"] == "true":
+            elif request.data.get('type') == "Actualizacion":
+                if request.data.get('esCorrecta') == "true":
                     fin = False
-                    if request["queso"] != "false":
-                        fin = marcar_queso(request["queso"], request["jugador"], id_partida)
+                    if request.data.get('quesito') != "false":
+                        fin = marcar_queso(request.data.get('quesito'), request.data.get('jugador'), id_partida)
 
-                    response['jugador'] = request["jugador"]
+                    response['jugador'] = request.data.get('jugador')
                     if fin == True:
                         response['type'] = "Fin"
                     else:
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
-                elif request["esCorrecta"] == "false":
+                elif request.data.get('esCorrecta') == "false":
                     response['jugador'] = calcular_sig_jugador(id_partida)
                     response['type'] = "Accion"
                     response['subtype'] = "Dados"
