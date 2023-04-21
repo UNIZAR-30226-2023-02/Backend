@@ -11,11 +11,39 @@ from rest_framework.permissions import IsAuthenticated
 import re
 from datetime import datetime
 
-#Token
+
+# Token
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 
 from trivial_api.funciones_auxiliares import *
+
+# Imagenes
+import os
+from django.conf import settings
+from django.conf.urls.static import static
+from django.core.files import File
+
+class PoblarBaseDatos(APIView):
+    def get(self,request):
+        i = 1
+        # Fichas 1-9
+        while i <= 9:
+            image_path = os.path.normpath(os.path.join(settings.STATIC_URL, 'images','objetos', f'{i}.png'))
+            objeto = Objetos.objects.create(id=i,coste=5, tipo='ficha',image = image_path)
+            objeto.save()
+            i +=1
+        # Tableros 10-15
+        while i <= 15:
+            image_path = os.path.normpath(os.path.join(settings.STATIC_URL, 'images','objetos', f'{i}.png'))
+            objeto = Objetos.objects.create(id=i,coste=20, tipo='tablero',image = image_path)
+            objeto.save()
+            i+=1
+        # Fotos de perfil
+        
+        #image_path = os.path.normpath(os.path.join(settings.STATIC_URL, 'images','perfil', f'{i}.png'))
+        return Response("OK")
+
 
 class UsuarioLogin(APIView):
     def post(self, request):
@@ -52,7 +80,6 @@ class UsuarioLogin(APIView):
 
 class UsuarioRegistrar(APIView):
     def post(self, request):
-        print("REGISTRAR");
         # Diccionario con lo que devolvera en la peticion
         dict_response = {
             'OK':"",
@@ -97,7 +124,7 @@ class UsuarioRegistrar(APIView):
 
 class UsuarioDatos(APIView):
     #Necesita la autenticazion
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
     def post(self, request):
         username, token = get_username_and_token(request)
@@ -108,6 +135,7 @@ class UsuarioDatos(APIView):
             'telefono':"",
             'fecha_nac': "",
             'monedas': "",
+            'imagen':"",
             'amigos':[],
         }
         user = Usuario.objects.filter(username=username).first() or None
@@ -120,6 +148,7 @@ class UsuarioDatos(APIView):
             dict_response['fecha_nac'] = user.fecha_nac
             dict_response['monedas'] = user.monedas   
             dict_response['telefono'] = user.telefono  
+            dict_response['imagen'] = user.image
             for amigo in amigos:
                 dict_response['amigos'].append(str(amigo.user2)) 
             for amigo in amigos2:
@@ -210,6 +239,11 @@ class UsuarioAddAmigo(APIView):
             dict_response["OK"] = "False"
         return Response(dict_response)
     
+
+
+
+
+
 
 class SalaCrear(APIView):
     #Necesita la autenticazion

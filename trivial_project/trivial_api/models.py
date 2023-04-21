@@ -17,7 +17,6 @@ class Tablero(models.Model):
     casilla_actual = models.ForeignKey(Casilla_Tematica, on_delete = models.CASCADE, db_column="casilla_actual", related_name='tablero_ac')
     tirada_dado = models.IntegerField(null = False)
     casilla_nueva = models.ForeignKey(Casilla_Tematica, on_delete = models.CASCADE, db_column="casilla_nueva", related_name='tablero_nu')
-    
     class Meta:
         db_table = "Tablero"
         unique_together = (("casilla_actual", "casilla_nueva"),)
@@ -41,6 +40,7 @@ class Usuario(AbstractUser):
     fecha_nac = models.DateField(default="1997-10-19")
     password = models.CharField(default="",max_length=200) #La contraseña cifrada ocupa 128 caracteres
     monedas = models.IntegerField(default=0)
+    image = models.ImageField(null=True,blank=True,upload_to="static/images/perfil/")
 
 
     def set_password(self, raw_password):
@@ -95,10 +95,14 @@ class Juega(models.Model):
         ] 
 
 class Objetos(models.Model):
-    objeto = models.AutoField(primary_key = True)
+    TIPO_CHOICES = (
+        ('ficha', 'Ficha'),
+        ('tablero', 'Tablero'),
+    )
+    id = models.IntegerField(primary_key = True)
     coste = models.IntegerField(default = 5, null = False)
-    link_imagen = models.CharField(max_length = 100)
-    tipo = models.CharField(max_length = 7, null = False)
+    tipo = models.CharField(max_length = 7,choices=TIPO_CHOICES, null = False)
+    image = models.ImageField(upload_to="static/images/objetos/")
 
     class Meta:
         db_table = "Objetos"
