@@ -4,6 +4,7 @@
 #
 
 import json
+from trivial_api.models import *
 from asgiref.sync import async_to_sync,sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.generic.websocket import WebsocketConsumer
@@ -12,18 +13,34 @@ from funciones_auxiliares import *
 
 class GameConsumers(WebsocketConsumer):
     def connect(self):
-        
+        self.game_name = self.scope["url_route"]["kwargs"]["room_name"]
+        self.game_group_name = "game_%s" % self.game_name
+
+        async_to_sync(self.channel_layer.group_add)(
+            self.game_group_name, self.channel_name
+        )
+
         self.accept()
-        generar_jugador()
+        ###generar_jugador()
         ###TODO
     
     def disconnect(self, close_code):
-        # Leave room group
-        print("")
+        async_to_sync(self.channel_layer.group_discard)(
+            self.game_group_name, self.channel_name
+        )
+    
+    def receive(self, text_data):
+        mensaje = json.loads(text_data)
+
+        async_to_sync(self.channel_layer.group_send)(
+            self.game_group_name, {"type": "gestionar.mensaje", "message": mensaje}
+        )
         
-'''
-    def gestionar_mensaje_entrante(self, text_data_json, fin):
+
+    def gestionar_mensaje(self, event):
         id_partida = 1
+        num_jugadores = 4
+        mensaje = event['mensaje']
         response = {
 
             'OK':"",
@@ -45,19 +62,19 @@ class GameConsumers(WebsocketConsumer):
             'error': "",
         }
 
-        if text_data_json('OK') == "true":
-            if text_data_json('type') == "Peticion":
-                if text_data_json('subtype') == "Tirar_dado":
+        if mensaje('OK') == "true":
+            if mensaje('type') == "Peticion":
+                if mensaje('subtype') == "Tirar_dado":
                     tirada = tirar_dado()
-                    casillas_posibles = calcular_siguiente_movimiento(tirada, text_data_json('jugador'), id_partida)
+                    casillas_posibles = calcular_siguiente_movimiento(tirada, mensaje('jugador'), id_partida)
                     response['valor_dado'] = tirada
-                    response['jugador'] = text_data_json('jugador')
+                    response['jugador'] = mensaje('jugador')
                     response['casillas_nuevas'] = casillas_posibles
                     response['type'] = "Respuesta"
                     response['subtype'] = "Dado_casillas"
 
-                elif text_data_json('subtype') == "Movimiento_casilla":
-                    pregunta = elegir_pregunta(text_data_json('casilla_elegida'), text_data_json('jugador'), id_partida)
+                elif mensaje('subtype') == "Movimiento_casilla":
+                    pregunta = elegir_pregunta(mensaje('casilla_elegida'), mensaje('jugador'), id_partida)
                     response['enunciado'] = pregunta['enunciado']
                     response['r1'] = pregunta['r1']
                     response['r2'] = pregunta['r2']
@@ -65,24 +82,24 @@ class GameConsumers(WebsocketConsumer):
                     response['r4'] = pregunta['r4']
                     response['rc'] = pregunta['rc']
                     response['quesito'] = pregunta['tematica']
-                    response['jugador'] = text_data_json('jugador')
+                    response['jugador'] = mensaje('jugador')
                     response['type'] = "Respuesta"
                     response['subtype'] = "Pregunta"
                 
-            elif text_data_json('type') == "Actualizacion":
-                if text_data_json('esCorrecta') == "true":
+            elif mensaje('type') == "Actualizacion":
+                if mensaje('esCorrecta') == "true":
                     fin = False
-                    if text_data_json('quesito') != "false":
-                        fin = marcar_queso(text_data_json('quesito'), text_data_json('jugador'), id_partida)
+                    if mensaje('quesito') != "false":
+                        fin = marcar_queso(mensaje('quesito'), mensaje('jugador'), id_partida)
 
-                    response['jugador'] = text_data_json('jugador')
+                    response['jugador'] = mensaje('jugador')
                     if fin == True:
                         response['type'] = "Fin"
                     else:
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
-                elif text_data_json('esCorrecta') == "false":
-                    response['jugador'] = calcular_sig_jugador(id_partida)
+                elif mensaje('esCorrecta') == "false":
+                    response['jugador'] = calcular_sig_jugador(id_partida, num_jugadores)
                     response['type'] = "Accion"
                     response['subtype'] = "Dados"
                 else:
@@ -94,17 +111,12 @@ class GameConsumers(WebsocketConsumer):
             response['OK'] = "true"
         else:
             response['OK'] = "false"
-            response['error'] = text_data_json('error')
-
-        return response#json.dumps(response)
-
-    def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        fin = False
-        response = self.gestionar_mensaje_entrante(text_data_json, fin)
+            response['error'] = mensaje('error')
 
         if fin == False:
-            self.send(response)
+
+            self.send(text_data=json.dumps(response))
         else:
-            self.close()
-'''
+            self.disconnect()
+
+

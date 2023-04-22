@@ -53,6 +53,7 @@ DJANGO_APPS = [
 PROJECT_APPS = [
     "trivial_api",
     "sala",
+    "partida",
 ]
 
 THIRD_PARTY_APPS = [

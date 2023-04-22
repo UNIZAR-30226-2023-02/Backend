@@ -14,7 +14,8 @@ from partida.funciones_auxiliares import *
 
 class Partida(APIView):
     def post(self, request):
-        id_partida = 1
+        id_partida = 2
+        num_jugadores = 4
         response = {
 
             'OK':"",
@@ -73,7 +74,7 @@ class Partida(APIView):
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
                 elif request.data.get('esCorrecta') == "false":
-                    response['jugador'] = calcular_sig_jugador(id_partida)
+                    response['jugador'] = calcular_sig_jugador(id_partida, num_jugadores)
                     response['type'] = "Accion"
                     response['subtype'] = "Dados"
                 else:

@@ -1,8 +1,5 @@
-from django.urls import path,re_path
+from django.urls import path
 from .views import *
-from rest_framework import permissions
-
-
 
 urlpatterns = [
 

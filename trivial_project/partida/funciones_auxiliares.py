@@ -40,7 +40,7 @@ def tirar_dado():
 def calcular_siguiente_movimiento(tirada, jugador, Partida_id):
 
     Casillas = ""
-    posicion = Juega.objects.filter(username = jugador, id_partida = Partida_id).values("posicion").first()
+    posicion = Juega.objects.filter(id_jugador = jugador, id_partida = Partida_id).values("posicion").first()
     for i in Tablero.objects.filter(casilla_actual=posicion['posicion'], tirada_dado=tirada).values('casilla_nueva'):
         Casillas =  Casillas + str(i['casilla_nueva']) + ","
     
@@ -56,7 +56,7 @@ def calcular_siguiente_movimiento(tirada, jugador, Partida_id):
 # @return vector(pregunta, r1, r2, r3, r4, rc)
 def elegir_pregunta(casilla, jugador, Partida_id):
 
-    mov_posicion = Juega.objects.filter(username = jugador, id_partida = Partida_id).first()
+    mov_posicion = Juega.objects.filter(id_jugador = jugador, id_partida = Partida_id).first()
     mov_posicion.posicion = casilla
     mov_posicion.save()
     inf_casilla = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
@@ -81,7 +81,7 @@ def elegir_pregunta(casilla, jugador, Partida_id):
 # @return True si el jugador ha conseguido todos los quesos
 def marcar_queso(queso, jugador, Partida_id):
     
-    juega = Juega.objects.filter(username = jugador, id_partida = Partida_id).first()
+    juega = Juega.objects.filter(id_jugador = jugador, id_partida = Partida_id).first()
     
     
     if Partida == None:
@@ -119,7 +119,7 @@ def marcar_queso(queso, jugador, Partida_id):
 # Calcula el siguente jugador a jugar dado el jugador que ha jugado en el ultimo turno
 # @Partida_id
 # @return jugador(username)
-def calcular_sig_jugador(Partida_id):
+def calcular_sig_jugador(Partida_id, num_jugadores):
 
     game = Partida.objects.filter(id = Partida_id).first()
     if game == None:
@@ -128,7 +128,7 @@ def calcular_sig_jugador(Partida_id):
         lista_j = game.orden_jugadores
         lista_j = lista_j.split(',')
         turno = game.turno_actual
-        game.turno_actual = str((int(turno) + 1) % 2)
+        game.turno_actual = str((int(turno) + 1) % num_jugadores)
         game.save()
 
-        return lista_j[turno % 2]
+        return lista_j[turno % num_jugadores]
