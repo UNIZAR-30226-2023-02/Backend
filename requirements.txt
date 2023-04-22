@@ -5,3 +5,4 @@ whitenoise
 attrs
 daphne
 channels==3.0.5
+pillow
