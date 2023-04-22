@@ -60,6 +60,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     "whitenoise.runserver_nostatic",
+    'drf_spectacular',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
@@ -219,11 +220,37 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # El orden en el que se muestra en la API Documentation
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'EXCEPTION_HANDLER': 'utils.exceptionhandler.custom_exception_handler'
     # 'DEFAULT_PERMISSION_CLASSES': [
     #     # Para pedir que esten autenticados al acceder a la API
     #     'rest_framework.permissions.IsAuthenticated',
     #     'rest_framework.permissions.AllowAny',
     # ],
+}
+
+SPECTACULAR_SETTINGS = {
+    # other settings
+    'TITLE': 'Trivial API',
+    'DESCRIPTION': 'This is the API for the Trivial project',
+    'VERSION': '1.0.0',
+    # Solo genera la documentacion de las url del trivial_api
+    'SERVE_URLCONF': 'trivial_api.urls',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
 }
 
 AUTHENTICATION_BACKENDS = (

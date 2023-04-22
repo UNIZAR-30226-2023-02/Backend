@@ -5,6 +5,8 @@ from rest_framework import permissions
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+# API documentation
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 urlpatterns = [
     path('poblar_base/', PoblarBaseDatos.as_view()),
 
@@ -27,11 +29,10 @@ urlpatterns = [
 
 
     
-
-
-    # re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    # re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    # re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ] 
 
+# Para permitir acceder a imagenes
 urlpatterns += staticfiles_urlpatterns() 

@@ -24,8 +24,27 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.core.files import File
 
+# API documentacion
+from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiParameter
+from drf_spectacular.types import OpenApiTypes
+
+
+# Parametro Token en la cabecera
+header = OpenApiParameter(
+    name='auth_token',
+    location=OpenApiParameter.HEADER,
+    type=OpenApiTypes.STR,
+    required=True,
+    description='Authentication token',
+)
+
+
+
+
 class PoblarBaseDatos(APIView):
-    def get(self,request):
+    @extend_schema(exclude=True)
+    def get(self):
         i = 1
         # Fichas 1-9
         while i <= 9:
@@ -46,6 +65,7 @@ class PoblarBaseDatos(APIView):
 
 
 class UsuarioLogin(APIView):
+    @extend_schema(tags=["USUARIO"],request=UsuarioLoginRequestSerializer, responses=UsuarioLoginResponseSerializer)
     def post(self, request):
         dict_response = {
             'OK':"",
@@ -53,6 +73,7 @@ class UsuarioLogin(APIView):
             'error_username': "",
             'error_password': "",
         }
+
         # Retrieve the credentials from the request data
         username = request.data.get('username')
         password = request.data.get('password')
@@ -79,6 +100,7 @@ class UsuarioLogin(APIView):
 
 
 class UsuarioRegistrar(APIView):
+    @extend_schema(tags=["USUARIO"],request=UsuarioRegistrarRequestSerializer, responses=UsuarioRegistrarResponseSerializer)
     def post(self, request):
         # Diccionario con lo que devolvera en la peticion
         dict_response = {
@@ -125,7 +147,7 @@ class UsuarioRegistrar(APIView):
 class UsuarioDatos(APIView):
     #Necesita la autenticazion
     #permission_classes = [IsAuthenticated]
-
+    @extend_schema(tags=["USUARIO"],request=UsuarioDatosRequestSerializer, responses=UsuarioDatosResponseSerializer)
     def post(self, request):
         username, token = get_username_and_token(request)
         dict_response = {
@@ -159,9 +181,11 @@ class UsuarioDatos(APIView):
             dict_response['OK'] = "False"
         return Response(dict_response)
 
+
 class UsuarioCambiarDatos(APIView):
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["USUARIO"],parameters=[header],request=UsuarioCambiarDatosRequestSerializer, responses=UsuarioCambiarDatosResponseSerializer)
     def post(self, request):
         dict_response = {
             'OK':"",
@@ -204,6 +228,7 @@ class UsuarioCambiarDatos(APIView):
 class UsuarioAddAmigo(APIView):
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["USUARIO"],request=UsuarioAddAmigoRequestSerializer, responses=UsuarioAddAmigoResponseSerializer)
     def post(self, request):
         #Con esto comprobamos si el usuario tiene acceso a la informacion
         username, token = get_username_and_token(request)
@@ -248,6 +273,7 @@ class UsuarioAddAmigo(APIView):
 class SalaCrear(APIView):
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["SALA"],request=SalaCrearRequestSerializer, responses=SalaCrearResponseSerializer)
     def post(self, request):
         any_error = 0
         dict_response = {
@@ -306,9 +332,11 @@ class SalaCrear(APIView):
         return Response(dict_response)
 
 # Compruebo que la sala exista, que no este llena, y que no este unido a ninguna sala
+
 class SalaUnir(APIView):
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
+    @extend_schema(exclude=True)
     def post(self, request):
         any_error = 0
         dict_response = {
@@ -317,6 +345,8 @@ class SalaUnir(APIView):
         }
         username, token = get_username_and_token(request)
         nombre_sala = request.data.get('nombre_sala')
+        password = request.data.get('password')
+
         sala = Sala.objects.filter(nombre_sala=nombre_sala).first() or None
         usuario_instance = Usuario.objects.filter(username=username).first() or None
         #Check if sala exists
@@ -342,9 +372,12 @@ class SalaUnir(APIView):
             dict_response['OK'] = "False"
         return Response(dict_response)
 
+
 class SalaSalir(APIView):
+    
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
+    @extend_schema(exclude=True)
     def post(self, request):
         any_error = 0
         dict_response = {
@@ -365,7 +398,7 @@ class SalaSalir(APIView):
 
 class SalaLista(APIView):
     permission_classes = [IsAuthenticated]
-
+    @extend_schema(exclude=True)
     def post(self, request):
         # token = get_token(request)
         # username = Token.objects.get(key=token).user
@@ -376,9 +409,10 @@ class SalaLista(APIView):
 
 
 #Lista los jugadores y el equipo al que pertencen en la sala especificada
+
 class SalaListaJugadoresSala(APIView):
     permission_classes = [IsAuthenticated]
-
+    @extend_schema(exclude=True)
     def post(self, request):
         username, token = get_username_and_token(request)
         nombre_sala = request.data.get('nombre_sala')
