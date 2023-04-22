@@ -1,49 +1,44 @@
 from django.shortcuts import render, get_object_or_404
 from .models import *
 from .serializers import *
-import json
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status,permissions,generics
-from rest_framework import permissions
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from trivial_api.funciones_auxiliares import *
+
+# Auxiliar
 import re
 from datetime import datetime
 
-
-# Token
-from rest_framework.authtoken.models import Token
+# API views
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-
-from trivial_api.funciones_auxiliares import *
-
-# Imagenes
-import os
-from django.conf import settings
-from django.conf.urls.static import static
-from django.core.files import File
 
 # API documentacion
 from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import OpenApiParameter
 from drf_spectacular.types import OpenApiTypes
 
+# Token
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
 
-# Parametro Token en la cabecera
+# Imagenes
+import os
+from django.conf import settings
+from django.conf.urls.static import static
+
+
+# Añadir a la documentacion, si se requiere del Token
 header = OpenApiParameter(
-    name='auth_token',
+    name='Authorization',
     location=OpenApiParameter.HEADER,
     type=OpenApiTypes.STR,
     required=True,
     description='Authentication token',
 )
 
-
-
-
+# Clase auxiliar para poblar la base de datos
 class PoblarBaseDatos(APIView):
-    @extend_schema(exclude=True)
+    @extend_schema(exclude=True) # Para que no salga en la documentacion, solo sirve para poblar
     def get(self):
         i = 1
         # Fichas 1-9
@@ -65,6 +60,9 @@ class PoblarBaseDatos(APIView):
 
 
 class UsuarioLogin(APIView):
+    '''
+    Loguea al usuario, en caso correcto devolvera el token del usuario.
+    '''
     @extend_schema(tags=["USUARIO"],request=UsuarioLoginRequestSerializer, responses=UsuarioLoginResponseSerializer)
     def post(self, request):
         dict_response = {
@@ -100,6 +98,9 @@ class UsuarioLogin(APIView):
 
 
 class UsuarioRegistrar(APIView):
+    '''
+    Crea un nuevo usuario si no se produce ningún error.
+    '''
     @extend_schema(tags=["USUARIO"],request=UsuarioRegistrarRequestSerializer, responses=UsuarioRegistrarResponseSerializer)
     def post(self, request):
         # Diccionario con lo que devolvera en la peticion
@@ -145,11 +146,15 @@ class UsuarioRegistrar(APIView):
 
 
 class UsuarioDatos(APIView):
+    '''
+    Muestra los datos del usuario que los solicita.
+    '''
     #Necesita la autenticazion
-    #permission_classes = [IsAuthenticated]
-    @extend_schema(tags=["USUARIO"],request=UsuarioDatosRequestSerializer, responses=UsuarioDatosResponseSerializer)
+    permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["USUARIO"],parameters=[header],request=UsuarioDatosRequestSerializer, responses=UsuarioDatosResponseSerializer)
     def post(self, request):
         username, token = get_username_and_token(request)
+        print("EL NOMBRE : " + username)
         dict_response = {
             'OK':"",
             'username':"",
@@ -161,7 +166,6 @@ class UsuarioDatos(APIView):
             'amigos':[],
         }
         user = Usuario.objects.filter(username=username).first() or None
-
         if user:
             amigos = Amigos.objects.filter(user1=username)
             amigos2 = Amigos.objects.filter(user2=username)
@@ -170,7 +174,49 @@ class UsuarioDatos(APIView):
             dict_response['fecha_nac'] = user.fecha_nac
             dict_response['monedas'] = user.monedas   
             dict_response['telefono'] = user.telefono  
-            dict_response['imagen'] = user.image
+
+            dict_response['imagen'] = user.image.url if user.image else ''
+            
+            for amigo in amigos:
+                dict_response['amigos'].append(str(amigo.user2)) 
+            for amigo in amigos2:
+                dict_response['amigos'].append(str(amigo.user1)) 
+
+            dict_response['OK'] = "True"
+        else:
+            dict_response['OK'] = "False"
+        return Response(dict_response)
+
+# Funcion que devuelve los datos del usuario
+# Uso: Para consultar los datos de otros usuarios
+class UsuarioDatosOtroUsuario(APIView):
+    '''
+    Muestra los datos del usuario que introduces en el parametro 'username'.
+    '''
+    @extend_schema(tags=["USUARIO"],request=UsuarioDatosOtroUsuarioRequestSerializer, responses=UsuarioDatosOtroUsuarioResponseSerializer)
+    def post(self, request):
+        username = request.data.get('username')
+        dict_response = {
+            'OK':"",
+            'username':"",
+            'correo': "",
+            'telefono':"",
+            'fecha_nac': "",
+            'monedas': "",
+            'imagen':"",
+            'amigos':[],
+        }
+        user = Usuario.objects.filter(username=username).first() or None
+        if user:
+            amigos = Amigos.objects.filter(user1=username)
+            amigos2 = Amigos.objects.filter(user2=username)
+            dict_response['username'] = user.username
+            dict_response['correo'] = user.correo
+            dict_response['fecha_nac'] = user.fecha_nac
+            dict_response['monedas'] = user.monedas   
+            dict_response['telefono'] = user.telefono  
+            dict_response['imagen'] = user.image.url if user.image else ''
+            
             for amigo in amigos:
                 dict_response['amigos'].append(str(amigo.user2)) 
             for amigo in amigos2:
@@ -183,6 +229,9 @@ class UsuarioDatos(APIView):
 
 
 class UsuarioCambiarDatos(APIView):
+    '''
+    Actualiza los datos del usuario.
+    '''
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
     @extend_schema(tags=["USUARIO"],parameters=[header],request=UsuarioCambiarDatosRequestSerializer, responses=UsuarioCambiarDatosResponseSerializer)
@@ -226,9 +275,12 @@ class UsuarioCambiarDatos(APIView):
 
 
 class UsuarioAddAmigo(APIView):
+    '''
+    Añade un amigo al usuario que lo solicita, si todo es correcto.
+    '''
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
-    @extend_schema(tags=["USUARIO"],request=UsuarioAddAmigoRequestSerializer, responses=UsuarioAddAmigoResponseSerializer)
+    @extend_schema(tags=["USUARIO"],parameters=[header],request=UsuarioAddAmigoRequestSerializer, responses=UsuarioAddAmigoResponseSerializer)
     def post(self, request):
         #Con esto comprobamos si el usuario tiene acceso a la informacion
         username, token = get_username_and_token(request)
@@ -264,13 +316,13 @@ class UsuarioAddAmigo(APIView):
             dict_response["OK"] = "False"
         return Response(dict_response)
     
-
-
-
-
+#class UsuarioEstadisticas(APIView):
 
 
 class SalaCrear(APIView):
+    '''
+    Crea una nueva sala si todo es correcto
+    '''
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
     @extend_schema(tags=["SALA"],request=SalaCrearRequestSerializer, responses=SalaCrearResponseSerializer)

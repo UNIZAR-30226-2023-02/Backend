@@ -1,10 +1,13 @@
-#Token
-from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated
-import re
-from datetime import datetime
 from .models import *
 from .serializers import *
+
+#Token
+from rest_framework.authtoken.models import Token
+
+# Auxiliares
+import re
+from datetime import datetime
+
 
 #Funcion para comprobar si el caracter introducido es ascii
 def isascii(s):

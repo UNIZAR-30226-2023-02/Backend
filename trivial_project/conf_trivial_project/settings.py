@@ -246,12 +246,9 @@ SPECTACULAR_SETTINGS = {
     # Solo genera la documentacion de las url del trivial_api
     'SERVE_URLCONF': 'trivial_api.urls',
     'SERVE_INCLUDE_SCHEMA': False,
+    'DISABLE_ERRORS_AND_WARNINGS': False,
 }
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-}
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',

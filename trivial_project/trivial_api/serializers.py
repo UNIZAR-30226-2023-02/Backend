@@ -1,12 +1,5 @@
 from rest_framework import serializers
 from .models import *
-from datetime import datetime
-import re
-#Token
-from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated
-
-from trivial_api.funciones_auxiliares import *
 
 
 
@@ -53,6 +46,21 @@ class UsuarioDatosResponseSerializer(serializers.Serializer):
     monedas = serializers.IntegerField()
     imagen = serializers.ImageField()
     amigos = serializers.ListField(child=serializers.CharField())
+
+# UsuarioDatosOtroUsuario
+class UsuarioDatosOtroUsuarioRequestSerializer(serializers.Serializer):
+    username = serializers.CharField()
+
+class UsuarioDatosOtroUsuarioResponseSerializer(serializers.Serializer):
+    OK = serializers.CharField()
+    username = serializers.CharField()
+    correo = serializers.EmailField()
+    telefono = serializers.CharField()
+    fecha_nac = serializers.DateField()
+    monedas = serializers.IntegerField()
+    imagen = serializers.ImageField()
+    amigos = serializers.ListField(child=serializers.CharField())
+
 
 # UsuarioCambiarDatos
 class UsuarioCambiarDatosRequestSerializer(serializers.Serializer):
@@ -104,8 +112,6 @@ class SalaUnirResponseSerializer(serializers.Serializer):
     OK = serializers.CharField()
     error_sala = serializers.CharField()
     
-
-
 
 #Serializador de la sala
 class SalaSerializer(serializers.ModelSerializer):
