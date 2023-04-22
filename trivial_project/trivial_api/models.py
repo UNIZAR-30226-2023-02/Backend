@@ -78,7 +78,7 @@ class Partida(models.Model):
         db_table = "Partida"
 
 class Juega(models.Model):
-    username = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "id_jugador", related_name = 'id_jugador')
+    id_jugador = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "id_jugador", related_name = 'id_jugador')
     id_partida = models.ForeignKey(Partida, on_delete = models.CASCADE, db_column = "id_partida", related_name = 'id_partida')
     posicion = models.IntegerField(null = False, default = 72)
     q_historia = models.BooleanField(null = False, default = False)
@@ -91,7 +91,7 @@ class Juega(models.Model):
     class Meta:
         db_table = "Juega"
         constraints = [
-        models.UniqueConstraint(fields=['username', 'id_partida'], name='usuario_partida_pk')
+        models.UniqueConstraint(fields=['id_jugador', 'id_partida'], name='usuario_partida_pk')
         ] 
 
 class Objetos(models.Model):
