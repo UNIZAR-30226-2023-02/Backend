@@ -77,8 +77,9 @@ class Partida(models.Model):
     class Meta:
         db_table = "Partida"
 
+# Información que necesita el jugador dentro de la partida
 class Juega(models.Model):
-    id_jugador = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "id_jugador", related_name = 'id_jugador')
+    username = models.ForeignKey(Usuario, on_delete = models.CASCADE)
     id_partida = models.ForeignKey(Partida, on_delete = models.CASCADE, db_column = "id_partida", related_name = 'id_partida')
     posicion = models.IntegerField(null = False, default = 72)
     q_historia = models.BooleanField(null = False, default = False)
@@ -91,7 +92,7 @@ class Juega(models.Model):
     class Meta:
         db_table = "Juega"
         constraints = [
-        models.UniqueConstraint(fields=['id_jugador', 'id_partida'], name='usuario_partida_pk')
+        models.UniqueConstraint(fields=['username', 'id_partida'], name='usuario_partida_pk')
         ] 
 
 class Objetos(models.Model):
@@ -118,7 +119,7 @@ class Tiene(models.Model):
         ] 
 
 class Estadisticas(models.Model):
-    user_id = models.OneToOneField(Usuario, on_delete=models.CASCADE,db_column = "user_id", related_name = 'estadisticas_username', primary_key = True)
+    username = models.OneToOneField(Usuario, on_delete=models.CASCADE, related_name = 'estadisticas_username', primary_key = True)
     geografia_bien = models.IntegerField(default = 0)
     geografia_mal = models.IntegerField(default = 0)
     arte_y_literatura_bien = models.IntegerField(default = 0)
