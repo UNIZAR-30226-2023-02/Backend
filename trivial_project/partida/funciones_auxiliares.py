@@ -4,7 +4,7 @@
 
 import json
 from trivial_api.models import *
-from Lib import random
+import random
 
 # Función crea en la base de datos una instancia del jugador y la partida
 # @param string(Partida_id numero)
@@ -121,7 +121,7 @@ def marcar_queso(queso, jugador, Partida_id):
 # @return jugador(username)
 def calcular_sig_jugador(Partida_id, num_jugadores):
 
-    game = Partida.objects.filter(id = Partida_id).first()
+    game = Partida.objects.filter(id = Partida_id).first() or None
     if game == None:
         return 'Error, no existe partida'
     else:

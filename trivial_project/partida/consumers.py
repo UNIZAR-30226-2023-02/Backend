@@ -9,9 +9,13 @@ from asgiref.sync import async_to_sync,sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.generic.websocket import WebsocketConsumer
 from rest_framework.authtoken.models import Token
-from funciones_auxiliares import *
+
+# Hay que poner partida.funciones_auxiliares no funciones_auxiliares
+from partida.funciones_auxiliares import *
 
 class GameConsumers(WebsocketConsumer):
+    def connect(self):
+        self.accept()
     def connect(self):
         self.game_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.game_group_name = "game_%s" % self.game_name
