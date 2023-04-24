@@ -11,13 +11,11 @@ from channels.generic.websocket import WebsocketConsumer
 from rest_framework.authtoken.models import Token
 
 # Hay que poner partida.funciones_auxiliares no funciones_auxiliares
-from partida.funciones_auxiliares import *
+from .funciones_auxiliares import *
 
 class GameConsumers(WebsocketConsumer):
     def connect(self):
-        self.accept()
-    def connect(self):
-        self.game_name = self.scope["url_route"]["kwargs"]["room_name"]
+        self.game_name = self.scope["url_route"]["kwargs"]["game_name"]
         self.game_group_name = "game_%s" % self.game_name
 
         async_to_sync(self.channel_layer.group_add)(
@@ -35,6 +33,7 @@ class GameConsumers(WebsocketConsumer):
     
     def receive(self, text_data):
         mensaje = json.loads(text_data)
+        print("holaa")
 
         async_to_sync(self.channel_layer.group_send)(
             self.game_group_name, {"type": "gestionar.mensaje", "message": mensaje}

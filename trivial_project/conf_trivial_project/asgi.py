@@ -28,7 +28,6 @@ application = ProtocolTypeRouter({
                 sala.routing.websocket_urlpatterns +
                 partida.routing.websocket_urlpatterns
             )
-            ##URLRouter(partida.routing.websocket_urlpatterns)
         )
     ),
 })

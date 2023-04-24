@@ -14,7 +14,7 @@ from partida.funciones_auxiliares import *
 
 class Partida(APIView):
     def post(self, request):
-        id_partida = 2
+        id_partida = 1
         num_jugadores = 4
         response = {
 
@@ -92,7 +92,7 @@ class Partida(APIView):
     
     def get(self, request):
 
-        generar_jugador(2)
+        generar_jugador(1)
 
         return Response()
 
