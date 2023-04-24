@@ -258,5 +258,4 @@ AUTHENTICATION_BACKENDS = (
 FILE_UPLOAD_PERMISSIONS = 0o640
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'static')
 STATIC_ROOT = os.path.join(BASE_DIR,'static')

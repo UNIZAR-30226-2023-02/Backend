@@ -1,4 +1,6 @@
 from .models import *
+from sala.models import *
+from partida.models import *
 from .serializers import *
 
 #Token

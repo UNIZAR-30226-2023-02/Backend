@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from .models import *
+from trivial_api.models import *
+from partida.models import *
+from sala.models import *
 
 
 

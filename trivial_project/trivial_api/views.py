@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import *
+from sala.models import *
+from partida.models import *
 from .serializers import *
 from trivial_api.funciones_auxiliares import *
 
@@ -376,8 +378,6 @@ class SalaCrear(APIView):
                                        ,n_jugadores=n_jugadores,password_sala=password_sala,tipo_partida=tipo_partida,tipo_sala=tipo_sala)
             sala.set_password(password_sala)
             sala.save()
-            sala_usuario = UsuariosSala.objects.create(nombre_sala=sala,username=usuario_instance,equipo=1)
-            sala_usuario.save()
             dict_response['OK'] = "True"
         else:
             dict_response["OK"] = "False"
