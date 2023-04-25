@@ -33,16 +33,15 @@ class GameConsumers(WebsocketConsumer):
     
     def receive(self, text_data):
         mensaje = json.loads(text_data)
-        print("holaa")
 
         async_to_sync(self.channel_layer.group_send)(
-            self.game_group_name, {"type": "gestionar.mensaje", "message": mensaje}
+            self.game_group_name, {"type": "gestionar.mensaje", "mensaje": mensaje}
         )
         
 
     def gestionar_mensaje(self, event):
-        id_partida = 1
         num_jugadores = 4
+        fin = False
         mensaje = event['mensaje']
         response = {
 
@@ -65,19 +64,19 @@ class GameConsumers(WebsocketConsumer):
             'error': "",
         }
 
-        if mensaje('OK') == "true":
-            if mensaje('type') == "Peticion":
-                if mensaje('subtype') == "Tirar_dado":
+        if mensaje['OK'] == "true":
+            if mensaje['type'] == "Peticion":
+                if mensaje['subtype'] == "Tirar_dado":
                     tirada = tirar_dado()
-                    casillas_posibles = calcular_siguiente_movimiento(tirada, mensaje('jugador'), id_partida)
+                    casillas_posibles = calcular_siguiente_movimiento(tirada, mensaje['jugador'], self.game_name)
                     response['valor_dado'] = tirada
-                    response['jugador'] = mensaje('jugador')
+                    response['jugador'] = mensaje['jugador']
                     response['casillas_nuevas'] = casillas_posibles
                     response['type'] = "Respuesta"
                     response['subtype'] = "Dado_casillas"
 
-                elif mensaje('subtype') == "Movimiento_casilla":
-                    pregunta = elegir_pregunta(mensaje('casilla_elegida'), mensaje('jugador'), id_partida)
+                elif mensaje['subtype'] == "Movimiento_casilla":
+                    pregunta = elegir_pregunta(mensaje['casilla_elegida'], mensaje['jugador'], self.game_name)
                     response['enunciado'] = pregunta['enunciado']
                     response['r1'] = pregunta['r1']
                     response['r2'] = pregunta['r2']
@@ -85,24 +84,23 @@ class GameConsumers(WebsocketConsumer):
                     response['r4'] = pregunta['r4']
                     response['rc'] = pregunta['rc']
                     response['quesito'] = pregunta['tematica']
-                    response['jugador'] = mensaje('jugador')
+                    response['jugador'] = mensaje['jugador']
                     response['type'] = "Respuesta"
                     response['subtype'] = "Pregunta"
                 
-            elif mensaje('type') == "Actualizacion":
-                if mensaje('esCorrecta') == "true":
-                    fin = False
-                    if mensaje('quesito') != "false":
-                        fin = marcar_queso(mensaje('quesito'), mensaje('jugador'), id_partida)
+            elif mensaje['type'] == "Actualizacion":
+                if mensaje['esCorrecta'] == "true":
+                    if mensaje['quesito'] != "false":
+                        fin = marcar_queso(mensaje['quesito'], mensaje['quesito'], self.game_name)
 
-                    response['jugador'] = mensaje('jugador')
+                    response['jugador'] = mensaje['jugador']
                     if fin == True:
                         response['type'] = "Fin"
                     else:
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
-                elif mensaje('esCorrecta') == "false":
-                    response['jugador'] = calcular_sig_jugador(id_partida, num_jugadores)
+                elif mensaje['esCorrecta'] == "false":
+                    response['jugador'] = calcular_sig_jugador(self.game_name, num_jugadores)
                     response['type'] = "Accion"
                     response['subtype'] = "Dados"
                 else:
@@ -114,7 +112,7 @@ class GameConsumers(WebsocketConsumer):
             response['OK'] = "true"
         else:
             response['OK'] = "false"
-            response['error'] = mensaje('error')
+            response['error'] = mensaje['error']
 
         if fin == False:
 
