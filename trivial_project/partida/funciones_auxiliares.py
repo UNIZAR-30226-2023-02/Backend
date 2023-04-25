@@ -43,7 +43,6 @@ def calcular_siguiente_movimiento(tirada, jugador, Partida_id):
 
     Casillas = ""
     posicion = Juega.objects.filter(username_id = jugador, id_partida = Partida_id).values('posicion').first()
-    print(posicion)
     for i in Tablero.objects.filter(casilla_actual=posicion['posicion'], tirada_dado=tirada).values('casilla_nueva'):
         Casillas =  Casillas + str(i['casilla_nueva']) + ","
     

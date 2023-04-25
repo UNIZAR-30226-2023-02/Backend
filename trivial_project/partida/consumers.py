@@ -23,6 +23,8 @@ class GameConsumers(WebsocketConsumer):
         )
 
         self.accept()
+
+        self.send(text_data=json.dumps({"Holaa": "holaaa"}))
         ###generar_jugador()
         ###TODO
     
