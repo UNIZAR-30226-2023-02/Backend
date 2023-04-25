@@ -122,9 +122,11 @@ def marcar_queso(queso, jugador, Partida_id):
 # Calcula el siguente jugador a jugar dado el jugador que ha jugado en el ultimo turno
 # @Partida_id
 # @return jugador(username)
-def calcular_sig_jugador(Partida_id, num_jugadores):
+def calcular_sig_jugador(Partida_id):
 
     game = Partida.objects.filter(id = Partida_id).first() or None
+    num_jugadores = Juega.objects.filter(id_partida = Partida_id).count()
+
     if game == None:
         return 'Error, no existe partida'
     else:

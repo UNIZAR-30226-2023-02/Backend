@@ -74,7 +74,7 @@ class Partida(APIView):
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
                 elif request.data.get('esCorrecta') == "false":
-                    response['jugador'] = calcular_sig_jugador(id_partida, num_jugadores)
+                    response['jugador'] = calcular_sig_jugador(id_partida)
                     response['type'] = "Accion"
                     response['subtype'] = "Dados"
                 else:
