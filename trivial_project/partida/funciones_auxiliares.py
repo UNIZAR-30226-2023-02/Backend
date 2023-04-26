@@ -24,7 +24,35 @@ def generar_jugador(Partida_id):
     else:
         print("Error") 
 
+def calcular_jugadores(Partida_id):
 
+    game = Partida.objects.filter(id = Partida_id).first() or None
+    jugadores = game.orden_jugadores.split(',')
+    return len(jugadores)
+
+
+def empezar_partida(Partida_id):
+    game = Partida.objects.filter(id = Partida_id).first() or None
+
+    if game != None:
+        jugadores = game.orden_jugadores.split(',')
+
+        random.shuffle(jugadores)
+
+        if len(jugadores) == 2:
+            jugadores.append("")
+            jugadores.append("")
+            jugadores.append("")
+            jugadores.append("")
+        elif len(jugadores) == 4:
+            jugadores.append("")
+            jugadores.append("")
+
+
+        return jugadores
+        
+    else:
+        return "Error"
 
 # Función que devulve un valor aleatorio del 1-6 simulando la tirada de un dado
 # @return string [1-6] 
@@ -124,7 +152,6 @@ def marcar_queso(queso, jugador, Partida_id):
 def calcular_sig_jugador(Partida_id):
 
     game = Partida.objects.filter(id = Partida_id).first() or None
-    num_jugadores = Juega.objects.filter(id_partida = Partida_id).count()
 
     if game == None:
         return 'Error, no existe partida'
@@ -132,7 +159,7 @@ def calcular_sig_jugador(Partida_id):
         lista_j = game.orden_jugadores
         lista_j = lista_j.split(',')
         turno = game.turno_actual
-        game.turno_actual = str((int(turno) + 1) % num_jugadores)
+        game.turno_actual = str((int(turno) + 1) % calcular_jugadores(Partida_id))
         game.save()
 
-        return lista_j[turno % num_jugadores]
+        return lista_j[turno % calcular_jugadores(Partida_id)]
