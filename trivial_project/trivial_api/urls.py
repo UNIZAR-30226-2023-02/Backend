@@ -32,7 +32,10 @@ urlpatterns = [
         # Uno con todas las fotos de perfil disponibles
 
     # Endpoints para la tienda
-
+    path('tienda/objetos/', TiendaObjetos.as_view()),
+    path('tienda/comprar/', ComprarObjeto.as_view()),
+    path('tienda/usar/', TiendaObjetos.as_view()),
+    
     #Endpoints para las partidas
     #path('partidas/empezar/', Partida.as_view()),
 

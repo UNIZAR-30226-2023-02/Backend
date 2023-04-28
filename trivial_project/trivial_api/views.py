@@ -41,7 +41,7 @@ header = OpenApiParameter(
 # Clase auxiliar para poblar la base de datos
 class PoblarBaseDatos(APIView):
     @extend_schema(exclude=True) # Para que no salga en la documentacion, solo sirve para poblar
-    def get(self):
+    def get(self,request):
         i = 1
         # Fichas 1-9
         while i <= 9:
@@ -527,7 +527,7 @@ class UsuarioEstadisticasYo(APIView):
             'porcentaje_respuestas':"",
             'error_usuario':"",
         }
-        username= get_username_and_token(request)
+        username, token = get_username_and_token(request)
         user = Usuario.objects.filter(username=username).first() or None
         stats = Estadisticas.objects.filter(username=user).first() or None
         total_respuestas_correctas = 0
@@ -619,3 +619,102 @@ class UsuarioEstadisticasOtroUsuario(APIView):
             dict_response["error_usuario"] = "No se ha encontrado el usuario"
         serializer = UsuarioEstadisticasYoResponseSerializer(dict_response)
         return Response(serializer.data)
+    
+
+
+class TiendaObjetos(APIView):
+    permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["TIENDA"],parameters=[header],request=TiendaObjetosRequestSerializer, responses=TiendaObjetosResponseSerializer)
+    def post(self, request):
+        dict_response = {
+            'fichas':[],
+            'tableros':[],
+        }
+        username, token = get_username_and_token(request)
+        
+        # Obtenemos las fichas
+        fichas = Objetos.objects.filter(tipo="ficha")
+        for ficha in fichas:
+            adquirido = 0
+            enUso = 0
+            tieneFicha = Tiene.objects.filter(id_objeto=str(ficha.id),username = username).first() or None
+            if(tieneFicha):
+                adquirido = 1
+                enUso = tieneFicha.enUso
+            dict_response['fichas'].append({"id": ficha.id, "coste": ficha.coste, "enUso": enUso, "adquirido": adquirido, "imagen": ficha.image.url}) 
+        
+        # Obtenemos los tableros
+        tableros = Objetos.objects.filter(tipo="tablero")
+        for tablero in tableros:
+            adquirido = 0
+            enUso = 0
+            tieneTablero = Tiene.objects.filter(id_objeto=str(tablero.id),username = username).first() or None
+            if(tieneTablero):
+                adquirido = 1
+                enUso = tieneTablero.enUso
+            dict_response['tableros'].append({"id": tablero.id, "coste": tablero.coste, "enUso": enUso, "adquirido": adquirido, "imagen": tablero.image.url}) 
+        
+        return Response(dict_response)
+  
+
+
+class ComprarObjeto(APIView):
+    permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["TIENDA"],parameters=[header],request=ComprarObjetoRequestSerializer, responses=ComprarObjetoResponseSerializer)
+    def post(self, request):
+        dict_response = {
+            'OK':"",
+            'error':"",
+        }
+        username, token = get_username_and_token(request)
+        objeto_id = request.data.get('objeto_id')
+        
+        user = Usuario.objects.filter(username=username).first() or None
+        objeto = Objetos.objects.filter(id=objeto_id).first() or None
+        # Si existe el usuario y el objeto
+        if(user and objeto):
+            monedas_usuario = user.monedas
+            coste_objeto = objeto.coste
+            tieneObjeto = Tiene.objects.filter(id_objeto=str(objeto.id),username = username).first() or None
+            # Si no tiene el objeto comprado
+            if(not tieneObjeto):
+                # Si tiene el saldo suficiente
+                if(monedas_usuario < coste_objeto):
+                    dict_response["error"] = "El usuario no tiene el saldo suficiente"   
+            else:
+                dict_response["error"] = "El usuario ya tiene el objeto"
+        else:
+            dict_response["error"] = "Error al comprar"
+
+        if(all_errors_empty(dict_response)):
+            objeto_usuario = Tiene.objects.create(id_objeto=str(objeto.id),username = username)
+            user.monedas = monedas_usuario - coste_objeto
+            objeto_usuario.save()
+            user.save()
+            dict_response["OK"] = "True"
+        else:
+            dict_response["OK"] = "False"
+
+        return Response(dict_response)
+  
+
+class UsarObjeto(APIView):
+    permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["TIENDA"],parameters=[header],request=UsarObjetoRequestSerializer, responses=UsarObjetoResponseSerializer)
+    def post(self, request):
+        dict_response = {
+            'OK':"",
+            'error':"",
+        }
+        username, token = get_username_and_token(request)
+        objeto_id = request.data.get('objeto_id')
+        
+        user = Usuario.objects.filter(username=username).first() or None
+        objeto = Objetos.objects.filter(id=objeto_id).first() or None
+        if(user and objeto):
+            tieneObjeto = Tiene.objects.filter(id_objeto=str(objeto.id),username = username).first() or None
+            # Si no tiene el objeto comprado
+            if(not tieneObjeto):
+                dict_response["error"] = "Compra el objeto para poder usarlo"
+        else:
+            dict_response["error"] = "Error al asignar el objeto"

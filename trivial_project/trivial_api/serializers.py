@@ -80,7 +80,7 @@ class UsuarioCambiarDatosResponseSerializer(serializers.Serializer):
 
 # UsuarioAddAmigo
 class UsuarioAddAmigoRequestSerializer(serializers.Serializer):
-    amigo_username = serializers.CharField()
+    amigo = serializers.CharField()
     
     
 class UsuarioAddAmigoResponseSerializer(serializers.Serializer):
@@ -154,3 +154,42 @@ class UsuarioEstadisticasYoResponseSerializer(serializers.Serializer):
 
 class UsuarioEstadisticasRequestSerializer(serializers.Serializer):
     username = serializers.CharField()
+
+
+class ObjetosSerializer(serializers.ModelSerializer):
+    class Meta:
+        id = models.IntegerField()
+        coste = models.IntegerField()
+        #tipo = models.CharField()
+        enUso = models.IntegerField()
+        adquirido = models.IntegerField()
+        imagen = models.ImageField()
+
+
+class TiendaObjetosRequestSerializer(serializers.Serializer):
+    pass
+
+class TiendaObjetosResponseSerializer(serializers.Serializer):
+    fichas = ObjetosSerializer()
+    tableros = ObjetosSerializer()
+
+
+
+
+class ComprarObjetoRequestSerializer(serializers.Serializer):
+    objeto_id = serializers.CharField()
+    
+    
+    
+class ComprarObjetoResponseSerializer(serializers.Serializer):
+    OK = serializers.CharField()
+    error = serializers.CharField()
+
+class UsarObjetoRequestSerializer(serializers.Serializer):
+    objeto_id = serializers.CharField()
+    
+    
+    
+class UsarObjetoResponseSerializer(serializers.Serializer):
+    OK = serializers.CharField()
+    error = serializers.CharField()
