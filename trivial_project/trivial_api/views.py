@@ -141,6 +141,9 @@ class UsuarioRegistrar(APIView):
             user = Usuario.objects.create(username=username, correo=correo,telefono = telefono,fecha_nac=fecha_nac,password=password)
             user.set_password(password)
             user.save()
+            # Hay que crear la instancia de las esatdisticas
+            stats = Estadisticas.objects.create(username = user)
+            stats.save()
             dict_response['OK'] = "True"
         else:
             dict_response['OK'] = "False"
@@ -390,7 +393,6 @@ class SalaUnir(APIView):
     permission_classes = [IsAuthenticated]
     @extend_schema(exclude=True)
     def post(self, request):
-        any_error = 0
         dict_response = {
             'OK':"",
             'error_sala':"",
@@ -426,7 +428,6 @@ class SalaUnir(APIView):
 
 
 class SalaSalir(APIView):
-    
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
     @extend_schema(exclude=True)
@@ -505,3 +506,116 @@ class SalaListaJugadoresSala(APIView):
 #         if not sala.check_password(password):
 #                 dict_response['error_password'] = "Contraseña invalida"
 #                 any_error = 1
+
+
+class UsuarioEstadisticasYo(APIView):
+    permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["USUARIO"],parameters=[header],request=UsuarioEstadisticasYoRequestSerializer, responses=UsuarioEstadisticasYoResponseSerializer)
+    def post(self, request):
+        dict_response = {
+            'OK':"",
+            'geografia':{"total":"","bien":"","mal":"","porcentaje":""},
+            'arte_y_literatura':{"total":"","bien":"","mal":"","porcentaje":""},
+            'historia':{"total":"","bien":"","mal":"","porcentaje":""},
+            'entretenimiento':{"total":"","bien":"","mal":"","porcentaje":""},
+            'ciencias':{"total":"","bien":"","mal":"","porcentaje":""},
+            'deportes':{"total":"","bien":"","mal":"","porcentaje":""},
+            'quesitos_totales':"",
+            'total_preguntas':"",
+            'total_respuestas_correctas':"",
+            'total_respuestas_incorrectas':"",
+            'porcentaje_respuestas':"",
+            'error_usuario':"",
+        }
+        username= get_username_and_token(request)
+        user = Usuario.objects.filter(username=username).first() or None
+        stats = Estadisticas.objects.filter(username=user).first() or None
+        total_respuestas_correctas = 0
+        total_respuestas_incorrectas = 0
+        if(user):
+            categorias = ["geografia","arte_y_literatura","historia","entretenimiento","ciencias","deportes"]
+            for categoria in categorias:
+                bien_categoria = getattr(stats, f"{categoria}_bien")
+                mal_categoria = getattr(stats, f"{categoria}_mal")
+                total_categoria = bien_categoria + mal_categoria
+                dict_response[categoria]["total"] =  total_categoria
+                dict_response[categoria]["bien"] = bien_categoria
+                dict_response[categoria]["mal"] = mal_categoria
+                if total_categoria == 0:
+                    dict_response[categoria]["porcentaje"] = 0
+                else:
+                    dict_response[categoria]["porcentaje"] = bien_categoria / total_categoria
+                total_respuestas_correctas += bien_categoria
+                total_respuestas_incorrectas += mal_categoria
+
+            total_preguntas = total_respuestas_correctas + total_respuestas_incorrectas
+            dict_response["quesitos_totales"] = stats.quesitos
+            dict_response["total_preguntas"] = total_preguntas
+            dict_response["total_respuestas_correctas"] = total_respuestas_correctas
+            dict_response["total_respuestas_incorrectas"] = total_respuestas_incorrectas
+            if total_preguntas == 0:
+                dict_response["porcentaje_respuestas"] = 0
+            else:
+                dict_response["porcentaje_respuestas"] = total_respuestas_correctas / total_preguntas
+            dict_response['OK'] = "True"
+        else:
+            dict_response['OK'] = "False"
+            dict_response["error_usuario"] = "No se ha encontrado el usuario"
+        serializer = UsuarioEstadisticasYoResponseSerializer(dict_response)
+        return Response(serializer.data)
+    
+
+class UsuarioEstadisticasOtroUsuario(APIView):
+    @extend_schema(tags=["USUARIO"],request=UsuarioEstadisticasRequestSerializer, responses=UsuarioEstadisticasYoResponseSerializer)
+    def post(self, request):
+        dict_response = {
+            'OK':"",
+            'geografia':{"total":"","bien":"","mal":"","porcentaje":""},
+            'arte_y_literatura':{"total":"","bien":"","mal":"","porcentaje":""},
+            'historia':{"total":"","bien":"","mal":"","porcentaje":""},
+            'entretenimiento':{"total":"","bien":"","mal":"","porcentaje":""},
+            'ciencias':{"total":"","bien":"","mal":"","porcentaje":""},
+            'deportes':{"total":"","bien":"","mal":"","porcentaje":""},
+            'quesitos_totales':"",
+            'total_preguntas':"",
+            'total_respuestas_correctas':"",
+            'total_respuestas_incorrectas':"",
+            'porcentaje_respuestas':"",
+            'error_usuario':"",
+        }
+        username = request.data.get('username')
+        user = Usuario.objects.filter(username=username).first() or None
+        stats = Estadisticas.objects.filter(username=user).first() or None
+        total_respuestas_correctas = 0
+        total_respuestas_incorrectas = 0
+        if(user):
+            categorias = ["geografia","arte_y_literatura","historia","entretenimiento","ciencias","deportes"]
+            for categoria in categorias:
+                bien_categoria = getattr(stats, f"{categoria}_bien")
+                mal_categoria = getattr(stats, f"{categoria}_mal")
+                total_categoria = bien_categoria + mal_categoria
+                dict_response[categoria]["total"] =  total_categoria
+                dict_response[categoria]["bien"] = bien_categoria
+                dict_response[categoria]["mal"] = mal_categoria
+                if total_categoria == 0:
+                    dict_response[categoria]["porcentaje"] = 0
+                else:
+                    dict_response[categoria]["porcentaje"] = bien_categoria / total_categoria
+                total_respuestas_correctas += bien_categoria
+                total_respuestas_incorrectas += mal_categoria
+
+            total_preguntas = total_respuestas_correctas + total_respuestas_incorrectas
+            dict_response["quesitos_totales"] = stats.quesitos
+            dict_response["total_preguntas"] = total_preguntas
+            dict_response["total_respuestas_correctas"] = total_respuestas_correctas
+            dict_response["total_respuestas_incorrectas"] = total_respuestas_incorrectas
+            if total_preguntas == 0:
+                dict_response["porcentaje_respuestas"] = 0
+            else:
+                dict_response["porcentaje_respuestas"] = total_respuestas_correctas / total_preguntas
+            dict_response['OK'] = "True"
+        else:
+            dict_response['OK'] = "False"
+            dict_response["error_usuario"] = "No se ha encontrado el usuario"
+        serializer = UsuarioEstadisticasYoResponseSerializer(dict_response)
+        return Response(serializer.data)

@@ -140,10 +140,12 @@ def get_username_and_token(request):
 
 
 #Obtenemos el nombre de usuario dado el token
-def get_username_by_token(token):
+def get_username_by_token(request):
+
+    token= request.headers.get('Authorization')
     username = None
     usuario = Token.objects.filter(key=token).first() or None
+    print(usuario)
     if(usuario):
-        user = Usuario.objects.filter(username=usuario.user_id).first() or None
-        username = user.username
+        username = usuario.user_id
     return username

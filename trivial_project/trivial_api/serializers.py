@@ -122,3 +122,35 @@ class SalaSerializer(serializers.ModelSerializer):
         fields = ('nombre_sala', 'creador_username', 'tiempo_respuesta', 'n_jugadores', 'tipo_partida', 'tipo_sala')
 
 
+
+
+
+class UsuarioEstadisticasYoRequestSerializer(serializers.Serializer):
+    pass
+
+class EstadisticasPreguntaSerializer(serializers.Serializer):
+    total = serializers.CharField()
+    bien = serializers.CharField()
+    mal = serializers.CharField()
+    porcentaje = serializers.CharField()
+
+# Para las estadisticas
+class UsuarioEstadisticasYoResponseSerializer(serializers.Serializer):
+    OK = serializers.CharField()
+    geografia = EstadisticasPreguntaSerializer()
+    arte_y_literatura = EstadisticasPreguntaSerializer()
+    historia = EstadisticasPreguntaSerializer()
+    entretenimiento = EstadisticasPreguntaSerializer()
+    ciencias = EstadisticasPreguntaSerializer()
+    deportes = EstadisticasPreguntaSerializer()
+    
+    quesitos_totales = serializers.CharField()
+    total_preguntas = serializers.CharField()
+    total_respuestas_correctas = serializers.CharField()
+    total_respuestas_incorrectas = serializers.CharField()
+    porcentaje_respuestas = serializers.CharField()
+    error_usuario = serializers.CharField()
+
+
+class UsuarioEstadisticasRequestSerializer(serializers.Serializer):
+    username = serializers.CharField()

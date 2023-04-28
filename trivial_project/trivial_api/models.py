@@ -14,6 +14,7 @@ class Usuario(AbstractUser):
     image = models.ImageField(null=True,blank=True,upload_to="static/images/perfil/")
 
 
+
     def set_password(self, raw_password):
         self.password = make_password(raw_password)
 
@@ -54,6 +55,7 @@ class Objetos(models.Model):
 class Tiene(models.Model):
     id_objeto = models.ForeignKey(Objetos, on_delete = models.CASCADE, db_column = "id_objeto", related_name = 'id_objeto')
     username = models.ForeignKey(Usuario, on_delete = models.CASCADE,related_name="username_objeto")
+    enUso = models.BooleanField(default=False)
 
     class Meta:
         db_table = "Tiene"
