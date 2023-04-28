@@ -94,7 +94,6 @@ def elegir_pregunta(casilla, jugador, Partida_id):
     pregunta_devolver = all_preguntas[random.randint(0,len(all_preguntas) - 1)]
 
     pregunta_devolver |= Casilla_Tematica.objects.filter(casilla = casilla).values('tematica').first()
-    print(pregunta_devolver)
 
     if inf_casilla['quesito'] == False:
         pregunta_devolver['tematica'] = 'false'
