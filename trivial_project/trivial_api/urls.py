@@ -34,7 +34,7 @@ urlpatterns = [
     # Endpoints para la tienda
     path('tienda/objetos/', TiendaObjetos.as_view()),
     path('tienda/comprar/', ComprarObjeto.as_view()),
-    path('tienda/usar/', TiendaObjetos.as_view()),
+    path('tienda/usar/', UsarObjeto.as_view()),
     
     #Endpoints para las partidas
     #path('partidas/empezar/', Partida.as_view()),

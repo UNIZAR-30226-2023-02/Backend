@@ -622,8 +622,9 @@ class UsuarioEstadisticasOtroUsuario(APIView):
     
 
 
-class TiendaObjetos(APIView):
+class TiendaObjetos(APIView): 
     permission_classes = [IsAuthenticated]
+    #@extend_schema(exclude=True)
     @extend_schema(tags=["TIENDA"],parameters=[header],request=TiendaObjetosRequestSerializer, responses=TiendaObjetosResponseSerializer)
     def post(self, request):
         dict_response = {
@@ -659,7 +660,9 @@ class TiendaObjetos(APIView):
 
 
 class ComprarObjeto(APIView):
+    
     permission_classes = [IsAuthenticated]
+    #@extend_schema(exclude=True)
     @extend_schema(tags=["TIENDA"],parameters=[header],request=ComprarObjetoRequestSerializer, responses=ComprarObjetoResponseSerializer)
     def post(self, request):
         dict_response = {
@@ -699,7 +702,9 @@ class ComprarObjeto(APIView):
   
 
 class UsarObjeto(APIView):
+    
     permission_classes = [IsAuthenticated]
+    #@extend_schema(exclude=True)
     @extend_schema(tags=["TIENDA"],parameters=[header],request=UsarObjetoRequestSerializer, responses=UsarObjetoResponseSerializer)
     def post(self, request):
         dict_response = {

@@ -156,22 +156,21 @@ class UsuarioEstadisticasRequestSerializer(serializers.Serializer):
     username = serializers.CharField()
 
 
-class ObjetosSerializer(serializers.ModelSerializer):
-    class Meta:
-        id = models.IntegerField()
-        coste = models.IntegerField()
-        #tipo = models.CharField()
-        enUso = models.IntegerField()
-        adquirido = models.IntegerField()
-        imagen = models.ImageField()
+class ObjetosSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    coste = serializers.IntegerField()
+    #tipo = serializers.CharField()
+    enUso = serializers.IntegerField()
+    adquirido = serializers.IntegerField()
+    imagen = serializers.ImageField()
 
 
 class TiendaObjetosRequestSerializer(serializers.Serializer):
     pass
 
 class TiendaObjetosResponseSerializer(serializers.Serializer):
-    fichas = ObjetosSerializer()
-    tableros = ObjetosSerializer()
+    fichas = ObjetosSerializer(many=True)
+    tableros = ObjetosSerializer(many=True)
 
 
 
