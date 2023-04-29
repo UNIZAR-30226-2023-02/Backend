@@ -173,7 +173,7 @@ class UsuarioDatos(APIView):
             dict_response['monedas'] = user.monedas   
             dict_response['telefono'] = user.telefono  
 
-            dict_response['imagen'] = user.image if user.image else ''
+            dict_response['imagen_perfil'] = user.image_perfil if user.image_perfil else ''
             
             for amigo in amigos:
                 dict_response['amigos'].append(str(amigo.user2)) 
@@ -201,7 +201,7 @@ class UsuarioDatosOtroUsuario(APIView):
             'telefono':"",
             'fecha_nac': "",
             'monedas': "",
-            'imagen':"",
+            'imagen_perfil':"",
             'amigos':[],
         }
         user = Usuario.objects.filter(username=username).first() or None
@@ -213,7 +213,7 @@ class UsuarioDatosOtroUsuario(APIView):
             dict_response['fecha_nac'] = user.fecha_nac
             dict_response['monedas'] = user.monedas   
             dict_response['telefono'] = user.telefono  
-            dict_response['imagen'] = user.image if user.image else ''
+            dict_response['imagen_perfil'] = user.imagen_perfil if user.imagen_perfil else ''
             
             for amigo in amigos:
                 dict_response['amigos'].append(str(amigo.user2)) 

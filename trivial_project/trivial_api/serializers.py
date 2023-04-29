@@ -45,7 +45,7 @@ class UsuarioDatosResponseSerializer(serializers.Serializer):
     telefono = serializers.CharField()
     fecha_nac = serializers.DateField()
     monedas = serializers.IntegerField()
-    imagen = serializers.CharField()
+    imagen_perfil = serializers.CharField()
     amigos = serializers.ListField(child=serializers.CharField())
 
 # UsuarioDatosOtroUsuario
@@ -59,7 +59,7 @@ class UsuarioDatosOtroUsuarioResponseSerializer(serializers.Serializer):
     telefono = serializers.CharField()
     fecha_nac = serializers.DateField()
     monedas = serializers.IntegerField()
-    imagen = serializers.CharField()
+    imagen_perfil = serializers.CharField()
     amigos = serializers.ListField(child=serializers.CharField())
 
 
