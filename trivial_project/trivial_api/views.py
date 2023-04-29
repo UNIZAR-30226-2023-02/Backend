@@ -117,12 +117,12 @@ class UsuarioRegistrar(APIView):
             'error_telefono':"",
         }
 
-        username = request.data.get('username')
-        password = request.data.get('password')
-        confirm_password = request.data.get('confirm_password')
-        fecha_nac = request.data.get('fecha_nac')
-        correo = request.data.get('correo')
-        telefono = request.data.get('telefono')
+        username = str(request.data.get('username'))
+        password = str(request.data.get('password'))
+        confirm_password = str(request.data.get('confirm_password'))
+        fecha_nac = str(request.data.get('fecha_nac'))
+        correo = str(request.data.get('correo'))
+        telefono = str(request.data.get('telefono'))
 
         # Check username
         dict_response["error_username"] = validate_username_register(username)
