@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 class Usuario(AbstractUser):
     username = models.CharField(default="ad",max_length=50, primary_key = True)
     correo = models.EmailField(default="example@gmail.com",blank=False,null=False,unique=True)
-    telefono = models.IntegerField(default=0)
+    telefono = models.CharField(default=0)
     fecha_nac = models.DateField(default="1997-10-19")
     password = models.CharField(default="",max_length=200) #La contraseña cifrada ocupa 128 caracteres
     monedas = models.IntegerField(default=0)
