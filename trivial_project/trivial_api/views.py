@@ -38,29 +38,6 @@ header = OpenApiParameter(
     description='Authentication token',
 )
 
-# Clase auxiliar para poblar la base de datos
-class PoblarBaseDatos(APIView):
-    @extend_schema(exclude=True) # Para que no salga en la documentacion, solo sirve para poblar
-    def get(self,request):
-        i = 1
-        # Solo guardar las de color blanco para que se muestren en la tienda.
-        # Fichas 1-9
-        while i <= 9:
-            image_path = os.path.normpath(os.path.join(settings.STATIC_URL, 'images','objetos', f'{i}.png'))
-            objeto = Objetos.objects.create(id=i,coste=5, tipo='ficha',image = image_path)
-            objeto.save()
-            i +=1
-        # Tableros 10-15
-        while i <= 15:
-            image_path = os.path.normpath(os.path.join(settings.STATIC_URL, 'images','objetos', f'{i}.png'))
-            objeto = Objetos.objects.create(id=i,coste=20, tipo='tablero',image = image_path)
-            objeto.save()
-            i+=1
-        # Fotos de perfil
-        
-        #image_path = os.path.normpath(os.path.join(settings.STATIC_URL, 'images','perfil', f'{i}.png'))
-        return Response("OK")
-
 
 class UsuarioLogin(APIView):
     '''
@@ -123,6 +100,7 @@ class UsuarioRegistrar(APIView):
         fecha_nac = request.data.get('fecha_nac')
         correo = request.data.get('correo')
         telefono = request.data.get('telefono')
+
 
         # Check username
         dict_response["error_username"] = validate_username_register(username)

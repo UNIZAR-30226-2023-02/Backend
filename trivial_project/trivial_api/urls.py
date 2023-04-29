@@ -7,9 +7,6 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 urlpatterns = [
-    # Endpoint que no se tiene que utilizar más que para poblar la base de datos la primera vez, luego eliminarlo
-    path('poblar_base/', PoblarBaseDatos.as_view()),
-
     # Endpoints para usuarios
     path('usuarios/login/', UsuarioLogin.as_view()),
     path('usuarios/register/', UsuarioRegistrar.as_view()),
