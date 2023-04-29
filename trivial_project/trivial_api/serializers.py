@@ -27,7 +27,6 @@ class UsuarioRegistrarRequestSerializer(serializers.Serializer):
 
 class UsuarioRegistrarResponseSerializer(serializers.Serializer):
     OK = serializers.CharField()
-    token = serializers.CharField()
     error_username = serializers.CharField()
     error_password = serializers.CharField()
     error_confirm_password = serializers.CharField()
@@ -46,7 +45,7 @@ class UsuarioDatosResponseSerializer(serializers.Serializer):
     telefono = serializers.CharField()
     fecha_nac = serializers.DateField()
     monedas = serializers.IntegerField()
-    imagen = serializers.ImageField()
+    imagen = serializers.CharField()
     amigos = serializers.ListField(child=serializers.CharField())
 
 # UsuarioDatosOtroUsuario
@@ -60,7 +59,7 @@ class UsuarioDatosOtroUsuarioResponseSerializer(serializers.Serializer):
     telefono = serializers.CharField()
     fecha_nac = serializers.DateField()
     monedas = serializers.IntegerField()
-    imagen = serializers.ImageField()
+    imagen = serializers.CharField()
     amigos = serializers.ListField(child=serializers.CharField())
 
 
@@ -86,7 +85,8 @@ class UsuarioAddAmigoRequestSerializer(serializers.Serializer):
 class UsuarioAddAmigoResponseSerializer(serializers.Serializer):
     OK = serializers.CharField()
     error = serializers.CharField()
-    
+
+
 # SalaCrear
 class SalaCrearRequestSerializer(serializers.Serializer):
     nombre_sala = serializers.CharField()
@@ -115,8 +115,12 @@ class SalaUnirResponseSerializer(serializers.Serializer):
     error_sala = serializers.CharField()
     
 
-#Serializador de la sala
-class SalaSerializer(serializers.ModelSerializer):
+# SalaLista
+class SalaListaRequestSerializer(serializers.Serializer):
+    pass
+
+
+class SalaListaResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sala
         fields = ('nombre_sala', 'creador_username', 'tiempo_respuesta', 'n_jugadores', 'tipo_partida', 'tipo_sala')
@@ -124,7 +128,21 @@ class SalaSerializer(serializers.ModelSerializer):
 
 
 
+# SalaListaJugadores
+class DatosUsuarioSala(serializers.Serializer):
+    username = serializers.CharField()
+    equipo = serializers.CharField()
 
+class SalaListaJugadoresRequestSerializer(serializers.Serializer):
+    nombre_sala = serializers.CharField()
+      
+class SalaListaJugadoresResponseSerializer(serializers.Serializer):
+    usuarios = DatosUsuarioSala(many=True)
+    
+
+
+
+# UsuarioEstadisticasYo
 class UsuarioEstadisticasYoRequestSerializer(serializers.Serializer):
     pass
 
@@ -134,7 +152,6 @@ class EstadisticasPreguntaSerializer(serializers.Serializer):
     mal = serializers.CharField()
     porcentaje = serializers.CharField()
 
-# Para las estadisticas
 class UsuarioEstadisticasYoResponseSerializer(serializers.Serializer):
     OK = serializers.CharField()
     geografia = EstadisticasPreguntaSerializer()
@@ -152,17 +169,19 @@ class UsuarioEstadisticasYoResponseSerializer(serializers.Serializer):
     error_usuario = serializers.CharField()
 
 
+# UsuarioEstadisticas
 class UsuarioEstadisticasRequestSerializer(serializers.Serializer):
     username = serializers.CharField()
 
 
+# TiendaObjetos
 class ObjetosSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     coste = serializers.IntegerField()
     #tipo = serializers.CharField()
     enUso = serializers.IntegerField()
     adquirido = serializers.IntegerField()
-    imagen = serializers.ImageField()
+    imagen = serializers.CharField()
 
 
 class TiendaObjetosRequestSerializer(serializers.Serializer):
@@ -173,21 +192,18 @@ class TiendaObjetosResponseSerializer(serializers.Serializer):
     tableros = ObjetosSerializer(many=True)
 
 
-
-
+# ComprarObjetos
 class ComprarObjetoRequestSerializer(serializers.Serializer):
     objeto_id = serializers.CharField()
-    
-    
     
 class ComprarObjetoResponseSerializer(serializers.Serializer):
     OK = serializers.CharField()
     error = serializers.CharField()
 
+
+# UsarObjeto
 class UsarObjetoRequestSerializer(serializers.Serializer):
     objeto_id = serializers.CharField()
-    
-    
     
 class UsarObjetoResponseSerializer(serializers.Serializer):
     OK = serializers.CharField()

@@ -11,8 +11,9 @@ class Usuario(AbstractUser):
     fecha_nac = models.DateField(default="1997-10-19")
     password = models.CharField(default="",max_length=200) #La contraseña cifrada ocupa 128 caracteres
     monedas = models.IntegerField(default=0)
-    image = models.ImageField(null=True,blank=True,upload_to="static/images/perfil/")
-
+    image_perfil = models.CharField(default="/static/images/perfil/default_perfil.png",max_length=200)
+    image_tablero = models.CharField(default="/static/images/perfil/default_tablero.png",max_length=200)
+    image_ficha = models.CharField(default="/static/images/perfil/default_ficha.png",max_length=200)
 
 
     def set_password(self, raw_password):
@@ -47,7 +48,7 @@ class Objetos(models.Model):
     id = models.IntegerField(primary_key = True)
     coste = models.IntegerField(default = 5, null = False)
     tipo = models.CharField(max_length = 7,choices=TIPO_CHOICES, null = False)
-    image = models.ImageField(upload_to="static/images/objetos/")
+    image = models.CharField(max_length=200)
 
     class Meta:
         db_table = "Objetos"

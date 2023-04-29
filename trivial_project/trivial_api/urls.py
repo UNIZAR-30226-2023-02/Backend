@@ -23,10 +23,8 @@ urlpatterns = [
 
     # Endpoints para las salas
     path('salas/crear/', SalaCrear.as_view()),
-    path('salas/unir/', SalaUnir.as_view()),
-    path('salas/salir/', SalaSalir.as_view()),
     path('salas/lista-salas/', SalaLista.as_view()),
-    path('salas/lista-jugadores-sala/', SalaListaJugadoresSala.as_view()),
+    path('salas/lista-jugadores-sala/', SalaListaJugadores.as_view()),
     
     # Endpoints auxiliares
         # Uno con todas las fotos de perfil disponibles

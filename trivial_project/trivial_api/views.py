@@ -43,6 +43,7 @@ class PoblarBaseDatos(APIView):
     @extend_schema(exclude=True) # Para que no salga en la documentacion, solo sirve para poblar
     def get(self,request):
         i = 1
+        # Solo guardar las de color blanco para que se muestren en la tienda.
         # Fichas 1-9
         while i <= 9:
             image_path = os.path.normpath(os.path.join(settings.STATIC_URL, 'images','objetos', f'{i}.png'))
@@ -140,10 +141,24 @@ class UsuarioRegistrar(APIView):
             # Creamos el registro en la base de datos
             user = Usuario.objects.create(username=username, correo=correo,telefono = telefono,fecha_nac=fecha_nac,password=password)
             user.set_password(password)
+        
+            objeto_ficha = Objetos.objects.filter(id=1).first()
+            objeto_tablero = Objetos.objects.filter(id=2).first()
+            user.image_ficha = objeto_ficha.image
+            user.image_tablero = objeto_tablero.image
             user.save()
+
+            # Hay que hacer que tenga la ficha y el tablero por defecto 
+            tiene_objeto_ficha = Tiene.objects.create(id_objeto=objeto_ficha,username = user,enUso=1)
+            tiene_objeto_tablero = Tiene.objects.create(id_objeto=objeto_tablero,username = user,enUso=1)
+            
+            tiene_objeto_ficha.save()
+            tiene_objeto_tablero.save()
+            
             # Hay que crear la instancia de las esatdisticas
             stats = Estadisticas.objects.create(username = user)
             stats.save()
+
             dict_response['OK'] = "True"
         else:
             dict_response['OK'] = "False"
@@ -167,7 +182,7 @@ class UsuarioDatos(APIView):
             'telefono':"",
             'fecha_nac': "",
             'monedas': "",
-            'imagen':"",
+            'imagen_perfil':"",
             'amigos':[],
         }
         user = Usuario.objects.filter(username=username).first() or None
@@ -180,7 +195,7 @@ class UsuarioDatos(APIView):
             dict_response['monedas'] = user.monedas   
             dict_response['telefono'] = user.telefono  
 
-            dict_response['imagen'] = user.image.url if user.image else ''
+            dict_response['imagen'] = user.image if user.image else ''
             
             for amigo in amigos:
                 dict_response['amigos'].append(str(amigo.user2)) 
@@ -220,7 +235,7 @@ class UsuarioDatosOtroUsuario(APIView):
             dict_response['fecha_nac'] = user.fecha_nac
             dict_response['monedas'] = user.monedas   
             dict_response['telefono'] = user.telefono  
-            dict_response['imagen'] = user.image.url if user.image else ''
+            dict_response['imagen'] = user.image if user.image else ''
             
             for amigo in amigos:
                 dict_response['amigos'].append(str(amigo.user2)) 
@@ -289,7 +304,7 @@ class UsuarioAddAmigo(APIView):
     def post(self, request):
         #Con esto comprobamos si el usuario tiene acceso a la informacion
         username, token = get_username_and_token(request)
-        amigo_username = request.data.get('amigo')
+        amigo = request.data.get('amigo')
         
         dict_response = {
             'OK':"",
@@ -299,21 +314,21 @@ class UsuarioAddAmigo(APIView):
         if not existe_usuario(username):
             dict_response['error'] = "El usuario no existe"
             
-        if not existe_usuario(amigo_username):
+        if not existe_usuario(amigo):
             dict_response['error'] = "El usuario que intentas agregar no existe"
 
         # Ordenamos alfabeticamente 
-        if username > amigo_username:
-            username , amigo_username = amigo_username,username
+        if username > amigo:
+            username , amigo = amigo,username
 
-        if username == amigo_username:
+        if username == amigo:
             dict_response['error'] = "El usuario no puede ser amigo de si mismo"
-        if es_amigo(username,amigo_username):
+        if es_amigo(username,amigo):
             dict_response['error'] = "Ya tienes el amigo agregado"
                 
         if all_errors_empty(dict_response):
             usuario_instance = get_object_or_404(Usuario, username=username)
-            amigo_instance = get_object_or_404(Usuario, username=amigo_username)
+            amigo_instance = get_object_or_404(Usuario, username=amigo)
             amigo_db = Amigos.objects.create(user1=usuario_instance,user2=amigo_instance)
             amigo_db.save()
             dict_response['OK'] = "True"
@@ -386,129 +401,50 @@ class SalaCrear(APIView):
             dict_response["OK"] = "False"
         return Response(dict_response)
 
-# Compruebo que la sala exista, que no este llena, y que no este unido a ninguna sala
-
-class SalaUnir(APIView):
-    #Necesita la autenticazion
-    permission_classes = [IsAuthenticated]
-    @extend_schema(exclude=True)
-    def post(self, request):
-        dict_response = {
-            'OK':"",
-            'error_sala':"",
-        }
-        username, token = get_username_and_token(request)
-        nombre_sala = request.data.get('nombre_sala')
-        password = request.data.get('password')
-
-        sala = Sala.objects.filter(nombre_sala=nombre_sala).first() or None
-        usuario_instance = Usuario.objects.filter(username=username).first() or None
-        #Check if sala exists
-        if sala:
-            #Check if the user is already in a sala
-            if(not UsuariosSala.objects.filter(username=usuario_instance).exists):
-                jugadores_en_partida =  UsuariosSala.objects.filter(nombre_sala=nombre_sala).count()
-                if(jugadores_en_partida > sala.n_jugadores):
-                    any_error = 1
-                    dict_response['error_sala'] = "La sala esta llena, no puedes unirte"
-            else:
-                any_error = 1
-                dict_response['error_sala'] = "Ya perteneces a una sala, no puedes unirte"                
-        else:
-            any_error = 1
-            dict_response['error_sala'] = "La sala no existe"
-            
-        if any_error ==0:
-            sala_usuario = UsuariosSala.objects.create(nombre_sala=sala,username=usuario_instance,equipo=1)
-            sala_usuario.save()
-            dict_response['OK'] = "True"
-        else:
-            dict_response['OK'] = "False"
-        return Response(dict_response)
-
-
-class SalaSalir(APIView):
-    #Necesita la autenticazion
-    permission_classes = [IsAuthenticated]
-    @extend_schema(exclude=True)
-    def post(self, request):
-        any_error = 0
-        dict_response = {
-            'OK':"",
-            'error_sala':"",
-        }
-        username, token = get_username_and_token(request)
-        usuario_instance = Usuario.objects.filter(username=username).first() or None
-        try:
-            UsuariosSala.objects.filter(username=usuario_instance).delete()
-            dict_response['OK'] = "True"
-        except:
-            dict_response['OK'] = "False"
-            dict_response["error_sala"] = "Ya no perteneces a esa sala, no puedes salir"
-        return Response(dict_response)
 
 
 
 class SalaLista(APIView):
-    permission_classes = [IsAuthenticated]
-    @extend_schema(exclude=True)
+    '''
+    Lista con todas las salas
+    '''
+    @extend_schema(tags=["SALA"], request=SalaListaRequestSerializer,responses=SalaListaResponseSerializer(many=True))
     def post(self, request):
-        # token = get_token(request)
-        # username = Token.objects.get(key=token).user
-
         salas = Sala.objects.all()
-        serializer = SalaSerializer(salas, many=True)
+        serializer = SalaListaResponseSerializer(salas, many=True)
         return Response(serializer.data)
 
 
 #Lista los jugadores y el equipo al que pertencen en la sala especificada
-
-class SalaListaJugadoresSala(APIView):
+class SalaListaJugadores(APIView):
+    '''
+    Lista con todos los usuarios de una sala
+    '''
     permission_classes = [IsAuthenticated]
-    @extend_schema(exclude=True)
+    @extend_schema(tags=["SALA"], parameters=[header],request=SalaListaJugadoresRequestSerializer,responses=SalaListaJugadoresResponseSerializer)
     def post(self, request):
+        dict_response = {
+            "usuarios":[]
+        }
         username, token = get_username_and_token(request)
         nombre_sala = request.data.get('nombre_sala')
         sala = Sala.objects.filter(nombre_sala=nombre_sala).first() or None
         if(sala):
             # Filter Sala objects based on nombre
             usuarios = UsuariosSala.objects.filter(nombre_sala=sala)
-            # Get list of usernames
-            usernames = [{'username': str(usuario.username),'equipo': str(usuario.equipo)} for usuario in usuarios]
+            # Get list of usernames and equipo
+            info_user = [{'username': str(usuario.username),'equipo': str(usuario.equipo)} for usuario in usuarios]
         else:
-            usernames = []
-        return Response(usernames)
+            info_user = []
+        dict_response["usuarios"] = info_user
+        return Response(dict_response)
 
-
-
-
-
-# class SalaEliminar(APIView):
-#     permission_classes = [IsAuthenticated]
-#     def post(self, request):
-#         #Con esto comprobamos si el usuario tiene acceso a la informacion
-#         username, token = get_username_and_token(request)
-#         if(not isAuthorized(token,username)):
-#             return Response({"detail":"No tienes acceso a la informacion"}, status=401)
-        
-
-
-
-# class UnirseSala(APIView):
-#     #Necesita la autenticazion
-#     permission_classes = [IsAuthenticated]
-#     def post(self, request):
-#         #Con esto comprobamos si el usuario tiene acceso a la informacion
-#         username, token = get_username_and_token(request)
-#         if(not isAuthorized(token,username)):
-#             return Response({"detail":"No tienes acceso a la informacion"}, status=401)
-        
-#         if not sala.check_password(password):
-#                 dict_response['error_password'] = "Contraseña invalida"
-#                 any_error = 1
 
 
 class UsuarioEstadisticasYo(APIView):
+    '''
+    Estadisticas de mi usuario
+    '''
     permission_classes = [IsAuthenticated]
     @extend_schema(tags=["USUARIO"],parameters=[header],request=UsuarioEstadisticasYoRequestSerializer, responses=UsuarioEstadisticasYoResponseSerializer)
     def post(self, request):
@@ -566,6 +502,9 @@ class UsuarioEstadisticasYo(APIView):
     
 
 class UsuarioEstadisticasOtroUsuario(APIView):
+    '''
+    Estadisticas del usuario que paso como parametro
+    '''
     @extend_schema(tags=["USUARIO"],request=UsuarioEstadisticasRequestSerializer, responses=UsuarioEstadisticasYoResponseSerializer)
     def post(self, request):
         dict_response = {
@@ -623,6 +562,9 @@ class UsuarioEstadisticasOtroUsuario(APIView):
 
 
 class TiendaObjetos(APIView): 
+    '''
+    Lista con las fichas y tableros
+    '''
     permission_classes = [IsAuthenticated]
     #@extend_schema(exclude=True)
     @extend_schema(tags=["TIENDA"],parameters=[header],request=TiendaObjetosRequestSerializer, responses=TiendaObjetosResponseSerializer)
@@ -642,7 +584,7 @@ class TiendaObjetos(APIView):
             if(tieneFicha):
                 adquirido = 1
                 enUso = tieneFicha.enUso
-            dict_response['fichas'].append({"id": ficha.id, "coste": ficha.coste, "enUso": enUso, "adquirido": adquirido, "imagen": ficha.image.url}) 
+            dict_response['fichas'].append({"id": ficha.id, "coste": ficha.coste, "enUso": enUso, "adquirido": adquirido, "imagen": ficha.image}) 
         
         # Obtenemos los tableros
         tableros = Objetos.objects.filter(tipo="tablero")
@@ -653,14 +595,16 @@ class TiendaObjetos(APIView):
             if(tieneTablero):
                 adquirido = 1
                 enUso = tieneTablero.enUso
-            dict_response['tableros'].append({"id": tablero.id, "coste": tablero.coste, "enUso": enUso, "adquirido": adquirido, "imagen": tablero.image.url}) 
+            dict_response['tableros'].append({"id": tablero.id, "coste": tablero.coste, "enUso": enUso, "adquirido": adquirido, "imagen": tablero.image}) 
         
         return Response(dict_response)
   
 
 
 class ComprarObjeto(APIView):
-    
+    '''
+    Comprar el objeto pasado como parametro
+    '''
     permission_classes = [IsAuthenticated]
     #@extend_schema(exclude=True)
     @extend_schema(tags=["TIENDA"],parameters=[header],request=ComprarObjetoRequestSerializer, responses=ComprarObjetoResponseSerializer)
@@ -702,7 +646,9 @@ class ComprarObjeto(APIView):
   
 
 class UsarObjeto(APIView):
-    
+    '''
+    El usuario tendrá en uso el objeto pasado como parametro
+    '''
     permission_classes = [IsAuthenticated]
     #@extend_schema(exclude=True)
     @extend_schema(tags=["TIENDA"],parameters=[header],request=UsarObjetoRequestSerializer, responses=UsarObjetoResponseSerializer)
@@ -723,3 +669,82 @@ class UsarObjeto(APIView):
                 dict_response["error"] = "Compra el objeto para poder usarlo"
         else:
             dict_response["error"] = "Error al asignar el objeto"
+
+        if(all_errors_empty(dict_response)):
+            # Actualizamos la imagen del tablero/ficha a la nueva 
+            if(objeto.tipo == "ficha"):
+                user.image_ficha = objeto.image
+            elif(objeto.tipo == "tablero"):
+                user.image_tablero = objeto.image
+            user.save()
+            dict_response["OK"] = "True"
+        else:
+            dict_response["OK"] = "False"
+        return Response(dict_response)
+
+
+
+
+
+
+
+
+# Compruebo que la sala exista, que no este llena, y que no este unido a ninguna sala
+# class SalaUnir(APIView):
+#     #Necesita la autenticazion
+#     permission_classes = [IsAuthenticated]
+#     @extend_schema(tags=["SALA"],request=SalaUnirRequestSerializer, responses=SalaUnirResponseSerializer)
+#     def post(self, request):
+#         dict_response = {
+#             'OK':"",
+#             'error_sala':"",
+#         }
+#         username, token = get_username_and_token(request)
+#         nombre_sala = request.data.get('nombre_sala')
+#         password = request.data.get('password')
+
+#         sala = Sala.objects.filter(nombre_sala=nombre_sala).first() or None
+#         usuario_instance = Usuario.objects.filter(username=username).first() or None
+#         #Check if sala exists
+#         if sala:
+#             #Check if the user is already in a sala
+#             if(not UsuariosSala.objects.filter(username=usuario_instance).exists):
+#                 jugadores_en_partida =  UsuariosSala.objects.filter(nombre_sala=nombre_sala).count()
+#                 if(jugadores_en_partida > sala.n_jugadores):
+#                     any_error = 1
+#                     dict_response['error_sala'] = "La sala esta llena, no puedes unirte"
+#             else:
+#                 any_error = 1
+#                 dict_response['error_sala'] = "Ya perteneces a una sala, no puedes unirte"                
+#         else:
+#             any_error = 1
+#             dict_response['error_sala'] = "La sala no existe"
+            
+#         if any_error ==0:
+#             sala_usuario = UsuariosSala.objects.create(nombre_sala=sala,username=usuario_instance,equipo=1)
+#             sala_usuario.save()
+#             dict_response['OK'] = "True"
+#         else:
+#             dict_response['OK'] = "False"
+#         return Response(dict_response)
+
+
+# class SalaSalir(APIView):
+#     #Necesita la autenticazion
+#     permission_classes = [IsAuthenticated]
+#     @extend_schema(exclude=True)
+#     def post(self, request):
+#         any_error = 0
+#         dict_response = {
+#             'OK':"",
+#             'error_sala':"",
+#         }
+#         username, token = get_username_and_token(request)
+#         usuario_instance = Usuario.objects.filter(username=username).first() or None
+#         try:
+#             UsuariosSala.objects.filter(username=usuario_instance).delete()
+#             dict_response['OK'] = "True"
+#         except:
+#             dict_response['OK'] = "False"
+#             dict_response["error_sala"] = "Ya no perteneces a esa sala, no puedes salir"
+#         return Response(dict_response)

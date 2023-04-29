@@ -43,6 +43,7 @@ class Partida(models.Model):
 # Información que necesita el jugador dentro de la partida
 class Juega(models.Model):
     username = models.ForeignKey(Usuario, on_delete = models.CASCADE)
+    # Añadir un campo que sea la imagen que tiene el jugador, es decir, si es color verde, azul, morado
     id_partida = models.ForeignKey(Partida, on_delete = models.CASCADE, db_column = "id_partida", related_name = 'id_partida')
     posicion = models.IntegerField(null = False, default = 72)
     q_historia = models.BooleanField(null = False, default = False)
