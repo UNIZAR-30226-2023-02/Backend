@@ -51,10 +51,9 @@ class UsuarioLogin(APIView):
             'error_username': "",
             'error_password': "",
         }
-
         # Retrieve the credentials from the request data
-        username = request.data.get('username')
-        password = request.data.get('password')
+        username = str(request.data.get('username'))
+        password = str(request.data.get('password'))
 
         # Comprobacion de errores
         # Busca si existe el usuario, si no existe guarda None en user
@@ -94,12 +93,12 @@ class UsuarioRegistrar(APIView):
             'error_telefono':"",
         }
 
-        username = request.data.get('username')
-        password = request.data.get('password')
-        confirm_password = request.data.get('confirm_password')
-        fecha_nac = request.data.get('fecha_nac')
-        correo = request.data.get('correo')
-        telefono = request.data.get('telefono')
+        username = str(request.data.get('username'))
+        password = str(request.data.get('password'))
+        confirm_password = str(request.data.get('confirm_password'))
+        fecha_nac = str(request.data.get('fecha_nac'))
+        correo = str(request.data.get('correo'))
+        telefono = str(request.data.get('telefono'))
 
 
         # Check username
@@ -185,15 +184,13 @@ class UsuarioDatos(APIView):
             dict_response['OK'] = "False"
         return Response(dict_response)
 
-# Funcion que devuelve los datos del usuario
-# Uso: Para consultar los datos de otros usuarios
 class UsuarioDatosOtroUsuario(APIView):
     '''
-    Muestra los datos del usuario que introduces en el parametro 'username'.
+    Muestra los datos del usuario que los solicita.
     '''
     @extend_schema(tags=["USUARIO"],request=UsuarioDatosOtroUsuarioRequestSerializer, responses=UsuarioDatosOtroUsuarioResponseSerializer)
     def post(self, request):
-        username = request.data.get('username')
+        username = request.data.get("username")
         dict_response = {
             'OK':"",
             'username':"",
@@ -202,7 +199,7 @@ class UsuarioDatosOtroUsuario(APIView):
             'fecha_nac': "",
             'monedas': "",
             'imagen_perfil':"",
-            'amigos':[],
+            'amigos':[]
         }
         user = Usuario.objects.filter(username=username).first() or None
         if user:
@@ -213,8 +210,8 @@ class UsuarioDatosOtroUsuario(APIView):
             dict_response['fecha_nac'] = user.fecha_nac
             dict_response['monedas'] = user.monedas   
             dict_response['telefono'] = user.telefono  
-            dict_response['imagen_perfil'] = user.imagen_perfil if user.imagen_perfil else ''
-            
+            dict_response['imagen_perfil'] = user.image_perfil if user.image_perfil else ''
+
             for amigo in amigos:
                 dict_response['amigos'].append(str(amigo.user2)) 
             for amigo in amigos2:
@@ -241,9 +238,9 @@ class UsuarioCambiarDatos(APIView):
             'error_telefono':"",
         }
 
-        correo = request.data.get('correo')
-        telefono = request.data.get('telefono')
-        fecha_nac = request.data.get('fecha_nac')
+        correo = str(request.data.get('correo'))
+        telefono = str(request.data.get('telefono'))
+        fecha_nac = str(request.data.get('fecha_nac'))
 
         username, token = get_username_and_token(request)
         user = Usuario.objects.filter(username=username).first() or None
@@ -336,11 +333,11 @@ class SalaCrear(APIView):
         }
         username, token = get_username_and_token(request)
 
-        nombre_sala = request.data.get('nombre_sala')
-        tiempo_respuesta = request.data.get('tiempo_respuesta')
-        password_sala = request.data.get('password_sala')
-        n_jugadores = request.data.get('n_jugadores')
-        tipo_partida = request.data.get('tipo_partida')
+        nombre_sala = str(request.data.get('nombre_sala'))
+        tiempo_respuesta = int(request.data.get('tiempo_respuesta'))
+        password_sala = str(request.data.get('password_sala'))
+        n_jugadores = int(request.data.get('n_jugadores'))
+        tipo_partida = str(request.data.get('tipo_partida'))
         
 
         if password_sala:
@@ -360,11 +357,11 @@ class SalaCrear(APIView):
             dict_response['error_tipo_partida'] = "Solo son validos: Clasico,Equipo,Tematico"
 
         # Check n_jugadores
-        if(int(n_jugadores) <2 or int(n_jugadores) >6):
+        if(n_jugadores <2 or n_jugadores>6):
             dict_response['error_n_jugadores'] = "El numero de jugadores tiene que ser entre 2 y 6"
 
         # Check tiempo_respuesta
-        if(int(tiempo_respuesta) <10 or int(tiempo_respuesta) >50):
+        if(tiempo_respuesta <10 or tiempo_respuesta >50):
             dict_response['error_tiempo_respuesta'] = "Tiempo de respuesta invalido (10-50)"
 
         if all_errors_empty(dict_response):
@@ -405,7 +402,7 @@ class SalaListaJugadores(APIView):
             "usuarios":[]
         }
         username, token = get_username_and_token(request)
-        nombre_sala = request.data.get('nombre_sala')
+        nombre_sala = str(request.data.get('nombre_sala'))
         sala = Sala.objects.filter(nombre_sala=nombre_sala).first() or None
         if(sala):
             # Filter Sala objects based on nombre
@@ -592,7 +589,7 @@ class ComprarObjeto(APIView):
             'error':"",
         }
         username, token = get_username_and_token(request)
-        objeto_id = request.data.get('objeto_id')
+        objeto_id = str(request.data.get('objeto_id'))
         
         user = Usuario.objects.filter(username=username).first() or None
         objeto = Objetos.objects.filter(id=objeto_id).first() or None
@@ -636,7 +633,7 @@ class UsarObjeto(APIView):
             'error':"",
         }
         username, token = get_username_and_token(request)
-        objeto_id = request.data.get('objeto_id')
+        objeto_id = str(request.data.get('objeto_id'))
         
         user = Usuario.objects.filter(username=username).first() or None
         objeto = Objetos.objects.filter(id=objeto_id).first() or None

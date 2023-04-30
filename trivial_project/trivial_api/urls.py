@@ -38,7 +38,7 @@ urlpatterns = [
     path('documentacion/', SpectacularSwaggerView.as_view(url_name='documentacion')),
     path('documentacion/swagger-ui', SpectacularAPIView.as_view(), name='documentacion'),
     path('schema/redoc/', SpectacularRedocView.as_view(url_name='documentacion'), name='redoc'),
-] 
+]
 
 # Para permitir acceder a imagenes
 urlpatterns += staticfiles_urlpatterns() 

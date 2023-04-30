@@ -20,12 +20,15 @@ def populate_data(sender, **kwargs):
             # Fichas 1-9
             while i <= 9:
                 image_path = os.path.normpath(os.path.join(settings.STATIC_URL, 'images','objetos', f'{i}.png'))
+                image_path = image_path.replace('\\', '/')
                 objeto = Objetos.objects.create(id=i,coste=5, tipo='ficha',image = image_path)
                 objeto.save()
                 i +=1
             # Tableros 10-15
             while i <= 15:
                 image_path = os.path.normpath(os.path.join(settings.STATIC_URL, 'images','objetos', f'{i}.png'))
+                image_path = image_path.replace('\\', '/')
+                
                 objeto = Objetos.objects.create(id=i,coste=20, tipo='tablero',image = image_path)
                 objeto.save()
                 i+=1
