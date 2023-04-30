@@ -328,6 +328,7 @@ class SalaCrear(APIView):
         any_error = 0
         dict_response = {
             'OK':"",
+            'websocket':"",
             'error_nombre_sala':"",
             'error_tipo_sala':"",
             'error_tipo_partida':"",
@@ -375,6 +376,7 @@ class SalaCrear(APIView):
             sala.set_password(password_sala)
             sala.save()
             dict_response['OK'] = "True"
+            dict_response['websocket'] = "/ws/lobby/" + nombre_sala + "/"
         else:
             dict_response["OK"] = "False"
         return Response(dict_response)

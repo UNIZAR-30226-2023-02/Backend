@@ -21,3 +21,13 @@ def get_username(list_headers):
         return username
     except:
         return None
+    
+def lista_usuarios_sala(room_name):
+    usuarios = UsuariosSala.objects.filter(nombre_sala=room_name).values("username")
+    lista_usuarios=""
+    for i in usuarios:
+        lista_usuarios = lista_usuarios + str(i['username'] + ',')
+    lista_usuarios = lista_usuarios[:-1]
+
+    return lista_usuarios
+    

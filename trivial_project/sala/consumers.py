@@ -68,14 +68,13 @@ class SalaConsumer(WebsocketConsumer):
         
         sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
 
+
         if sala and str(sala.creador_username) == username and accion == "empezar":
         
-            orden = ""
-            for i in UsuariosSala.objects.filter(nombre_sala=self.room_name).values('username'):
-                print(i)
-                orden = str(i['username']) + ","
-            
-            orden = orden[:-1]
+            orden = lista_usuarios_sala(self.room_name)
+            print ("El orden es: " + str(orden))
+
+
 
             partida = Partida.objects.create(tipo=sala.tipo_partida,terminada=False,orden_jugadores=orden)
 
@@ -99,5 +98,8 @@ class SalaConsumer(WebsocketConsumer):
     def nuevo_usuario(self, event):
         username = event["username"]
         # Send message to WebSocket, to the Frontend
-        self.send(text_data=json.dumps({"accion": "nuevo_usuario", "username": username}))
+        self.send(text_data=json.dumps({"accion": "nuevo_usuario", "username": lista_usuarios_sala(self.room_name)}))
+
+        
+         
 
