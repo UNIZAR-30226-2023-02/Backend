@@ -87,9 +87,19 @@ def calcular_siguiente_movimiento(tirada, jugador, Partida_id):
 def elegir_pregunta(casilla, jugador, Partida_id):
 
     mov_posicion = Juega.objects.filter(username_id = jugador, id_partida = Partida_id).first()
+    if mov_posicion == None:
+        return None
+    
     mov_posicion.posicion = casilla
     mov_posicion.save()
     inf_casilla = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
+
+    
+    if inf_casilla['tematica'] == 'Dados':
+        pregunta_devolver = {'enunciado':""}
+        pregunta_devolver['enunciado'] = 'repetir'
+        return pregunta_devolver
+    
     all_preguntas = Pregunta.objects.values('enunciado', 'r1', 'r2', 'r3', 'r4', 'rc').filter(categoria = inf_casilla['tematica'])
     pregunta_devolver = all_preguntas[random.randint(0,len(all_preguntas) - 1)]
 

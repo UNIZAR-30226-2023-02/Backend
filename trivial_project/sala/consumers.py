@@ -9,6 +9,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.generic.websocket import WebsocketConsumer
 from rest_framework.authtoken.models import Token
 from .funciones_auxiliares import *
+from urllib.parse import parse_qs
 
 
 
@@ -18,21 +19,26 @@ class SalaConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = "lobby_%s" % self.room_name
-        username = get_username(self.scope["headers"])
+        query_params = parse_qs(self.scope["query_string"].decode())
+        username = query_params["token"][-1]
 
         sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
-        user= Usuario.objects.filter(username=username).first() or None
+        user = Usuario.objects.filter(username=username).first() or None
         #Check if sala and user exists
         if sala and user:
             #Check if the user is already in a sala
-            if(not UsuariosSala.objects.filter(username=user).exists):
+            print ("El usuaio existe: " + str(UsuariosSala.objects.filter(username=user).exists()))
+            if(not UsuariosSala.objects.filter(username=user, nombre_sala=self.room_name).exists()):
                 jugadores_en_partida =  UsuariosSala.objects.filter(nombre_sala=self.room_name).count()
                 if(jugadores_en_partida > sala.n_jugadores):
                     self.close()
-                    return             
+                    return None
+            else:
+                self.close()
+                return None    
         else:
             self.close()
-            return  
+            return None
 
 
 
@@ -64,18 +70,18 @@ class SalaConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         accion = text_data_json["accion"]
-        username = get_username(self.scope["headers"])
+        query_params = parse_qs(self.scope["query_string"].decode())
+        username = query_params["token"][-1]
         
         sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
 
+
         if sala and str(sala.creador_username) == username and accion == "empezar":
         
-            orden = ""
-            for i in UsuariosSala.objects.filter(nombre_sala=self.room_name).values('username'):
-                print(i)
-                orden = str(i['username']) + ","
-            
-            orden = orden[:-1]
+            orden = lista_usuarios_sala(self.room_name)
+            print ("El orden es: " + str(orden))
+
+
 
             partida = Partida.objects.create(tipo=sala.tipo_partida,terminada=False,orden_jugadores=orden)
 
@@ -99,5 +105,8 @@ class SalaConsumer(WebsocketConsumer):
     def nuevo_usuario(self, event):
         username = event["username"]
         # Send message to WebSocket, to the Frontend
-        self.send(text_data=json.dumps({"accion": "nuevo_usuario", "username": username}))
+        self.send(text_data=json.dumps({"accion": "nuevo_usuario", "username": lista_usuarios_sala(self.room_name)}))
+
+        
+         
 
