@@ -93,8 +93,8 @@ def elegir_pregunta(casilla, jugador, Partida_id):
 
     
     if inf_casilla['tematica'] == 'Dados':
-        # pregunta_devolver['']
-        return None
+        pregunta_devolver['enunciado'] = 'repetir'
+        return pregunta_devolver
     
     all_preguntas = Pregunta.objects.values('enunciado', 'r1', 'r2', 'r3', 'r4', 'rc').filter(categoria = inf_casilla['tematica'])
     pregunta_devolver = all_preguntas[random.randint(0,len(all_preguntas) - 1)]
