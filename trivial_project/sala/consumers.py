@@ -28,7 +28,7 @@ class SalaConsumer(WebsocketConsumer):
         if sala and user:
             #Check if the user is already in a sala
             print ("El usuaio existe: " + str(UsuariosSala.objects.filter(username=user).exists()))
-            if(not UsuariosSala.objects.filter(username=user).exists()):
+            if(not UsuariosSala.objects.filter(username=user, nombre_sala=self.room_name).exists()):
                 jugadores_en_partida =  UsuariosSala.objects.filter(nombre_sala=self.room_name).count()
                 if(jugadores_en_partida > sala.n_jugadores):
                     self.close()
