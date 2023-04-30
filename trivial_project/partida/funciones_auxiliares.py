@@ -87,6 +87,9 @@ def calcular_siguiente_movimiento(tirada, jugador, Partida_id):
 def elegir_pregunta(casilla, jugador, Partida_id):
 
     mov_posicion = Juega.objects.filter(username_id = jugador, id_partida = Partida_id).first()
+    if mov_posicion == None:
+        return None
+    
     mov_posicion.posicion = casilla
     mov_posicion.save()
     inf_casilla = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()

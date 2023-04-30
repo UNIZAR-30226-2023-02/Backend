@@ -112,9 +112,9 @@ class GameConsumers(WebsocketConsumer):
                 elif mensaje['subtype'] == "Movimiento_casilla":
                     pregunta = elegir_pregunta(mensaje['casilla_elegida'], mensaje['jugador'], self.game_name)
                     if pregunta['enunciado'] == 'repetir':
-                        response['type'] = "Respuesta"
-                        response['subtype'] = "Dado_casillas"
-                        
+                        response['type'] = "Accion"
+                        response['subtype'] = "Dados"
+
                     else:
                         response['enunciado'] = pregunta['enunciado']
                         response['r1'] = pregunta['r1']
