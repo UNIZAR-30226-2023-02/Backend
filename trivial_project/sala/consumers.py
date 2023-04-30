@@ -9,6 +9,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.generic.websocket import WebsocketConsumer
 from rest_framework.authtoken.models import Token
 from .funciones_auxiliares import *
+from urllib.parse import parse_qs
 
 
 
@@ -18,7 +19,8 @@ class SalaConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = "lobby_%s" % self.room_name
-        username = get_username(self.scope["headers"])
+        query_params = parse_qs(self.scope["query_string"].decode())
+        username = query_params["token"][-1]
 
         sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
         user= Usuario.objects.filter(username=username).first() or None
@@ -64,7 +66,8 @@ class SalaConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         accion = text_data_json["accion"]
-        username = get_username(self.scope["headers"])
+        query_params = parse_qs(self.scope["query_string"].decode())
+        username = query_params["token"][-1]
         
         sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
 
