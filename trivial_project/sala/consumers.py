@@ -19,19 +19,18 @@ class SalaConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = "lobby_%s" % self.room_name
-
+        
         # Get the query parameters from the URL
         query_params = parse_qs(self.scope["query_string"].decode())
         
         # Get the token and password parameters from the query parameters
-        username = query_params.get("token", [None])[0]
+        username = query_params.get("username", [None])[0]
         password = query_params.get("password", [None])[0]
-
-        print(username,password)
-
+        self.username = username
 
         sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
         user = Usuario.objects.filter(username=username).first() or None
+        
         #Check if sala and user exists
         if sala and user:
             #Check if the user is already in a sala
@@ -52,74 +51,90 @@ class SalaConsumer(WebsocketConsumer):
             self.close()
             return None
 
-
-
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name, self.channel_name
         )
-        # Unimos el usuario a la sala
+
         sala_usuario = UsuariosSala.objects.create(nombre_sala = sala, username=user)
         sala_usuario.save()
-
         self.accept()
 
         async_to_sync(self.channel_layer.group_send)(
-                self.room_group_name, {"type": "nuevo.usuario", "username": username}
+                self.room_group_name, {"type": "actualizar_lista", "username": username}
         )
         
         
     def disconnect(self, close_code):
         # Send message to WebSocket
-        usuario_sala = UsuariosSala.objects.filter(nombre_sala=self.room_name).first()
-        usuario_sala.delete()
-        self.send(text_data=json.dumps({"Error":"Desconectado"}))
-        # Leave room group
-        async_to_sync(self.channel_layer.group_discard)(
-            self.room_group_name, self.channel_name
-        )
-        self.close()
+        sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
+        if(sala):
+            usuario_sala = UsuariosSala.objects.filter(nombre_sala=self.room_name,username = self.username).first() or None
+            if(usuario_sala):
+                usuario_sala.delete()
+
+            self.send(text_data=json.dumps({"Error":"Desconectado"}))
+
+            # Si el creador abandona la sala se elimina la sala.
+            if(self.username == str(sala.creador_username)):
+                # Envio mensaje a todos los demás de desconexión
+                async_to_sync(self.channel_layer.group_send)(
+                    self.room_group_name, {"type": "sala_cancelada"}
+                )
+                self.close()
+            else:
+                async_to_sync(self.channel_layer.group_send)(
+                    self.room_group_name, {"type": "actualizar_lista"}
+                )
+                # Django elimina al usuario del grupo
+                async_to_sync(self.channel_layer.group_discard)(
+                    self.room_group_name, self.channel_name
+                )
+                self.close()
+            # Si no hay jugadores en la sala, esta se elimina
+            usuarios_sala = UsuariosSala.objects.filter(nombre_sala=self.room_name).first() or None
+            if not usuarios_sala:
+                sala.delete()
+            
+
 
     # Receive message from WebSocket. Este es el mensaje en json que me envia el frontend
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         accion = text_data_json["accion"]
+        # Get the query parameters from the URL
         query_params = parse_qs(self.scope["query_string"].decode())
-        username = query_params["token"][-1]
-        
+        username = query_params.get("username", [None])[0]
+    
         sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
 
-
         if sala and str(sala.creador_username) == username and accion == "empezar":
-        
             orden = lista_usuarios_sala(self.room_name)
             print ("El orden es: " + str(orden))
-
-
-
             partida = Partida.objects.create(tipo=sala.tipo_partida,terminada=False,orden_jugadores=orden)
-
             wspartida = "/ws/partida/" + str(partida.id) + "/"
-            
+
             # Send message to room group
             async_to_sync(self.channel_layer.group_send)(
-                self.room_group_name, {"type": "comenzar.partida", "wspartida": wspartida }
+                self.room_group_name, {"type": "comenzar_partida", "wspartida": wspartida }
             )
         else:
             print(sala.creador_username,username,accion)
             # Send message to WebSocket
             self.send(text_data=json.dumps({"accion": "error", "mensaje": "No tienes permiso para comenzar la partida"}))
 
+
     def comenzar_partida(self, event):
-        
         self.send(text_data=json.dumps({"accion": "empezar_partida", "url_partida": event["wspartida"]}))
         self.disconnect(0)
 
+    def sala_cancelada(self,event):
+        self.send(text_data=json.dumps({"accion": "actualizar_lista", "usernames": lista_usuarios_sala(self.room_name)}))
+        self.disconnect(0)
 
-    def nuevo_usuario(self, event):
-        username = event["username"]
+    def actualizar_lista(self, event):
         # Send message to WebSocket, to the Frontend
-        self.send(text_data=json.dumps({"accion": "nuevo_usuario", "username": lista_usuarios_sala(self.room_name)}))
+        self.send(text_data=json.dumps({"accion": "actualizar_lista", "usernames": lista_usuarios_sala(self.room_name)}))
 
         
          
