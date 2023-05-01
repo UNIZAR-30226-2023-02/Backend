@@ -311,7 +311,48 @@ class UsuarioAddAmigo(APIView):
             dict_response["OK"] = "False"
         return Response(dict_response)
     
-#class UsuarioEstadisticas(APIView):
+
+class UsuarioDeleteAmigo(APIView):
+    '''
+    Elimina de tus amigos al usuario especificado
+    '''
+    #Necesita la autenticazion
+    permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["USUARIO"],parameters=[header],request=UsuarioDeleteAmigoRequestSerializer, responses=UsuarioDeleteAmigoResponseSerializer)
+    def post(self, request):
+         #Con esto comprobamos si el usuario tiene acceso a la informacion
+        username, token = get_username_and_token(request)
+        amigo = request.data.get('amigo')
+        
+        dict_response = {
+            'OK':"",
+            'error':""
+        }
+
+        if not existe_usuario(username):
+            dict_response['error'] = "El usuario no existe"
+            
+        if not existe_usuario(amigo):
+            dict_response['error'] = "El usuario que intentas eliminar no existe"
+
+        # Ordenamos alfabeticamente 
+        if username > amigo:
+            username , amigo = amigo,username
+
+        if username == amigo:
+            dict_response['error'] = "El usuario no puede ser amigo de si mismo"
+        if not es_amigo(username,amigo):
+            dict_response['error'] = "No puedes eliminarlo ya que no es tu amigo"
+                
+        if all_errors_empty(dict_response):
+            usuario_instance = get_object_or_404(Usuario, username=username)
+            amigo_instance = get_object_or_404(Usuario, username=amigo)
+            amigo_db = Amigos.objects.filter(user1=usuario_instance,user2=amigo_instance).first()
+            amigo_db.delete()
+            dict_response['OK'] = "True"
+        else:
+            dict_response["OK"] = "False"
+        return Response(dict_response)
 
 
 class SalaCrear(APIView):

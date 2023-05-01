@@ -87,6 +87,15 @@ class UsuarioAddAmigoResponseSerializer(serializers.Serializer):
     error = serializers.CharField()
 
 
+# UsuarioDeleteAmigo
+class UsuarioDeleteAmigoRequestSerializer(serializers.Serializer):
+    amigo = serializers.CharField()
+    
+    
+class UsuarioDeleteAmigoResponseSerializer(serializers.Serializer):
+    OK = serializers.CharField()
+    error = serializers.CharField()
+
 # SalaCrear
 class SalaCrearRequestSerializer(serializers.Serializer):
     nombre_sala = serializers.CharField()

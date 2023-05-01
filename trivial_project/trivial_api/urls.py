@@ -6,6 +6,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 # API documentation
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
+
+
 urlpatterns = [
     # Endpoints para usuarios
     path('usuarios/login/', UsuarioLogin.as_view()),
@@ -14,6 +16,7 @@ urlpatterns = [
     path('usuarios/datos-usuario/', UsuarioDatosOtroUsuario.as_view()),
     path('usuarios/cambiar-datos/', UsuarioCambiarDatos.as_view()),
     path('usuarios/add/amigo/', UsuarioAddAmigo.as_view()),
+    path('usuarios/delete/amigo/', UsuarioDeleteAmigo.as_view()),
 
     path('usuarios/estadisticas-yo/', UsuarioEstadisticasYo.as_view()),
     path('usuarios/estadisticas-usuario/',UsuarioEstadisticasOtroUsuario.as_view()),

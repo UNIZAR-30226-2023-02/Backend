@@ -239,11 +239,12 @@ REST_FRAMEWORK = {
     # ],
 }
 
+
 SPECTACULAR_SETTINGS = {
     # other settings
     'TITLE': 'Trivial API',
     'DESCRIPTION': 'This is the API for the Trivial project',
-    'VERSION': '1.0.0',
+    'VERSION': '3.4.1',
     # Solo genera la documentacion de las url del trivial_api
     'SERVE_URLCONF': 'trivial_api.urls',
     'SERVE_INCLUDE_SCHEMA': False,
@@ -260,7 +261,9 @@ FILE_UPLOAD_PERMISSIONS = 0o640
 
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+if not DEBUG:
+  STATIC_ROOT = 'static'
+if DEBUG:
+  STATICFILES_DIRS = [
+      os.path.join(BASE_DIR, 'static'),
+  ]
