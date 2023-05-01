@@ -14,13 +14,21 @@ from urllib.parse import parse_qs
 
 
 
-
+#/ws/lobby/<room_name>/?token=Pepe2212&password=12345
 class SalaConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = "lobby_%s" % self.room_name
+
+        # Get the query parameters from the URL
         query_params = parse_qs(self.scope["query_string"].decode())
-        username = query_params["token"][-1]
+        
+        # Get the token and password parameters from the query parameters
+        username = query_params.get("token", [None])[0]
+        password = query_params.get("password", [None])[0]
+
+        print(username,password)
+
 
         sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
         user = Usuario.objects.filter(username=username).first() or None
@@ -29,6 +37,10 @@ class SalaConsumer(WebsocketConsumer):
             #Check if the user is already in a sala
             print ("El usuaio existe: " + str(UsuariosSala.objects.filter(username=user).exists()))
             if(not UsuariosSala.objects.filter(username=user, nombre_sala=self.room_name).exists()):
+                if(sala.tipo_sala == "Privado"):
+                    if(not sala.check_password(password)):
+                        self.close()
+                        return None
                 jugadores_en_partida =  UsuariosSala.objects.filter(nombre_sala=self.room_name).count()
                 if(jugadores_en_partida > sala.n_jugadores):
                     self.close()
@@ -59,6 +71,8 @@ class SalaConsumer(WebsocketConsumer):
         
     def disconnect(self, close_code):
         # Send message to WebSocket
+        usuario_sala = UsuariosSala.objects.filter(nombre_sala=self.room_name).first()
+        usuario_sala.delete()
         self.send(text_data=json.dumps({"Error":"Desconectado"}))
         # Leave room group
         async_to_sync(self.channel_layer.group_discard)(
