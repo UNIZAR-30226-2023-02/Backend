@@ -23,6 +23,7 @@ urlpatterns = [
 
     # Endpoints para las salas
     path('salas/crear/', SalaCrear.as_view()),
+    path('salas/validar/', SalaValidarUnir.as_view()),
     path('salas/lista-salas/', SalaLista.as_view()),
     path('salas/lista-jugadores-sala/', SalaListaJugadores.as_view()),
     
