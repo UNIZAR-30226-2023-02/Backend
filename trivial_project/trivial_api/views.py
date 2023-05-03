@@ -720,8 +720,8 @@ class SalaValidarUnir(APIView):
         }
 
         username, token = get_username_and_token(request)
-        nombre_sala = request.data.get('nombre_sala')
-        password = request.data.get('password')
+        nombre_sala = str(request.data.get('nombre_sala'))
+        password = str(request.data.get('password'))
 
         sala = Sala.objects.filter(nombre_sala=nombre_sala).first() or None
         user = Usuario.objects.filter(username=username).first() or None
