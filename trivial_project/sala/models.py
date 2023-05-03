@@ -21,6 +21,7 @@ class Sala(models.Model):
     tipo_partida = models.CharField(max_length=10,choices=PARTIDA_CHOICES)
     tipo_sala = models.CharField(max_length=10,choices=SALA_CHOICES)
 
+    
     def set_password(self, raw_password):
         self.password_sala = make_password(raw_password)
 
