@@ -125,7 +125,7 @@ class SalaConsumer(WebsocketConsumer):
 
     def comenzar_partida(self, event):
         self.send(text_data=json.dumps({"accion": "empezar_partida", "url_partida": event["wspartida"]}))
-        self.disconnect(0)
+        #self.disconnect(0)
 
     def sala_cancelada(self,event):
         self.send(text_data=json.dumps({"accion": "actualizar_lista", "usernames": lista_usuarios_sala(self.room_name)}))
