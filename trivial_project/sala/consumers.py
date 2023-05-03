@@ -86,6 +86,7 @@ class SalaConsumer(WebsocketConsumer):
                 self.room_group_name, {"type": "comenzar_partida", "wspartida": wspartida }
             )
 
+
         
     def disconnect(self, close_code):
         # Send message to WebSocket
@@ -97,6 +98,7 @@ class SalaConsumer(WebsocketConsumer):
 
             self.send(text_data=json.dumps({"Error":"Desconectado"}))
 
+            '''
             # Si el creador abandona la sala se elimina la sala.
             if(self.username == str(sala.creador_username)):
                 # Envio mensaje a todos los demás de desconexión
@@ -117,6 +119,8 @@ class SalaConsumer(WebsocketConsumer):
             usuarios_sala = UsuariosSala.objects.filter(nombre_sala=self.room_name).first() or None
             if not usuarios_sala:
                 sala.delete()
+            '''
+            self.close()
 
 
     def comenzar_partida(self, event):
