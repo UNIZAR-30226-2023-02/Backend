@@ -728,8 +728,9 @@ class SalaValidarUnir(APIView):
         
         #Check if sala exists
         if sala and user:
+            usuario_en_sala = UsuariosSala.objects.filter(username=user).first() or None
             #Check if the user is already in a sala
-            if(not UsuariosSala.objects.filter(username=user).exists):
+            if(not usuario_en_sala):
                 jugadores_en_partida =  UsuariosSala.objects.filter(nombre_sala=nombre_sala).count()
                 if(jugadores_en_partida >= sala.n_jugadores):
                     dict_response['error_sala'] = "La sala esta llena, no puedes unirte"

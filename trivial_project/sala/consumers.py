@@ -29,25 +29,32 @@ class SalaConsumer(WebsocketConsumer):
         nombre_sala = self.room_name
         self.username = username
 
-        sala = Sala.objects.filter(nombre_sala=nombre_sala).first() or None
+        sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
         user = Usuario.objects.filter(username=username).first() or None
-        
+        print(sala)
+        print(user)
+        print(username,password,nombre_sala)
         #Check if sala exists
         if sala and user:
+            usuario_en_sala = UsuariosSala.objects.filter(username=user).first() or None
             #Check if the user is already in a sala
-            if(not UsuariosSala.objects.filter(username=user).exists):
+            if(not usuario_en_sala):
                 jugadores_en_partida =  UsuariosSala.objects.filter(nombre_sala=nombre_sala).count()
                 if(jugadores_en_partida >= sala.n_jugadores):
+                    print("Hay muchos usuarios")
                     self.close()
                     return None
                 if(sala.tipo_sala == "Privado"):
                     if(not sala.check_password(password)):
+                        print("No coincide la contraseña")
                         self.close()
                         return None
             else:
+                print("El usuario ya esta en la sala")
                 self.close()
                 return None                
         else:
+            print("No existe sala ni usuario")
             self.close()
             return None
 
