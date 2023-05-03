@@ -707,44 +707,47 @@ class UsarObjeto(APIView):
 
 
 
-# Compruebo que la sala exista, que no este llena, y que no este unido a ninguna sala
-# class SalaUnir(APIView):
-#     #Necesita la autenticazion
-#     permission_classes = [IsAuthenticated]
-#     @extend_schema(tags=["SALA"],request=SalaUnirRequestSerializer, responses=SalaUnirResponseSerializer)
-#     def post(self, request):
-#         dict_response = {
-#             'OK':"",
-#             'error_sala':"",
-#         }
-#         username, token = get_username_and_token(request)
-#         nombre_sala = request.data.get('nombre_sala')
-#         password = request.data.get('password')
+#Compruebo que la sala exista, que no este llena, y que no este unido a ninguna sala
+class SalaValidarUnir(APIView):
+    #Necesita la autenticazion
+    permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["SALA"],request=SalaUnirRequestSerializer, responses=SalaUnirResponseSerializer)
+    def post(self, request):
+        dict_response = {
+            'OK':"",
+            'error_sala':"",
+            'ws':"",
+        }
 
-#         sala = Sala.objects.filter(nombre_sala=nombre_sala).first() or None
-#         usuario_instance = Usuario.objects.filter(username=username).first() or None
-#         #Check if sala exists
-#         if sala:
-#             #Check if the user is already in a sala
-#             if(not UsuariosSala.objects.filter(username=usuario_instance).exists):
-#                 jugadores_en_partida =  UsuariosSala.objects.filter(nombre_sala=nombre_sala).count()
-#                 if(jugadores_en_partida > sala.n_jugadores):
-#                     any_error = 1
-#                     dict_response['error_sala'] = "La sala esta llena, no puedes unirte"
-#             else:
-#                 any_error = 1
-#                 dict_response['error_sala'] = "Ya perteneces a una sala, no puedes unirte"                
-#         else:
-#             any_error = 1
-#             dict_response['error_sala'] = "La sala no existe"
+        username, token = get_username_and_token(request)
+        nombre_sala = str(request.data.get('nombre_sala'))
+        password = str(request.data.get('password'))
+
+        sala = Sala.objects.filter(nombre_sala=nombre_sala).first() or None
+        user = Usuario.objects.filter(username=username).first() or None
+        
+        #Check if sala exists
+        if sala and user:
+            usuario_en_sala = UsuariosSala.objects.filter(username=user).first() or None
+            #Check if the user is already in a sala
+            if(not usuario_en_sala):
+                jugadores_en_partida =  UsuariosSala.objects.filter(nombre_sala=nombre_sala).count()
+                if(jugadores_en_partida >= sala.n_jugadores):
+                    dict_response['error_sala'] = "La sala esta llena, no puedes unirte"
+                if(sala.tipo_sala == "Privado"):
+                    if(not sala.check_password(password)):
+                        dict_response['error_sala'] = "Contraseña incorrecta"
+            else:
+                dict_response['error_sala'] = "Ya perteneces a una sala, no puedes unirte"                
+        else:
+            dict_response['error_sala'] = "La sala no existe"
             
-#         if any_error ==0:
-#             sala_usuario = UsuariosSala.objects.create(nombre_sala=sala,username=usuario_instance,equipo=1)
-#             sala_usuario.save()
-#             dict_response['OK'] = "True"
-#         else:
-#             dict_response['OK'] = "False"
-#         return Response(dict_response)
+        if all_errors_empty(dict_response):
+            dict_response['OK'] = "True"
+            dict_response["ws"] = "/ws/lobby/{0}/?username={1}&password={2}".format(nombre_sala,username,password)
+        else:
+            dict_response['OK'] = "False"
+        return Response(dict_response)
 
 
 # class SalaSalir(APIView):
