@@ -68,6 +68,25 @@ class SalaConsumer(WebsocketConsumer):
         self.accept()
 
         async_to_sync(self.channel_layer.group_send)(
+                self.room_group_name, {"type": "nuevo.usuario", "username": username}
+        )
+
+        sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
+
+        if len(self.channel_layer.groups.get(self.room_group_name, {}).items()) == sala.n_jugadores:
+
+            orden = lista_usuarios_sala(self.room_name)
+
+            partida = Partida.objects.create(tipo=sala.tipo_partida,terminada=False,orden_jugadores=orden)
+
+            wspartida = "/ws/partida/" + str(partida.id) + "/"
+            
+            # Send message to room group
+            async_to_sync(self.channel_layer.group_send)(
+                self.room_group_name, {"type": "comenzar.partida", "wspartida": wspartida }
+            )
+
+        async_to_sync(self.channel_layer.group_send)(
                 self.room_group_name, {"type": "actualizar_lista", "username": username}
         )
         
@@ -102,33 +121,6 @@ class SalaConsumer(WebsocketConsumer):
             usuarios_sala = UsuariosSala.objects.filter(nombre_sala=self.room_name).first() or None
             if not usuarios_sala:
                 sala.delete()
-            
-
-
-    # Receive message from WebSocket. Este es el mensaje en json que me envia el frontend
-    def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        accion = text_data_json["accion"]
-        # Get the query parameters from the URL
-        query_params = parse_qs(self.scope["query_string"].decode())
-        username = query_params.get("username", [None])[0]
-    
-        sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
-
-        if sala and str(sala.creador_username) == username and accion == "empezar":
-            orden = lista_usuarios_sala(self.room_name)
-            print ("El orden es: " + str(orden))
-            partida = Partida.objects.create(tipo=sala.tipo_partida,terminada=False,orden_jugadores=orden)
-            wspartida = "/ws/partida/" + str(partida.id) + "/"
-
-            # Send message to room group
-            async_to_sync(self.channel_layer.group_send)(
-                self.room_group_name, {"type": "comenzar_partida", "wspartida": wspartida }
-            )
-        else:
-            print(sala.creador_username,username,accion)
-            # Send message to WebSocket
-            self.send(text_data=json.dumps({"accion": "error", "mensaje": "No tienes permiso para comenzar la partida"}))
 
 
     def comenzar_partida(self, event):
