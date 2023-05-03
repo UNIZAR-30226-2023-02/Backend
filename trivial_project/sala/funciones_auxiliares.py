@@ -12,4 +12,9 @@ def lista_usuarios_sala(room_name):
     lista_usuarios = lista_usuarios[:-1]
 
     return lista_usuarios
-    
+
+def calcular_jugadores(Partida_id):
+
+    game = Partida.objects.filter(id = Partida_id).first() or None
+    jugadores = game.orden_jugadores.split(',')
+    return len(jugadores)

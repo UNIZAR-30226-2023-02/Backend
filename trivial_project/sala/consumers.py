@@ -98,31 +98,29 @@ class SalaConsumer(WebsocketConsumer):
         if(usuario_sala):
             usuario_sala.delete()
 
-        self.send(text_data=json.dumps({"Error":"Desconectado"}))
+            self.send(text_data=json.dumps({"Error":"Desconectado"}))
 
+            # Si el creador abandona la sala se elimina la sala.
+            if(self.username == str(sala.creador_username)):
+                # Envio mensaje a todos los demás de desconexión
+                async_to_sync(self.channel_layer.group_send)(
+                    self.room_group_name, {"type": "sala_cancelada"}
+                )
+                self.close()
+            else:
+                async_to_sync(self.channel_layer.group_send)(
+                    self.room_group_name, {"type": "actualizar_lista"}
+                )
+                # Django elimina al usuario del grupo
+                async_to_sync(self.channel_layer.group_discard)(
+                    self.room_group_name, self.channel_name
+                )
+                self.close()
+            # Si no hay jugadores en la sala, esta se elimina
+            usuarios_sala = UsuariosSala.objects.filter(nombre_sala=self.room_name).first() or None
+            if not usuarios_sala:
+                sala.delete()
             
-        # Si el creador abandona la sala se elimina la sala.
-        if(self.username == str(sala.creador_username)):
-            # Envio mensaje a todos los demás de desconexión
-            async_to_sync(self.channel_layer.group_send)(
-                self.room_group_name, {"type": "sala_cancelada"}
-            )
-        else:
-            async_to_sync(self.channel_layer.group_send)(
-                self.room_group_name, {"type": "actualizar_lista"}
-            )
-
-            # Django elimina al usuario del grupo
-            async_to_sync(self.channel_layer.group_discard)(
-                self.room_group_name, self.channel_name
-            )
-
-        # Si no hay jugadores en la sala, esta se elimina
-        usuarios_sala = UsuariosSala.objects.filter(nombre_sala=self.room_name).first() or None
-        if not usuarios_sala:
-            sala.delete()
-        self.close()
-
 
     def comenzar_partida(self, event):
         self.send(text_data=json.dumps({"accion": "empezar_partida", "url_partida": event["wspartida"]}))
