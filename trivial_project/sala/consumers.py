@@ -68,8 +68,8 @@ class SalaConsumer(WebsocketConsumer):
         self.accept()
 
         async_to_sync(self.channel_layer.group_send)(
-                self.room_group_name, {"type": "nuevo.usuario", "username": username}
-        )
+                        self.room_group_name, {"type": "actualizar_lista", "username": username}
+                )
 
         sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
 
@@ -83,13 +83,9 @@ class SalaConsumer(WebsocketConsumer):
             
             # Send message to room group
             async_to_sync(self.channel_layer.group_send)(
-                self.room_group_name, {"type": "comenzar.partida", "wspartida": wspartida }
+                self.room_group_name, {"type": "comenzar_partida", "wspartida": wspartida }
             )
 
-        async_to_sync(self.channel_layer.group_send)(
-                self.room_group_name, {"type": "actualizar_lista", "username": username}
-        )
-        
         
     def disconnect(self, close_code):
         # Send message to WebSocket
