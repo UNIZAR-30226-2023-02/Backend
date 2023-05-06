@@ -11,6 +11,7 @@ class Casilla_Tematica(models.Model):
     class Meta:
         db_table = "Casilla_Tematica"
 
+# Modelo que calcula las posibles posiciones del jugador dada la tirada
 class Tablero(models.Model):
     casilla_actual = models.ForeignKey(Casilla_Tematica, on_delete = models.CASCADE, db_column="casilla_actual", related_name='tablero_ac')
     tirada_dado = models.IntegerField(null = False)
@@ -18,6 +19,7 @@ class Tablero(models.Model):
     class Meta:
         db_table = "Tablero"
         unique_together = (("casilla_actual", "casilla_nueva"),)
+
 
 class Pregunta(models.Model):
     enunciado = models.CharField(max_length = 200, primary_key = True)
@@ -31,6 +33,7 @@ class Pregunta(models.Model):
     class Meta:
         db_table = "Pregunta"
 
+
 class Partida(models.Model):
     tipo = models.CharField(max_length = 50, null = False)
     terminada = models.BooleanField(null = False, default = False)
@@ -43,9 +46,10 @@ class Partida(models.Model):
 # Información que necesita el jugador dentro de la partida
 class Juega(models.Model):
     username = models.ForeignKey(Usuario, on_delete = models.CASCADE)
-    # Añadir un campo que sea la imagen que tiene el jugador, es decir, si es color verde, azul, morado
     id_partida = models.ForeignKey(Partida, on_delete = models.CASCADE, db_column = "id_partida", related_name = 'id_partida')
+    # Posicion del jugador
     posicion = models.IntegerField(null = False, default = 72)
+    # Quesitos 
     q_historia = models.BooleanField(null = False, default = False)
     q_arte = models.BooleanField(null = False, default = False)
     q_deporte = models.BooleanField(null = False, default = False)
@@ -53,6 +57,11 @@ class Juega(models.Model):
     q_entretenimiento = models.BooleanField(null = False, default = False)
     q_geografia = models.BooleanField(null = False, default = False)
 
+    #NUEVO
+    # Imagen de la ficha en partida
+    image = models.CharField(max_length=200)
+    activo = models.BooleanField(null = False, default = True) # Para saber si el jugador se ha desconectado
+    
     class Meta:
         db_table = "Juega"
         constraints = [

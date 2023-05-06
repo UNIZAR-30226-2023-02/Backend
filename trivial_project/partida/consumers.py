@@ -23,42 +23,27 @@ class GameConsumers(WebsocketConsumer):
         )
 
         self.accept()
+        # Obtenemos la instancia del juego
+        game = Partida.objects.filter(id =self.game_name).first() or None
 
-        if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == calcular_jugadores(self.game_name):
-
-            generar_jugador(self.game_name)
-            orden = empezar_partida(self.game_name)
+        # Si estan los jugadores que se necesitan para iniciar la partida, y la instancia de juego no se ha creado
+        if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == calcular_jugadores(self.game_name) and not game:
+            generar_jugadores(self.game_name)
+            orden = orden_inicio_jugadores(self.game_name)
+            datos_inicio_partida = cargar_datos_inicio_partida(self,orden)
+            # Envio a todos los jugadores el mensaje 
             async_to_sync(self.channel_layer.group_send)(
-            self.game_group_name, {"type": "inicio.partida", "orden": orden}
-        )
-
-    def inicio_partida(self, event):
-
-        jugadores = event['orden']
-        mensaje_inicio = {
-
-            'OK':"",
-            'jugador1': "",
-            'jugador2': "",
-            'jugador3': "",
-            'jugador4': "",
-            'jugador5': "",
-            'jugador6': "",
-            'tiempo_pregunta': "",
-            'tiempo_elegir_casilla': "",
-            'error': "",
-        }
-
-        mensaje_inicio['OK'] = "true"
-        mensaje_inicio['jugador1'] = jugadores[0]
-        mensaje_inicio['jugador2'] = jugadores[1]
-        mensaje_inicio['jugador3'] = jugadores[2]
-        mensaje_inicio['jugador4'] = jugadores[3]
-        mensaje_inicio['jugador5'] = jugadores[4]
-        mensaje_inicio['jugador6'] = jugadores[5]
-
-        self.send(text_data=json.dumps(mensaje_inicio))
-
+                self.game_group_name, {"accion": "inicio_partida", "datos": datos_inicio_partida}
+            )
+        # Si ya esta inicializado el juego, los datos solo me los tengo que mandar a mi mismo y no a todo el grupo
+        elif game:
+            # game.orden_jugadores recupera el orden de los jugadores. 
+            # cargar_datos_inicio_partida recupera toda la informacion de todos los jugadores
+            orden = game.orden_jugadores.split(',')
+            datos_cargar_partida = cargar_datos_inicio_partida(self,orden)
+            self.send(text_data=json.dumps({'accion': 'inicio_partida','datos': datos_cargar_partida}))
+            
+            
     
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(

@@ -11,7 +11,7 @@ import random
 # Función crea en la base de datos una instancia del jugador y la partida
 # @param string(Partida_id numero)
 # @return true si la ha podido crear false en caso contrario 
-def generar_jugador(Partida_id):
+def generar_jugadores(Partida_id):
     game = Partida.objects.filter(id = Partida_id).first() or None
     if game != None:
         jugadores = game.orden_jugadores.split(',')
@@ -22,7 +22,7 @@ def generar_jugador(Partida_id):
             user_partida.save()
 
     else:
-        print("Error") 
+        return None
 
 def calcular_jugadores(Partida_id):
 
@@ -31,28 +31,16 @@ def calcular_jugadores(Partida_id):
     return len(jugadores)
 
 
-def empezar_partida(Partida_id):
+def orden_inicio_jugadores(Partida_id):
     game = Partida.objects.filter(id = Partida_id).first() or None
 
     if game != None:
         jugadores = game.orden_jugadores.split(',')
-
         random.shuffle(jugadores)
-
-        if len(jugadores) == 2:
-            jugadores.append("")
-            jugadores.append("")
-            jugadores.append("")
-            jugadores.append("")
-        elif len(jugadores) == 4:
-            jugadores.append("")
-            jugadores.append("")
-
-
         return jugadores
         
     else:
-        return "Error"
+        return None
 
 # Función que devulve un valor aleatorio del 1-6 simulando la tirada de un dado
 # @return string [1-6] 
@@ -172,3 +160,54 @@ def calcular_sig_jugador(Partida_id):
         game.save()
 
         return lista_j[turno % calcular_jugadores(Partida_id)]
+    
+# Recupera en una lista todos los quesitos que tiene un jugador en la partida
+# @juega -> Necesita ser la instancia del modelo, que se obtiene con el id_partida y el usuario
+def obtener_quesitos_jugador(juega):
+    lista_quesitos = []
+    if juega.q_historia:
+        lista_quesitos.append("Historia")
+    if juega.q_arte:
+        lista_quesitos.append("Arte")
+    if juega.q_deporte:
+        lista_quesitos.append("Deporte")
+    if juega.q_ciencia:
+        lista_quesitos.append("Ciencia")
+    if juega.q_entretenimiento:
+        lista_quesitos.append("Entretenimiento")
+    if juega.q_geografia:
+        lista_quesitos.append("Geografía")
+    return lista_quesitos
+    
+# Funcion que obtiene los datos de todos los jugadores de la partida
+# @jugadores -> el orden de los jugadores en partida
+def cargar_datos_inicio_partida(self,jugadores):
+    mensaje_inicio = {
+        'OK':"",
+        'jugadores':[],
+        'tiempo_pregunta': "",
+        'tiempo_elegir_casilla': "",
+        'error': "",
+    }
+    
+    if(jugadores):
+        mensaje_inicio['OK'] = "true"
+        mensaje_inicio['tiempo_pregunta'] = "10"
+        mensaje_inicio['tiempo_elegir_casilla'] = "5"
+        
+        partida = Partida.objects.filter(id=self.game_name).first() or None
+        for i, jugador in enumerate(jugadores):
+            print("Iteracion" + str(i))
+            informacion_jugador = {'jugador':'','posicion':'','quesitos':[],'turno':'','ficha':'','tablero':'','activo':''}
+            user = Usuario.objects.filter(username=jugador).first() or None
+            juega = Juega.objects.filter(username=user,id_partida=partida).first() or None
+
+            informacion_jugador["quesitos"] = obtener_quesitos_jugador(juega)
+            informacion_jugador["jugador"] = str(juega.username)
+            informacion_jugador["posicion"] = str(juega.posicion)
+            informacion_jugador["turno"] = str(i)
+            informacion_jugador["ficha"] = str(juega.image)
+            informacion_jugador["tablero"] = str(user.image_tablero)
+            informacion_jugador["activo"] = str(juega.activo)
+            mensaje_inicio["jugadores"].append(informacion_jugador)
+    return mensaje_inicio

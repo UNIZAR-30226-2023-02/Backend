@@ -108,7 +108,6 @@ class SalaCrearRequestSerializer(serializers.Serializer):
 class SalaCrearResponseSerializer(serializers.Serializer):
     OK = serializers.CharField()
     error_nombre_sala = serializers.CharField()
-    error_tipo_sala = serializers.CharField()
     error_tipo_partida = serializers.CharField()
     error_n_jugadores = serializers.CharField()
     error_tiempo_respuesta = serializers.CharField()

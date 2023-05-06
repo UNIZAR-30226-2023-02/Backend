@@ -211,7 +211,7 @@ class UsuarioDatosOtroUsuario(APIView):
             dict_response['monedas'] = user.monedas   
             dict_response['telefono'] = user.telefono  
             dict_response['imagen_perfil'] = user.image_perfil if user.image_perfil else ''
-
+            
             for amigo in amigos:
                 dict_response['amigos'].append(str(amigo.user2)) 
             for amigo in amigos2:
@@ -361,7 +361,7 @@ class SalaCrear(APIView):
     '''
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
-    @extend_schema(tags=["SALA"],request=SalaCrearRequestSerializer, responses=SalaCrearResponseSerializer)
+    @extend_schema(tags=["SALA"],parameters=[header],request=SalaCrearRequestSerializer, responses=SalaCrearResponseSerializer)
     def post(self, request):
         any_error = 0
         dict_response = {
