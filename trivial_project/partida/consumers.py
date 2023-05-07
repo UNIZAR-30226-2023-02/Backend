@@ -9,6 +9,7 @@ from asgiref.sync import async_to_sync,sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.generic.websocket import WebsocketConsumer
 from rest_framework.authtoken.models import Token
+from urllib.parse import parse_qs
 
 # Hay que poner partida.funciones_auxiliares no funciones_auxiliares
 from .funciones_auxiliares import *
@@ -18,37 +19,62 @@ class GameConsumers(WebsocketConsumer):
         self.game_name = self.scope["url_route"]["kwargs"]["game_name"]
         self.game_group_name = "game_%s" % self.game_name
 
+        # Get the query parameters from the URL
+        query_params = parse_qs(self.scope["query_string"].decode())
+        
+        # Get the token and password parameters from the query parameters
+        username = query_params.get("username", [None])[0]
+        password = query_params.get("password", [None])[0]    
+        self.username = username
         async_to_sync(self.channel_layer.group_add)(
             self.game_group_name, self.channel_name
         )
 
-        self.accept()
-        # Obtenemos la instancia del juego
         game = Partida.objects.filter(id =self.game_name).first() or None
+        # Si no existe el juego denegamos el acceso
+        if not game:
+            return None
+        # Si se ha acabado la partida tambien denegamos el acceso
+        if game.terminada == True:
+            return None
+        
+        self.accept()
+       
+        user = Usuario.objects.filter(username=username).first() or None
+        # Si no existe el usuario denegamos el acceso
+        if not user:
+            return None
+        # Si el usuario estaba desconectado entonces tengo que enviarselo solo a el
+        juega = Juega.objects.filter(id_partida=game,username=user).first() or None
 
-        # Si estan los jugadores que se necesitan para iniciar la partida, y la instancia de juego no se ha creado
-        if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == calcular_jugadores(self.game_name) and not game:
-            generar_jugadores(self.game_name)
-            orden = orden_inicio_jugadores(self.game_name)
-            datos_inicio_partida = cargar_datos_inicio_partida(self,orden)
-            # Envio a todos los jugadores el mensaje 
-            async_to_sync(self.channel_layer.group_send)(
-                self.game_group_name, {"accion": "inicio_partida", "datos": datos_inicio_partida}
-            )
-        # Si ya esta inicializado el juego, los datos solo me los tengo que mandar a mi mismo y no a todo el grupo
-        elif game:
-            # game.orden_jugadores recupera el orden de los jugadores. 
-            # cargar_datos_inicio_partida recupera toda la informacion de todos los jugadores
-            orden = game.orden_jugadores.split(',')
-            datos_cargar_partida = cargar_datos_inicio_partida(self,orden)
-            self.send(text_data=json.dumps({'accion': 'inicio_partida','datos': datos_cargar_partida}))
-            
-            
-    
+        # Si el que estaba jugando se ha desconectado y ha vuelto a entrar, entonces solo se lo envio a el
+        if(not juega.activo):
+            datos_cargar_partida = cargar_datos_partida(self)
+            self.send(text_data=json.dumps({'type': 'enviar_datos','datos': datos_cargar_partida}))
+        else:
+            # Si estan los jugadores que se necesitan para iniciar la partida, entocnes le enviamos a todos los usuarios la informacion
+            if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == calcular_jugadores(self.game_name):
+                datos_cargar_partida = cargar_datos_partida(self)
+                # Envio a todos los jugadores el mensaje 
+                async_to_sync(self.channel_layer.group_send)(
+                    self.game_group_name, {"type": "enviar_datos", "datos": datos_cargar_partida}
+                )
+        
+    def enviar_datos(self, event):
+        datos = event['datos']
+        print(datos)
+        self.send(text_data=json.dumps(datos))
+
+
     def disconnect(self, close_code):
+        # Hacemos que el usuario no este activo
+        juega = Juega.objects.filter(id_partida=self.game_name,username=self.username).first() or None
+        juega.activo = False
+        juega.save()
         async_to_sync(self.channel_layer.group_discard)(
             self.game_group_name, self.channel_name
         )
+        self.close()
     
     def receive(self, text_data):
         mensaje = json.loads(text_data)

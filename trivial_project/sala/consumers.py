@@ -13,7 +13,6 @@ from urllib.parse import parse_qs
 
 
 
-
 #/ws/lobby/<room_name>/?token=Pepe2212&password=12345
 class SalaConsumer(WebsocketConsumer):
     def connect(self):
@@ -73,12 +72,14 @@ class SalaConsumer(WebsocketConsumer):
 
         sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
 
+        # Cuando esten todos los jugadores iniciamos la partida
         if len(self.channel_layer.groups.get(self.room_group_name, {}).items()) == sala.n_jugadores:
-
-            orden = lista_usuarios_sala(self.room_name)
-
-            partida = Partida.objects.create(tipo=sala.tipo_partida,terminada=False,orden_jugadores=orden)
-
+            # Generamos el orden aleatorio de los jugadores
+            orden_aleatorio = usuarios_orden_aleatorio(self.room_name)
+            # Creamos la partida
+            partida = Partida.objects.create(tipo=sala.tipo_partida,terminada=False,tiempo_respuesta=sala.tiempo_respuesta,orden_jugadores=orden_aleatorio)
+            # Creamos la instancia de juega para los jugadores
+            generar_jugadores(partida)
             wspartida = "/ws/partida/" + str(partida.id) + "/"
             
             # Send message to room group
@@ -126,6 +127,7 @@ class SalaConsumer(WebsocketConsumer):
 
     def comenzar_partida(self, event):
         self.send(text_data=json.dumps({"accion": "empezar_partida", "url_partida": event["wspartida"]}))
+
         #self.disconnect(0)
 
     def sala_cancelada(self,event):

@@ -2,6 +2,7 @@ from django.db import models
 from trivial_api.models import *
 from django.contrib.auth.hashers import make_password,check_password
 
+
 class Sala(models.Model):
     PARTIDA_CHOICES = [
         ('Clasico', 'Clasico'),

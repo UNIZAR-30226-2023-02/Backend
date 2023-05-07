@@ -8,44 +8,17 @@ from partida.models import *
 from sala.models import *
 import random
 
-# Función crea en la base de datos una instancia del jugador y la partida
-# @param string(Partida_id numero)
-# @return true si la ha podido crear false en caso contrario 
-def generar_jugadores(Partida_id):
-    game = Partida.objects.filter(id = Partida_id).first() or None
-    if game != None:
-        jugadores = game.orden_jugadores.split(',')
-
-        for i in jugadores:
-            user = Usuario.objects.filter(username = i).first()
-            user_partida = Juega.objects.create(username_id = user, id_partida = game)
-            user_partida.save()
-
-    else:
-        return None
 
 def calcular_jugadores(Partida_id):
-
     game = Partida.objects.filter(id = Partida_id).first() or None
     jugadores = game.orden_jugadores.split(',')
     return len(jugadores)
 
 
-def orden_inicio_jugadores(Partida_id):
-    game = Partida.objects.filter(id = Partida_id).first() or None
-
-    if game != None:
-        jugadores = game.orden_jugadores.split(',')
-        random.shuffle(jugadores)
-        return jugadores
-        
-    else:
-        return None
 
 # Función que devulve un valor aleatorio del 1-6 simulando la tirada de un dado
 # @return string [1-6] 
 def tirar_dado():
-
     return str(random.randint(1,6))
 
 
@@ -179,9 +152,11 @@ def obtener_quesitos_jugador(juega):
         lista_quesitos.append("Geografía")
     return lista_quesitos
     
+
+
 # Funcion que obtiene los datos de todos los jugadores de la partida
 # @jugadores -> el orden de los jugadores en partida
-def cargar_datos_inicio_partida(self,jugadores):
+def cargar_datos_partida(self):
     mensaje_inicio = {
         'OK':"",
         'jugadores':[],
@@ -190,24 +165,25 @@ def cargar_datos_inicio_partida(self,jugadores):
         'error': "",
     }
     
-    if(jugadores):
-        mensaje_inicio['OK'] = "true"
-        mensaje_inicio['tiempo_pregunta'] = "10"
-        mensaje_inicio['tiempo_elegir_casilla'] = "5"
-        
-        partida = Partida.objects.filter(id=self.game_name).first() or None
-        for i, jugador in enumerate(jugadores):
-            print("Iteracion" + str(i))
-            informacion_jugador = {'jugador':'','posicion':'','quesitos':[],'turno':'','ficha':'','tablero':'','activo':''}
-            user = Usuario.objects.filter(username=jugador).first() or None
-            juega = Juega.objects.filter(username=user,id_partida=partida).first() or None
+    mensaje_inicio['OK'] = "true"
+    mensaje_inicio['tiempo_pregunta'] = "10"
+    mensaje_inicio['tiempo_elegir_casilla'] = "5"
+    
+    partida = Partida.objects.filter(id=self.game_name).first() or None
+    
+    jugadores = partida.orden_jugadores.split(',')
+    for i, jugador in enumerate(jugadores):
+        print("Iteracion" + str(i))
+        informacion_jugador = {'jugador':'','posicion':'','quesitos':[],'turno':'','ficha':'','tablero':'','activo':''}
+        user = Usuario.objects.filter(username=jugador).first() or None
+        juega = Juega.objects.filter(username=user,id_partida=partida).first() or None
 
-            informacion_jugador["quesitos"] = obtener_quesitos_jugador(juega)
-            informacion_jugador["jugador"] = str(juega.username)
-            informacion_jugador["posicion"] = str(juega.posicion)
-            informacion_jugador["turno"] = str(i)
-            informacion_jugador["ficha"] = str(juega.image)
-            informacion_jugador["tablero"] = str(user.image_tablero)
-            informacion_jugador["activo"] = str(juega.activo)
-            mensaje_inicio["jugadores"].append(informacion_jugador)
+        informacion_jugador["quesitos"] = obtener_quesitos_jugador(juega)
+        informacion_jugador["jugador"] = str(juega.username)
+        informacion_jugador["posicion"] = str(juega.posicion)
+        informacion_jugador["turno"] = str(i)
+        informacion_jugador["ficha"] = str(juega.image)
+        informacion_jugador["tablero"] = str(user.image_tablero)
+        informacion_jugador["activo"] = str(juega.activo)
+        mensaje_inicio["jugadores"].append(informacion_jugador)
     return mensaje_inicio

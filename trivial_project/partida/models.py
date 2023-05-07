@@ -39,7 +39,7 @@ class Partida(models.Model):
     terminada = models.BooleanField(null = False, default = False)
     orden_jugadores = models.CharField(max_length = 100, null = False)
     turno_actual = models.IntegerField(null = False, default = 0)
-
+    tiempo_respuesta = models.IntegerField(default=15)
     class Meta:
         db_table = "Partida"
 
