@@ -70,8 +70,7 @@ def elegir_pregunta(casilla, jugador, Partida_id):
     rc = respuestas.index(pregunta_devolver[1])
 
     pregunta_devolver[1:5] = respuestas
-    pregunta_devolver[5] = str(rc)
-
+    pregunta_devolver[5] = str(rc+2)
 
 
     pregunta_devolver |= Casilla_Tematica.objects.filter(casilla = casilla).values('tematica').first()
