@@ -180,6 +180,6 @@ class GameConsumers(WebsocketConsumer):
             )
 
         else:
-            self.disconnect()
+            self.disconnect(0)
 
 
