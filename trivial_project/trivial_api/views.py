@@ -590,9 +590,10 @@ class TiendaObjetos(APIView):
         dict_response = {
             'fichas':[],
             'tableros':[],
+            'monedas':"",
         }
         username, token = get_username_and_token(request)
-        
+        user = Usuario.objects.filter(username=username).first() or None
         # Obtenemos las fichas
         fichas = Objetos.objects.filter(tipo="ficha")
         for ficha in fichas:
@@ -615,6 +616,7 @@ class TiendaObjetos(APIView):
                 enUso = tieneTablero.enUso
             dict_response['tableros'].append({"id": tablero.id, "coste": tablero.coste, "enUso": enUso, "adquirido": adquirido, "imagen": tablero.image}) 
         
+        dict_response['monedas'] = str(user.monedas)
         return Response(dict_response)
   
 

@@ -198,6 +198,7 @@ class TiendaObjetosRequestSerializer(serializers.Serializer):
 class TiendaObjetosResponseSerializer(serializers.Serializer):
     fichas = ObjetosSerializer(many=True)
     tableros = ObjetosSerializer(many=True)
+    monedas = serializers.CharField()
 
 
 # ComprarObjetos

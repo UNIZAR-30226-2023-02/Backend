@@ -93,6 +93,7 @@ class GameConsumers(WebsocketConsumer):
     def gestionar_mensaje(self, event):
         fin = False
         mensaje = event['mensaje']
+        user = Usuario.objects.filter(username=self.username).first() or None
         if mensaje['jugador'] != self.username:
             self.send(text_data=json.dumps(mensaje))
             return None
@@ -151,6 +152,7 @@ class GameConsumers(WebsocketConsumer):
                 
             elif mensaje['type'] == "Actualizacion":
                 if mensaje['esCorrecta'] == "true":
+                    # Aumentar la estadistica de la pregunta
                     if mensaje['quesito'] == "true":
                         fin = marcar_queso(mensaje['tematica'], mensaje['jugador'], self.game_name)
 
@@ -164,6 +166,7 @@ class GameConsumers(WebsocketConsumer):
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
                 elif mensaje['esCorrecta'] == "false":
+                    # Ha fallado la pregunta modificar las estadisticas
                     response['jugador'] = calcular_sig_jugador(self.game_name)
                     print("El siguiete jugador a tirar es: " + response['jugador'])
                     response['type'] = "Accion"
