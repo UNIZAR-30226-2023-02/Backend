@@ -52,7 +52,7 @@ class GameConsumers(WebsocketConsumer):
 
         # Si el que estaba jugando se ha desconectado y ha vuelto a entrar, entonces solo se lo envio a el
         print("Juega activo: ", str(juega.activo))
-        if(not juega.activo):
+        if(juega and not juega.activo):
             datos_cargar_partida = cargar_datos_partida(self)
             self.send(text_data=json.dumps({'type': 'enviar_datos','datos': datos_cargar_partida}))
         else:
@@ -91,7 +91,7 @@ class GameConsumers(WebsocketConsumer):
         
 
     def gestionar_mensaje(self, event):
-        num_jugadores = 4
+        self.send(text_data=json.dumps(mensaje))
         fin = False
         mensaje = event['mensaje']
         response = {
