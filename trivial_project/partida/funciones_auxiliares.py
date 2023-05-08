@@ -79,7 +79,7 @@ def elegir_pregunta(casilla, jugador, Partida_id):
     pregunta_devolver['rc'] = rc+1
 
 
-    pregunta_devolver = dict(pregunta_devolver.items() +  dict(Casilla_Tematica.objects.filter(casilla = casilla).values('tematica').first()).items())
+    pregunta_devolver['tematica'] = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica').first()['tematica']
 
     if inf_casilla['quesito'] == False:
         pregunta_devolver['tematica'] = 'false'
