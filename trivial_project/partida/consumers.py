@@ -48,13 +48,16 @@ class GameConsumers(WebsocketConsumer):
         juega = Juega.objects.filter(id_partida=game,username=user).first() or None
 
         # Si el que estaba jugando se ha desconectado y ha vuelto a entrar, entonces solo se lo envio a el
+        print("Juega activo: ", str(juega.activo))
         if(not juega.activo):
             datos_cargar_partida = cargar_datos_partida(self)
             self.send(text_data=json.dumps({'type': 'enviar_datos','datos': datos_cargar_partida}))
         else:
+            print("Else")
             # Si estan los jugadores que se necesitan para iniciar la partida, entocnes le enviamos a todos los usuarios la informacion
             if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == calcular_jugadores(self.game_name):
                 datos_cargar_partida = cargar_datos_partida(self)
+                print("Empieza la partida")
                 # Envio a todos los jugadores el mensaje 
                 async_to_sync(self.channel_layer.group_send)(
                     self.game_group_name, {"type": "enviar_datos", "datos": datos_cargar_partida}
