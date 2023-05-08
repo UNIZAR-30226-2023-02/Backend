@@ -63,6 +63,16 @@ def elegir_pregunta(casilla, jugador, Partida_id):
     
     all_preguntas = Pregunta.objects.values('enunciado', 'r1', 'r2', 'r3', 'r4', 'rc').filter(categoria = inf_casilla['tematica'])
     pregunta_devolver = all_preguntas[random.randint(0,len(all_preguntas) - 1)]
+    #pregunta_devolver = [enunciado, r1, r2, r3, r4, rc]
+
+    respuestas = pregunta_devolver[1:5]
+    random.shuffle(respuestas)
+    rc = respuestas.index(pregunta_devolver[1])
+
+    pregunta_devolver[1:5] = respuestas
+    pregunta_devolver[5] = str(rc)
+
+
 
     pregunta_devolver |= Casilla_Tematica.objects.filter(casilla = casilla).values('tematica').first()
 
