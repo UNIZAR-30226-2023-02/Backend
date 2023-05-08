@@ -70,7 +70,7 @@ def elegir_pregunta(casilla, jugador, Partida_id):
     for i in ['r1','r2','r3','r4']:
         respuestas.append(pregunta_devolver[i])
     random.shuffle(respuestas)
-    rc = respuestas.index(pregunta_devolver['rc'])
+    rc = respuestas.index(pregunta_devolver['r1'])
 
     j = 0
     for i in ['r1','r2','r3','r4']:
