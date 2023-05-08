@@ -151,8 +151,8 @@ class GameConsumers(WebsocketConsumer):
                 
             elif mensaje['type'] == "Actualizacion":
                 if mensaje['esCorrecta'] == "true":
-                    if mensaje['quesito'] != "false":
-                        fin = marcar_queso(mensaje['quesito'], mensaje['jugador'], self.game_name)
+                    if mensaje['quesito'] == "true":
+                        fin = marcar_queso(mensaje['tematica'], mensaje['jugador'], self.game_name)
 
                     response['jugador'] = mensaje['jugador']
                     if fin == True:
