@@ -163,6 +163,7 @@ class GameConsumers(WebsocketConsumer):
                         response['subtype'] = "Dados"
                 elif mensaje['esCorrecta'] == "false":
                     response['jugador'] = calcular_sig_jugador(self.game_name)
+                    print("El siguiete jugador a tirar es: " + response['jugador'])
                     response['type'] = "Accion"
                     response['subtype'] = "Dados"
                 else:

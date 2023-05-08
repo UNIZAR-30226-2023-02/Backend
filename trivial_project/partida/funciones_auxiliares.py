@@ -147,7 +147,7 @@ def calcular_sig_jugador(Partida_id):
         game.turno_actual = str((int(turno) + 1) % calcular_jugadores(Partida_id))
         game.save()
 
-        return lista_j[turno % calcular_jugadores(Partida_id)]
+        return lista_j[(turno + 1) % calcular_jugadores(Partida_id)]
     
 # Recupera en una lista todos los quesitos que tiene un jugador en la partida
 # @juega -> Necesita ser la instancia del modelo, que se obtiene con el id_partida y el usuario
