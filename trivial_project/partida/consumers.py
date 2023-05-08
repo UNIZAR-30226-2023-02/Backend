@@ -155,6 +155,9 @@ class GameConsumers(WebsocketConsumer):
                     response['jugador'] = mensaje['jugador']
                     if fin == True:
                         response['type'] = "Fin"
+                        game = Partida.objects.filter(id =self.game_name).first() or None
+                        game.terminada = True
+                        game.save()
                     else:
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
