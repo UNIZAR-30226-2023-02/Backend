@@ -164,6 +164,9 @@ class GameConsumers(WebsocketConsumer):
                     response['subtype'] = "Dados"
                 else:
                     print("")
+            elif mensaje['type'] == "Fin":
+                self.disconnect(0)
+
             else:
                 #Error el backend solo recive Peticiones y Actualizaciones
                 print("")
@@ -181,8 +184,9 @@ class GameConsumers(WebsocketConsumer):
 
         else:
             async_to_sync(self.channel_layer.group_send)(
-                self.game_group_name, {"type": "enviar_datos", "datos": response}
+                self.game_group_name, {"type": "gestionar_mensaje", "datos": response}
             )
-            self.disconnect(0)
+            
+            
 
 
