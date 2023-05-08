@@ -152,21 +152,24 @@ class GameConsumers(WebsocketConsumer):
                 
             elif mensaje['type'] == "Actualizacion":
                 if mensaje['esCorrecta'] == "true":
-                    # Aumentar la estadistica de la pregunta
                     if mensaje['quesito'] == "true":
                         fin = marcar_queso(mensaje['tematica'], mensaje['jugador'], self.game_name)
+                        actualizar_estadisticas(user,mensaje['tematica'],True,True)
+                    else:
+                        actualizar_estadisticas(user,mensaje['tematica'],True,False)
 
                     response['jugador'] = mensaje['jugador']
                     if fin == True:
                         response['type'] = "Fin"
                         game = Partida.objects.filter(id =self.game_name).first() or None
+                        # Hacer que aumenten las estadisticas de que gana el jugador o pierde
                         game.terminada = True
                         game.save()
                     else:
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
                 elif mensaje['esCorrecta'] == "false":
-                    # Ha fallado la pregunta modificar las estadisticas
+                    actualizar_estadisticas(user,mensaje['tematica'],False,False)
                     response['jugador'] = calcular_sig_jugador(self.game_name)
                     print("El siguiete jugador a tirar es: " + response['jugador'])
                     response['type'] = "Accion"
@@ -184,7 +187,6 @@ class GameConsumers(WebsocketConsumer):
             response['error'] = mensaje['error']
 
         
-
         async_to_sync(self.channel_layer.group_send)(
             self.game_group_name, {"type": "enviar_datos", "datos": response}
         )

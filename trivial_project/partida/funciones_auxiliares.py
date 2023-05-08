@@ -201,3 +201,42 @@ def cargar_datos_partida(self):
         informacion_jugador["activo"] = str(juega.activo)
         mensaje_inicio["jugadores"].append(informacion_jugador)
     return mensaje_inicio
+
+
+def actualizar_estadisticas(user,tematica,bien,quesito):
+    stats = Estadisticas.objects.filter(username=user).first() or None
+    if(bien):
+        if(tematica == "Historia"):
+            stats.historia_bien +=1
+        if(tematica == "Arte"):
+            stats.arte_y_literatura_bien +=1
+        if(tematica == "Deportes"):
+             stats.deportes_bien +=1
+        if(tematica == "Entretenimiento"):
+            stats.entretenimiento_bien +=1
+        if(tematica == "Ciencia"):
+            stats.ciencias_bien +=1
+        if(tematica == "Geografia"):
+            stats.geografia_bien +=1
+    else:
+        if(tematica == "Historia"):
+            stats.historia_mal +=1
+        if(tematica == "Arte"):
+            stats.arte_y_literatura_mal +=1
+        if(tematica == "Deportes"):
+             stats.deportes_mal +=1
+        if(tematica == "Entretenimiento"):
+            stats.entretenimiento_mal +=1
+        if(tematica == "Ciencia"):
+            stats.ciencias_mal +=1
+        if(tematica == "Geografia"):
+            stats.geografia_mal +=1
+
+    if(quesito):
+        stats.quesitos +=1
+
+    stats.save()
+
+
+
+        
