@@ -184,7 +184,7 @@ class GameConsumers(WebsocketConsumer):
 
         else:
             async_to_sync(self.channel_layer.group_send)(
-                self.game_group_name, {"type": "gestionar_mensaje", "datos": response}
+                self.game_group_name, {"type": "gestionar_mensaje", "mensaje": response}
             )
             
             
