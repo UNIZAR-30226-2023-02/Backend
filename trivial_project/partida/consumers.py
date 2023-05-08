@@ -33,9 +33,11 @@ class GameConsumers(WebsocketConsumer):
         game = Partida.objects.filter(id =self.game_name).first() or None
         # Si no existe el juego denegamos el acceso
         if not game:
+            print("Error no game")
             return None
         # Si se ha acabado la partida tambien denegamos el acceso
         if game.terminada == True:
+            print("Error partida terminada")
             return None
         
         self.accept()
@@ -43,6 +45,7 @@ class GameConsumers(WebsocketConsumer):
         user = Usuario.objects.filter(username=username).first() or None
         # Si no existe el usuario denegamos el acceso
         if not user:
+            print("Error not user")
             return None
         # Si el usuario estaba desconectado entonces tengo que enviarselo solo a el
         juega = Juega.objects.filter(id_partida=game,username=user).first() or None
