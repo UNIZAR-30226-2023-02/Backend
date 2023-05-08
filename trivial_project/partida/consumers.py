@@ -113,6 +113,7 @@ class GameConsumers(WebsocketConsumer):
             'r4': "",
             'rc': "",
             'quesito': "",
+            'tematica': "",
             'esCorrecta': "",
             'mensage_chat': "",
             'error': "",
@@ -142,7 +143,8 @@ class GameConsumers(WebsocketConsumer):
                         response['r3'] = pregunta['r3']
                         response['r4'] = pregunta['r4']
                         response['rc'] = pregunta['rc']
-                        response['quesito'] = pregunta['tematica']
+                        response['quesito'] = pregunta['quesito']
+                        response['tematica'] = pregunta['tematica']
                         response['jugador'] = mensaje['jugador']
                         response['type'] = "Respuesta"
                         response['subtype'] = "Pregunta"
