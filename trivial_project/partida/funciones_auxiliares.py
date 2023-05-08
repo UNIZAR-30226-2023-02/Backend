@@ -66,12 +66,17 @@ def elegir_pregunta(casilla, jugador, Partida_id):
     #pregunta_devolver = [enunciado, r1, r2, r3, r4, rc]
 
     print("Pregunta a devolver: ", str(pregunta_devolver))
-    respuestas = pregunta_devolver[1:5]
+    respuestas = []
+    for i in ['r1','r2','r3','r4']:
+        respuestas.append(pregunta_devolver[i])
     random.shuffle(respuestas)
-    rc = respuestas.index(pregunta_devolver[1])
+    rc = respuestas.index(pregunta_devolver['rc'])
 
-    pregunta_devolver[1:5] = respuestas
-    pregunta_devolver[5] = str(rc+2)
+    j = 0
+    for i in ['r1','r2','r3','r4']:
+        pregunta_devolver[i] = respuestas[j]
+        j = j + 1
+    pregunta_devolver['rc'] = rc+1
 
 
     pregunta_devolver |= Casilla_Tematica.objects.filter(casilla = casilla).values('tematica').first()

@@ -95,7 +95,7 @@ class GameConsumers(WebsocketConsumer):
         mensaje = event['mensaje']
         if mensaje['jugador'] != self.username:
             self.send(text_data=json.dumps(mensaje))
-            
+
         response = {
 
             'OK':"",
