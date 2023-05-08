@@ -72,7 +72,7 @@ class GameConsumers(WebsocketConsumer):
         self.send(text_data=json.dumps(datos))
 
 
-    def disconnect(self, close_code):
+    def disconnect(self):
         # Hacemos que el usuario no este activo
         juega = Juega.objects.filter(id_partida=self.game_name,username=self.username).first() or None
         juega.activo = False
@@ -180,6 +180,6 @@ class GameConsumers(WebsocketConsumer):
             )
 
         else:
-            self.disconnect(0)
+            self.disconnect()
 
 
