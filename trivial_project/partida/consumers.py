@@ -169,7 +169,7 @@ class GameConsumers(WebsocketConsumer):
                     response['type'] = "Accion"
                     response['subtype'] = "Dados"
                 else:
-                    print("")
+                    print("Error al actualizar")
 
             else:
                 #Error el backend solo recive Peticiones y Actualizaciones
