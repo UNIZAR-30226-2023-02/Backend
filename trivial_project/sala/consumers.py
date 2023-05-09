@@ -81,7 +81,7 @@ class SalaConsumer(WebsocketConsumer):
             # Creamos la instancia de juega para los jugadores
             generar_jugadores(partida)
             if sala.tipo_partida == "Clasico":
-                wspartida = "/ws/partida_/" + str(partida.id) + "/"
+                wspartida = "/ws/partida/" + str(partida.id) + "/"
 
             elif sala.tipo_partida == "Tematico":
                 listaTematicas = ['Historia','Entretenimiento','Ciencia','Geografia','Arte','Deportes']
