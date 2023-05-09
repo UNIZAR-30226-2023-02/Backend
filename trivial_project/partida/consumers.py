@@ -92,6 +92,7 @@ class GameConsumers(WebsocketConsumer):
         
 
     def gestionar_mensaje(self, event):
+        
         response = {
             'OK':"",
             'error': "",
@@ -120,11 +121,16 @@ class GameConsumers(WebsocketConsumer):
         # Hay que hacer que el mensaje del chat sea antes, ya que este se puede hacer aunque no sea el turno
         # Si no es su turno le denegamos la accion
         #print(jugador_con_turno(self.game_name))
-        if(mensaje['jugador'] != jugador_con_turno(self.game_name)):
-            mensaje['OK'] = "false"
-            mensaje['error'] = "No es tu turno"
+
+        if mensaje['jugador'] != self.username:
             self.send(text_data=json.dumps(mensaje))
             return None
+
+        # if(mensaje['jugador'] != jugador_con_turno(self.game_name)):
+        #     #mensaje['OK'] = "false"
+        #     #mensaje['error'] = "No es tu turno"
+        #     self.send(text_data=json.dumps(mensaje))
+        #     return None
         
 
         if mensaje['OK'] == "true":
