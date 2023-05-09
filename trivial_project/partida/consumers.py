@@ -152,6 +152,7 @@ class GameConsumers(WebsocketConsumer):
                     if pregunta['enunciado'] == 'repetir':
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
+                        response['jugador'] = mensaje['jugador']
                     
                     else: # Cargamos la pregunta
                         response['enunciado'] = pregunta['enunciado']
