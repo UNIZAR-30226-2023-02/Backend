@@ -56,7 +56,7 @@ def elegir_pregunta(casilla, jugador, Partida_id):
     mov_posicion.posicion = casilla
     mov_posicion.save()
 
-    if casilla == 72:
+    if casilla == "72":
         inf_casilla['quesito'] = "false"
         inf_casilla['tematica'] = listaTematicas[random.randint(0, len(listaTematicas) - 1)]
     else:
