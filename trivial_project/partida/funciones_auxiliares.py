@@ -266,4 +266,19 @@ def actualizar_estadisticas(user,tematica,bien,quesito):
 
 
 
+def actualizar_estadisticas_partida(ganador, jugadores):
+    
+    
+    for i in jugadores.split(','):
         
+        stats = Estadisticas.objects.filter(username=i).first() or None
+        
+        if ganador == i:
+            stats.partidas_ganadas += 1
+        else:
+            stats.partidas_perdidas += 1
+            
+        stats.save()
+
+
+
