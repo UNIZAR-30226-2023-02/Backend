@@ -276,15 +276,19 @@ def cargar_datos_partida(self):
     mensaje_inicio['tiempo_pregunta'] = str(partida.tiempo_respuesta)
     mensaje_inicio['tiempo_elegir_casilla'] = "5"
     jugadores = partida.orden_jugadores.split(',')
-    for i, jugador in enumerate(jugadores):
+    
+    for i,jugador in enumerate(jugadores):
         informacion_jugador = {'jugador':'','posicion':'','quesitos':[],'turno':'','ficha':'','tablero':'','activo':''}
         user = Usuario.objects.filter(username=jugador).first() or None
         juega = Juega.objects.filter(username=user,id_partida=partida).first() or None
-
+        if(i==0):
+            turno = 1
+        else:
+            turno = 0
         informacion_jugador["quesitos"] = obtener_quesitos_jugador(juega)
         informacion_jugador["jugador"] = str(juega.username)
         informacion_jugador["posicion"] = str(juega.posicion)
-        informacion_jugador["turno"] = str(i)
+        informacion_jugador["turno"] = str(turno)
         informacion_jugador["ficha"] = str(juega.image)
         informacion_jugador["tablero"] = str(user.image_tablero)
         informacion_jugador["activo"] = str(juega.activo)
