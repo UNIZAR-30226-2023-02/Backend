@@ -183,6 +183,7 @@ class GameConsumers(WebsocketConsumer):
                         game = Partida.objects.filter(id =self.game_name).first() or None
                         # Hacer que aumenten las estadisticas de que gana el jugador o pierde
                         game.terminada = True
+                        game.ganador = mensaje['jugador']
                         game.save()
                     else:
                         response['type'] = "Accion"
