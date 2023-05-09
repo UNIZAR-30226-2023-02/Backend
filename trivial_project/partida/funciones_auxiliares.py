@@ -8,6 +8,8 @@ from partida.models import *
 from sala.models import *
 import random
 
+listaTematicas = ['Historia','Entretenimiento','Ciencia','Geografia','Arte','Deportes']
+
 
 def calcular_jugadores(Partida_id):
     game = Partida.objects.filter(id = Partida_id).first() or None
@@ -53,7 +55,12 @@ def elegir_pregunta(casilla, jugador, Partida_id):
     
     mov_posicion.posicion = casilla
     mov_posicion.save()
-    inf_casilla = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
+
+    if casilla == 72:
+        inf_casilla['quesito'] = "false"
+        inf_casilla['tematica'] = listaTematicas[random.randint(0, len(listaTematicas) - 1)]
+    else:
+        inf_casilla = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
 
     
     if inf_casilla['tematica'] == 'Dados':
@@ -65,7 +72,6 @@ def elegir_pregunta(casilla, jugador, Partida_id):
     pregunta_devolver = all_preguntas[random.randint(0,len(all_preguntas) - 1)]
     #pregunta_devolver = [enunciado, r1, r2, r3, r4, rc]
 
-    print("Pregunta a devolver: ", str(pregunta_devolver))
     respuestas = []
     for i in ['r1','r2','r3','r4']:
         respuestas.append(pregunta_devolver[i])
@@ -79,7 +85,7 @@ def elegir_pregunta(casilla, jugador, Partida_id):
     pregunta_devolver['rc'] = rc+1
 
 
-    pregunta_devolver['tematica'] = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica').first()['tematica']
+    pregunta_devolver['tematica'] = inf_casilla['tematica']
 
     pregunta_devolver['quesito'] = inf_casilla['quesito']
 
@@ -139,14 +145,36 @@ def calcular_sig_jugador(Partida_id):
 
     if game == None:
         return 'Error, no existe partida'
+    else: 
+        #Pepe,Juan,P
+        #Juan, P ,Pepe
+        lista_j = game.orden_jugadores
+        
+        lista_j = lista_j.split(',')
+        primer_elemento = lista_j.pop(0)
+        lista_j.append(primer_elemento)
+        segundo_elemento = lista_j.pop(0)
+        lista_j.insert(0, segundo_elemento)
+        
+        
+        game.orden_jugadores = ",".join(lista_j)
+        # turno = game.turno_actual
+        # game.turno_actual = str((int(turno) + 1) % calcular_jugadores(Partida_id))
+        game.save()
+
+        return lista_j[0]
+    
+    
+# Devuelve el jugador que tiene el turno
+def jugador_con_turno(Partida_id):
+    game = Partida.objects.filter(id = Partida_id).first() or None
+    if game == None:
+        return 'Error, no existe partida'
     else:
         lista_j = game.orden_jugadores
         lista_j = lista_j.split(',')
-        turno = game.turno_actual
-        game.turno_actual = str((int(turno) + 1) % calcular_jugadores(Partida_id))
-        game.save()
+        return lista_j[int(game.turno_actual)]
 
-        return lista_j[(turno + 1) % calcular_jugadores(Partida_id)]
     
 # Recupera en una lista todos los quesitos que tiene un jugador en la partida
 # @juega -> Necesita ser la instancia del modelo, que se obtiene con el id_partida y el usuario
@@ -178,16 +206,13 @@ def cargar_datos_partida(self):
         'tiempo_elegir_casilla': "",
         'error': "",
     }
-    
-    mensaje_inicio['OK'] = "true"
-    mensaje_inicio['tiempo_pregunta'] = "10"
-    mensaje_inicio['tiempo_elegir_casilla'] = "5"
-    
     partida = Partida.objects.filter(id=self.game_name).first() or None
-    
+
+    mensaje_inicio['OK'] = "true"
+    mensaje_inicio['tiempo_pregunta'] = str(partida.tiempo_respuesta)
+    mensaje_inicio['tiempo_elegir_casilla'] = "5"
     jugadores = partida.orden_jugadores.split(',')
     for i, jugador in enumerate(jugadores):
-        print("Iteracion" + str(i))
         informacion_jugador = {'jugador':'','posicion':'','quesitos':[],'turno':'','ficha':'','tablero':'','activo':''}
         user = Usuario.objects.filter(username=jugador).first() or None
         juega = Juega.objects.filter(username=user,id_partida=partida).first() or None
@@ -208,28 +233,28 @@ def actualizar_estadisticas(user,tematica,bien,quesito):
     if(bien):
         if(tematica == "Historia"):
             stats.historia_bien +=1
-        if(tematica == "Arte"):
+        elif(tematica == "Arte"):
             stats.arte_y_literatura_bien +=1
-        if(tematica == "Deportes"):
+        elif(tematica == "Deportes"):
              stats.deportes_bien +=1
-        if(tematica == "Entretenimiento"):
+        elif(tematica == "Entretenimiento"):
             stats.entretenimiento_bien +=1
-        if(tematica == "Ciencia"):
+        elif(tematica == "Ciencia"):
             stats.ciencias_bien +=1
-        if(tematica == "Geografia"):
+        elif(tematica == "Geografia"):
             stats.geografia_bien +=1
     else:
         if(tematica == "Historia"):
             stats.historia_mal +=1
-        if(tematica == "Arte"):
+        elif(tematica == "Arte"):
             stats.arte_y_literatura_mal +=1
-        if(tematica == "Deportes"):
+        elif(tematica == "Deportes"):
              stats.deportes_mal +=1
-        if(tematica == "Entretenimiento"):
+        elif(tematica == "Entretenimiento"):
             stats.entretenimiento_mal +=1
-        if(tematica == "Ciencia"):
+        elif(tematica == "Ciencia"):
             stats.ciencias_mal +=1
-        if(tematica == "Geografia"):
+        elif(tematica == "Geografia"):
             stats.geografia_mal +=1
 
     if(quesito):

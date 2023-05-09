@@ -51,16 +51,18 @@ class GameConsumers(WebsocketConsumer):
         juega = Juega.objects.filter(id_partida=game,username=user).first() or None
 
         # Si el que estaba jugando se ha desconectado y ha vuelto a entrar, entonces solo se lo envio a el
-        print("Juega activo: ", str(juega.activo))
+        
         if(juega and not juega.activo):
+            print("Volvemos a activar a : ", self.username)
+            print("El orden de los jugadores es: " + str(game.orden_jugadores))
             datos_cargar_partida = cargar_datos_partida(self)
             self.send(text_data=json.dumps({'type': 'enviar_datos','datos': datos_cargar_partida}))
         else:
-            print("Else")
             # Si estan los jugadores que se necesitan para iniciar la partida, entocnes le enviamos a todos los usuarios la informacion
             if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == calcular_jugadores(self.game_name):
                 datos_cargar_partida = cargar_datos_partida(self)
                 print("Empieza la partida")
+                print("El orden de los jugadores es: " + str(game.orden_jugadores))
                 # Envio a todos los jugadores el mensaje 
                 async_to_sync(self.channel_layer.group_send)(
                     self.game_group_name, {"type": "enviar_datos", "datos": datos_cargar_partida}
@@ -68,7 +70,6 @@ class GameConsumers(WebsocketConsumer):
         
     def enviar_datos(self, event):
         datos = event['datos']
-        print(datos)
         self.send(text_data=json.dumps(datos))
 
 
@@ -91,16 +92,9 @@ class GameConsumers(WebsocketConsumer):
         
 
     def gestionar_mensaje(self, event):
-        fin = False
-        mensaje = event['mensaje']
-        user = Usuario.objects.filter(username=self.username).first() or None
-        if mensaje['jugador'] != self.username:
-            self.send(text_data=json.dumps(mensaje))
-            return None
-
         response = {
-
             'OK':"",
+            'error': "",
             'jugador':"",
             'type':"",
             'subtype': "",
@@ -117,13 +111,29 @@ class GameConsumers(WebsocketConsumer):
             'tematica': "",
             'esCorrecta': "",
             'mensage_chat': "",
-            'error': "",
         }
+
+        fin = False
+        mensaje = event['mensaje']
+        user = Usuario.objects.filter(username=self.username).first() or None
+
+        # Hay que hacer que el mensaje del chat sea antes, ya que este se puede hacer aunque no sea el turno
+        # Si no es su turno le denegamos la accion
+        #print(jugador_con_turno(self.game_name))
+        if(mensaje['jugador'] != jugador_con_turno(self.game_name)):
+            mensaje['OK'] = "false"
+            mensaje['error'] = "No es tu turno"
+            self.send(text_data=json.dumps(mensaje))
+            return None
+        
+        # BORRAR
+        mensaje['tematica'] = "prueba"
 
         if mensaje['OK'] == "true":
             if mensaje['type'] == "Peticion":
                 if mensaje['subtype'] == "Tirar_dado":
                     tirada = tirar_dado()
+                    print("Tirar dado: " + str(tirada))
                     casillas_posibles = calcular_siguiente_movimiento(tirada, mensaje['jugador'], self.game_name)
                     response['valor_dado'] = tirada
                     response['jugador'] = mensaje['jugador']
@@ -133,11 +143,13 @@ class GameConsumers(WebsocketConsumer):
 
                 elif mensaje['subtype'] == "Movimiento_casilla":
                     pregunta = elegir_pregunta(mensaje['casilla_elegida'], mensaje['jugador'], self.game_name)
+                    
+                    # Vuelve a tirar si cae en la casilla de repetir
                     if pregunta['enunciado'] == 'repetir':
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
-
-                    else:
+                    
+                    else: # Cargamos la pregunta
                         response['enunciado'] = pregunta['enunciado']
                         response['r1'] = pregunta['r1']
                         response['r2'] = pregunta['r2']
@@ -151,7 +163,9 @@ class GameConsumers(WebsocketConsumer):
                         response['subtype'] = "Pregunta"
                 
             elif mensaje['type'] == "Actualizacion":
+                # Si el usuario acierta la pregunta
                 if mensaje['esCorrecta'] == "true":
+                    print("Ha acertado la pregunta el usuario: " + self.username)
                     if mensaje['quesito'] == "true":
                         fin = marcar_queso(mensaje['tematica'], mensaje['jugador'], self.game_name)
                         actualizar_estadisticas(user,mensaje['tematica'],True,True)
