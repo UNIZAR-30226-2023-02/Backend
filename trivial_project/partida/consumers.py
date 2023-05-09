@@ -171,7 +171,7 @@ class GameConsumers(WebsocketConsumer):
                 # Si el usuario acierta la pregunta
                 if mensaje['esCorrecta'] == "true":
                     print("Ha acertado la pregunta el usuario: " + self.username)
-                    if mensaje['quesito'] == "true":
+                    if mensaje['quesito'] == True:
                         fin = marcar_queso(mensaje['tematica'], mensaje['jugador'], self.game_name)
                         actualizar_estadisticas(user,mensaje['tematica'],True,True)
                     else:

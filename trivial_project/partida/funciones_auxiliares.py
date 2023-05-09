@@ -94,7 +94,7 @@ def elegir_pregunta(casilla, jugador, Partida_id, tematica = None):
 
     pregunta_devolver['tematica'] = inf_casilla['tematica']
 
-    pregunta_devolver['quesito'] = str(inf_casilla['quesito'])
+    pregunta_devolver['quesito'] = inf_casilla['quesito']
 
 
     
