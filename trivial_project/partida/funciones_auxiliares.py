@@ -1,5 +1,5 @@
 #
-#Fichero de funciones axuiliares para el transcrso de una partida
+#Fichero de funciones axuiliares para el transcurso de una partida
 #
 
 import json
@@ -8,7 +8,7 @@ from partida.models import *
 from sala.models import *
 import random
 
-listaTematicas = ['Historia','Entretenimiento','Ciencia','Geografia','Arte','Deportes']
+
 
 
 def calcular_jugadores(Partida_id):
@@ -47,6 +47,67 @@ def calcular_siguiente_movimiento(tirada, jugador, Partida_id):
 # @param string(jugdor username)
 # @param string(Partida_id numero)
 # @return vector(pregunta, r1, r2, r3, r4, rc)
+def elegir_pregunta(casilla, jugador, Partida_id, tematica = None):
+
+    mov_posicion = Juega.objects.filter(username_id = jugador, id_partida = Partida_id).first()
+    if mov_posicion == None:
+        return None
+    
+    mov_posicion.posicion = casilla
+    mov_posicion.save()
+
+    if casilla == "72":
+        listaTematicas = ['Historia','Entretenimiento','Ciencia','Geografia','Arte','Deportes']
+        inf_casilla = {}
+        inf_casilla['quesito'] = "false"
+        inf_casilla['tematica'] = listaTematicas[random.randint(0, len(listaTematicas) - 1)]
+    else:
+        inf_casilla = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
+
+    if tematica:
+        inf_casilla['tematica'] = tematica
+    
+
+    print("La tematica elegida es: " + inf_casilla['tematica'])
+    
+    if inf_casilla['tematica'] == 'Dados':
+        pregunta_devolver = {'enunciado':""}
+        pregunta_devolver['enunciado'] = 'repetir'
+        return pregunta_devolver
+    
+    all_preguntas = Pregunta.objects.values('enunciado', 'r1', 'r2', 'r3', 'r4', 'rc').filter(categoria = inf_casilla['tematica'])
+    pregunta_devolver = all_preguntas[random.randint(0,len(all_preguntas) - 1)]
+    #pregunta_devolver = [enunciado, r1, r2, r3, r4, rc]
+
+    respuestas = []
+    for i in ['r1','r2','r3','r4']:
+        respuestas.append(pregunta_devolver[i])
+    random.shuffle(respuestas)
+    rc = respuestas.index(pregunta_devolver['r1'])
+
+    j = 0
+    for i in ['r1','r2','r3','r4']:
+        pregunta_devolver[i] = respuestas[j]
+        j = j + 1
+    pregunta_devolver['rc'] = rc+1
+
+
+    pregunta_devolver['tematica'] = inf_casilla['tematica']
+
+    pregunta_devolver['quesito'] = inf_casilla['quesito']
+
+
+    
+
+    return pregunta_devolver
+
+
+# Elige una pregunta al hacer dependiendo de la casilla que se le pase
+# Depende de la casilla sera de una tematica u otra
+# @param casilla([1-72])
+# @param string(jugdor username)
+# @param string(Partida_id numero)
+# @return vector(pregunta, r1, r2, r3, r4, rc)
 def elegir_pregunta(casilla, jugador, Partida_id):
 
     mov_posicion = Juega.objects.filter(username_id = jugador, id_partida = Partida_id).first()
@@ -57,6 +118,7 @@ def elegir_pregunta(casilla, jugador, Partida_id):
     mov_posicion.save()
 
     if casilla == "72":
+        listaTematicas = ['Historia','Entretenimiento','Ciencia','Geografia','Arte','Deportes']
         inf_casilla = {}
         inf_casilla['quesito'] = "false"
         inf_casilla['tematica'] = listaTematicas[random.randint(0, len(listaTematicas) - 1)]
@@ -277,7 +339,7 @@ def actualizar_estadisticas_partida(ganador, jugadores):
             stats.partidas_ganadas += 1
         else:
             stats.partidas_perdidas += 1
-            
+
         stats.save()
 
 

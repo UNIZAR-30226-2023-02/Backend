@@ -3,6 +3,7 @@ import json
 from trivial_api.models import *
 from sala.models import *
 from partida.models import *
+import random
 
 from asgiref.sync import async_to_sync,sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
@@ -10,7 +11,6 @@ from channels.generic.websocket import WebsocketConsumer
 from rest_framework.authtoken.models import Token
 from .funciones_auxiliares import *
 from urllib.parse import parse_qs
-
 
 
 #/ws/lobby/<room_name>/?token=Pepe2212&password=12345
@@ -80,7 +80,15 @@ class SalaConsumer(WebsocketConsumer):
             partida = Partida.objects.create(tipo=sala.tipo_partida,terminada=False,tiempo_respuesta=sala.tiempo_respuesta,orden_jugadores=orden_aleatorio)
             # Creamos la instancia de juega para los jugadores
             generar_jugadores(partida)
-            wspartida = "/ws/partida/" + str(partida.id) + "/"
+            if sala.tipo_partida == "Clasico":
+                wspartida = "/ws/partida_/" + str(partida.id) + "/"
+
+            elif sala.tipo_partida == "Tematico":
+                listaTematicas = ['Historia','Entretenimiento','Ciencia','Geografia','Arte','Deportes']
+                wspartida = "/ws/partida_tematico/" + str(partida.id) + "/"
+                partida.tematica = listaTematicas[random.randint(0,len(listaTematicas) - 1)]
+                partida.save()
+
             
             # Send message to room group
             async_to_sync(self.channel_layer.group_send)(
