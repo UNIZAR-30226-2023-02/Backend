@@ -126,8 +126,6 @@ class GameConsumers(WebsocketConsumer):
             self.send(text_data=json.dumps(mensaje))
             return None
         
-        # BORRAR
-        mensaje['tematica'] = "prueba"
 
         if mensaje['OK'] == "true":
             if mensaje['type'] == "Peticion":
