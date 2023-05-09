@@ -62,6 +62,7 @@ def elegir_pregunta(casilla, jugador, Partida_id):
     else:
         inf_casilla = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
 
+    print("La tematica elegida es: " + inf_casilla['tematica'])
     
     if inf_casilla['tematica'] == 'Dados':
         pregunta_devolver = {'enunciado':""}
