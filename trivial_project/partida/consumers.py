@@ -132,7 +132,8 @@ class GameConsumers(WebsocketConsumer):
         #     self.send(text_data=json.dumps(mensaje))
         #     return None
         
-
+        #BORRAR
+        mensaje['tematica'] = "A"
         if mensaje['OK'] == "true":
             if mensaje['type'] == "Peticion":
                 if mensaje['subtype'] == "Tirar_dado":
@@ -168,34 +169,38 @@ class GameConsumers(WebsocketConsumer):
                         response['subtype'] = "Pregunta"
                 
             elif mensaje['type'] == "Actualizacion":
-                # Si el usuario acierta la pregunta
-                if mensaje['esCorrecta'] == "true":
-                    print("Ha acertado la pregunta el usuario: " + self.username)
-                    if mensaje['quesito'] == True:
-                        fin = marcar_queso(mensaje['tematica'], mensaje['jugador'], self.game_name)
-                        actualizar_estadisticas(user,mensaje['tematica'],True,True)
-                    else:
-                        actualizar_estadisticas(user,mensaje['tematica'],True,False)
+                if mensaje['subtype'] == "Fin_pregunta":
+                    # Si el usuario acierta la pregunta
+                    if mensaje['esCorrecta'] == "true":
+                        print("Ha acertado la pregunta el usuario: " + self.username)
+                        if mensaje['quesito'] == True:
+                            fin = marcar_queso(mensaje['tematica'], mensaje['jugador'], self.game_name)
+                            actualizar_estadisticas(user,mensaje['tematica'],True,True)
+                        else:
+                            actualizar_estadisticas(user,mensaje['tematica'],True,False)
 
-                    response['jugador'] = mensaje['jugador']
-                    if fin == True:
-                        response['type'] = "Fin"
-                        game = Partida.objects.filter(id =self.game_name).first() or None
-                        game.terminada = True
-                        game.ganador = mensaje['jugador']
-                        game.save()
-                        
-                        actualizar_estadisticas_partida(game.ganador, game.orden_jugadores)
-                        
-                    else:
+                        response['jugador'] = mensaje['jugador']
+                        if fin == True:
+                            response['type'] = "Fin"
+                            game = Partida.objects.filter(id =self.game_name).first() or None
+                            game.terminada = True
+                            game.ganador = mensaje['jugador']
+                            game.save()
+                            
+                            actualizar_estadisticas_partida(game.ganador, game.orden_jugadores)
+                            
+                        else:
+                            response['type'] = "Accion"
+                            response['subtype'] = "Dados"
+                    elif mensaje['esCorrecta'] == "false":
+                        actualizar_estadisticas(user,mensaje['tematica'],False,False)
+                        response['jugador'] = calcular_sig_jugador(self.game_name)
+                        print("El siguiete jugador a tirar es: " + response['jugador'])
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
-                elif mensaje['esCorrecta'] == "false":
-                    actualizar_estadisticas(user,mensaje['tematica'],False,False)
-                    response['jugador'] = calcular_sig_jugador(self.game_name)
-                    print("El siguiete jugador a tirar es: " + response['jugador'])
-                    response['type'] = "Accion"
-                    response['subtype'] = "Dados"
+                elif mensaje['subtype'] == "Contestar_pregunta":
+                    # No hay que hacer nada
+                    print("Esperando el timer del front")
                 else:
                     print("Error al actualizar")
 
@@ -373,34 +378,38 @@ class GameConsumersTematica(WebsocketConsumer):
                         response['subtype'] = "Pregunta"
                 
             elif mensaje['type'] == "Actualizacion":
-                # Si el usuario acierta la pregunta
-                if mensaje['esCorrecta'] == "true":
-                    print("Ha acertado la pregunta el usuario: " + self.username)
-                    if mensaje['quesito'] == "true":
-                        fin = marcar_queso(mensaje['tematica'], mensaje['jugador'], self.game_name)
-                        actualizar_estadisticas(user,mensaje['tematica'],True,True)
-                    else:
-                        actualizar_estadisticas(user,mensaje['tematica'],True,False)
+                if mensaje['subtype'] == "Fin_pregunta":
+                    # Si el usuario acierta la pregunta
+                    if mensaje['esCorrecta'] == "true":
+                        print("Ha acertado la pregunta el usuario: " + self.username)
+                        if mensaje['quesito'] == True:
+                            fin = marcar_queso(mensaje['tematica'], mensaje['jugador'], self.game_name)
+                            actualizar_estadisticas(user,mensaje['tematica'],True,True)
+                        else:
+                            actualizar_estadisticas(user,mensaje['tematica'],True,False)
 
-                    response['jugador'] = mensaje['jugador']
-                    if fin == True:
-                        response['type'] = "Fin"
-                        game = Partida.objects.filter(id =self.game_name).first() or None
-                        game.terminada = True
-                        game.ganador = mensaje['jugador']
-                        game.save()
-                        
-                        actualizar_estadisticas_partida(game.ganador, game.orden_jugadores)
-                        
-                    else:
+                        response['jugador'] = mensaje['jugador']
+                        if fin == True:
+                            response['type'] = "Fin"
+                            game = Partida.objects.filter(id =self.game_name).first() or None
+                            game.terminada = True
+                            game.ganador = mensaje['jugador']
+                            game.save()
+                            
+                            actualizar_estadisticas_partida(game.ganador, game.orden_jugadores)
+                            
+                        else:
+                            response['type'] = "Accion"
+                            response['subtype'] = "Dados"
+                    elif mensaje['esCorrecta'] == "false":
+                        actualizar_estadisticas(user,mensaje['tematica'],False,False)
+                        response['jugador'] = calcular_sig_jugador(self.game_name)
+                        print("El siguiete jugador a tirar es: " + response['jugador'])
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
-                elif mensaje['esCorrecta'] == "false":
-                    actualizar_estadisticas(user,mensaje['tematica'],False,False)
-                    response['jugador'] = calcular_sig_jugador(self.game_name)
-                    print("El siguiete jugador a tirar es: " + response['jugador'])
-                    response['type'] = "Accion"
-                    response['subtype'] = "Dados"
+                elif mensaje['subtype'] == "Contestar_pregunta":
+                    # No hay que hacer nada
+                    print("Esperando el timer del front")
                 else:
                     print("Error al actualizar")
 
