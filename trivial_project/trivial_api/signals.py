@@ -18,13 +18,14 @@ def populate_data(sender, **kwargs):
             i = 1
             # Solo guardar las de color blanco para que se muestren en la tienda.
             # Fichas 1-9
-            while i <= 9:
+            while i <= 1:
                 image_path = os.path.normpath(os.path.join(settings.STATIC_URL, 'images','objetos', f'{i}.png'))
                 image_path = image_path.replace('\\', '/')
                 objeto = Objetos.objects.create(id=i,coste=5, tipo='ficha',image = image_path)
                 objeto.save()
                 i +=1
             # Tableros 10-15
+            i = 10
             while i <= 15:
                 image_path = os.path.normpath(os.path.join(settings.STATIC_URL, 'images','objetos', f'{i}.png'))
                 image_path = image_path.replace('\\', '/')

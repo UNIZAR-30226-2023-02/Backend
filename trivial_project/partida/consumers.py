@@ -55,12 +55,12 @@ class GameConsumers(WebsocketConsumer):
         if(juega and not juega.activo):
             print("Volvemos a activar a : ", self.username)
             print("El orden de los jugadores es: " + str(game.orden_jugadores))
-            datos_cargar_partida = cargar_datos_partida(self)
+            datos_cargar_partida = cargar_datos_partida(self,False)
             self.send(text_data=json.dumps({'type': 'enviar_datos','datos': datos_cargar_partida}))
         else:
             # Si estan los jugadores que se necesitan para iniciar la partida, entocnes le enviamos a todos los usuarios la informacion
             if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == calcular_jugadores(self.game_name):
-                datos_cargar_partida = cargar_datos_partida(self)
+                datos_cargar_partida = cargar_datos_partida(self,True)
                 print("Empieza la partida")
                 print("El orden de los jugadores es: " + str(game.orden_jugadores))
                 # Envio a todos los jugadores el mensaje 

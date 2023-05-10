@@ -120,7 +120,7 @@ class UsuarioRegistrar(APIView):
             user.set_password(password)
         
             objeto_ficha = Objetos.objects.filter(id=1).first()
-            objeto_tablero = Objetos.objects.filter(id=2).first()
+            objeto_tablero = Objetos.objects.filter(id=10).first()
             user.image_ficha = objeto_ficha.image
             user.image_tablero = objeto_tablero.image
             user.save()
@@ -498,7 +498,7 @@ class UsuarioEstadisticasYo(APIView):
                 if total_categoria == 0:
                     dict_response[categoria]["porcentaje"] = 0
                 else:
-                    dict_response[categoria]["porcentaje"] = bien_categoria / total_categoria
+                    dict_response[categoria]["porcentaje"] = round(bien_categoria / total_categoria,2)
                 total_respuestas_correctas += bien_categoria
                 total_respuestas_incorrectas += mal_categoria
 
@@ -510,7 +510,7 @@ class UsuarioEstadisticasYo(APIView):
             if total_preguntas == 0:
                 dict_response["porcentaje_respuestas"] = 0
             else:
-                dict_response["porcentaje_respuestas"] = total_respuestas_correctas / total_preguntas
+                dict_response["porcentaje_respuestas"] = round(total_respuestas_correctas / total_preguntas,2)
             dict_response['OK'] = "True"
         else:
             dict_response['OK'] = "False"
@@ -557,7 +557,7 @@ class UsuarioEstadisticasOtroUsuario(APIView):
                 if total_categoria == 0:
                     dict_response[categoria]["porcentaje"] = 0
                 else:
-                    dict_response[categoria]["porcentaje"] = bien_categoria / total_categoria
+                    dict_response[categoria]["porcentaje"] = round(bien_categoria / total_categoria,2)
                 total_respuestas_correctas += bien_categoria
                 total_respuestas_incorrectas += mal_categoria
 
@@ -569,7 +569,7 @@ class UsuarioEstadisticasOtroUsuario(APIView):
             if total_preguntas == 0:
                 dict_response["porcentaje_respuestas"] = 0
             else:
-                dict_response["porcentaje_respuestas"] = total_respuestas_correctas / total_preguntas
+                dict_response["porcentaje_respuestas"] = round(total_respuestas_correctas / total_preguntas,2)
             dict_response['OK'] = "True"
         else:
             dict_response['OK'] = "False"

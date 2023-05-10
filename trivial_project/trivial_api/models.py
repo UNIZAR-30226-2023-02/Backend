@@ -12,8 +12,8 @@ class Usuario(AbstractUser):
     password = models.CharField(default="",max_length=200) #La contraseña cifrada ocupa 128 caracteres
     monedas = models.IntegerField(default=0)
     image_perfil = models.CharField(default="/static/images/perfil/default_perfil.png",max_length=200)
-    image_tablero = models.CharField(default="/static/images/perfil/default_tablero.png",max_length=200)
-    image_ficha = models.CharField(default="/static/images/perfil/default_ficha.png",max_length=200)
+    image_tablero = models.CharField(default="/static/images/objetos/10.png",max_length=200)
+    image_ficha = models.CharField(default="/static/images/objetos/1.png",max_length=200)
 
 
     def set_password(self, raw_password):

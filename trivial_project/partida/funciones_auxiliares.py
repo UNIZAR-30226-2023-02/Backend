@@ -152,9 +152,13 @@ def calcular_sig_jugador(Partida_id):
     else: 
         #Pepe,Juan,P
         #Juan, P ,Pepe
+        # Contar el numero de jugadores activos
+        # Si el numero de jugadores activos es 1 o inferior, entonces para el juego o algo
+        # TODO
         lista_j = game.orden_jugadores
         
         lista_j = lista_j.split(',')
+
         primer_elemento = lista_j.pop(0)
         lista_j.append(primer_elemento)
         segundo_elemento = lista_j.pop(0)
@@ -202,7 +206,8 @@ def obtener_quesitos_jugador(juega):
 
 # Funcion que obtiene los datos de todos los jugadores de la partida
 # @jugadores -> el orden de los jugadores en partida
-def cargar_datos_partida(self):
+# @inicio -> si es al principio de la partida =True, en caso contrario false
+def cargar_datos_partida(self,inicio):
     mensaje_inicio = {
         'OK':"",
         'jugadores':[],
@@ -229,11 +234,22 @@ def cargar_datos_partida(self):
         informacion_jugador["jugador"] = str(juega.username)
         informacion_jugador["posicion"] = str(juega.posicion)
         informacion_jugador["turno"] = str(turno)
+        if(inicio):
+            juega.image = asignar_color_ficha(user.image_ficha,i)
         informacion_jugador["ficha"] = str(juega.image)
         informacion_jugador["tablero"] = str(user.image_tablero)
         informacion_jugador["activo"] = str(juega.activo)
         mensaje_inicio["jugadores"].append(informacion_jugador)
     return mensaje_inicio
+
+
+def asignar_color_ficha(url,posicion):
+    num_color = {0: "amarillo", 1: "azul", 2: "naranja", 3: "rojo",4:"rosa",5:"verde"}
+    color = num_color.get(posicion, "blanco") # si el número no está en el diccionario, se asigna "blanco" por defecto
+    color_png = "-" + str(color) + ".png"
+    return url.replace(".png", color_png)
+
+
 
 
 def actualizar_estadisticas(user,tematica,bien,quesito):
