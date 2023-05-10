@@ -123,12 +123,9 @@ class GameConsumers(WebsocketConsumer):
         #print(jugador_con_turno(self.game_name))
 
         if mensaje['jugador'] != self.username:
-            # Si el mensaje es de tipo Fin_pregunta no quieren que le enviemos respuesta
-            if mensaje['sub_type'] == "Fin_pregunta":
-                return None 
-            else: 
-                self.send(text_data=json.dumps(mensaje))
-                return None
+            # Si el mensaje es de tipo Fin_pregunta o CHAT no quieren que le enviemos respuesta aqui, se hace abajo
+            self.send(text_data=json.dumps(mensaje))
+            return None
 
         # if(mensaje['jugador'] != jugador_con_turno(self.game_name)):
         #     #mensaje['OK'] = "false"
@@ -201,12 +198,13 @@ class GameConsumers(WebsocketConsumer):
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
                 elif mensaje['subtype'] == "Contestar_pregunta":
-                    response = mensaje
                     print("Esperando el timer del front")
+                    return None
                 else:
                     print("Error al actualizar")
                     
             elif mensaje['type'] == "Chat":
+                response = mensaje
                 print(mensaje['jugador'] + ": " + mensaje['mensage_chat'])
             else:
                 #Error el backend solo recive Peticiones y Actualizaciones
