@@ -217,3 +217,30 @@ class UsarObjetoRequestSerializer(serializers.Serializer):
 class UsarObjetoResponseSerializer(serializers.Serializer):
     OK = serializers.CharField()
     error = serializers.CharField()
+
+
+
+class partida_wsSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    tipo = serializers.CharField()
+    #tipo = serializers.CharField()
+    ws = serializers.CharField()
+
+
+# PartidaActiva
+class PartidaActivaRequestSerializer(serializers.Serializer):
+    id_partida = serializers.CharField()
+
+class PartidaActivaResponseSerializer(serializers.Serializer):
+    OK = serializers.CharField()
+    partida = partida_wsSerializer(many=True)
+    error = serializers.CharField()
+
+
+# Usuario Dar de baja
+class UsuarioDarBajaRequestSerializer(serializers.Serializer):
+    pass
+
+class UsuarioDarBajaResponseSerializer(serializers.Serializer):
+    pass
+

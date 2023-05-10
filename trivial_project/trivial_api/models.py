@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 
 class Usuario(AbstractUser):
     username = models.CharField(default="ad",max_length=50, primary_key = True)
+    esAdmin = models.BooleanField(default=False)
     correo = models.EmailField(default="example@gmail.com",blank=False,null=False,unique=True)
     telefono = models.CharField(default=0,max_length=20)
     fecha_nac = models.DateField(default="1997-10-19")
