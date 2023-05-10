@@ -201,7 +201,9 @@ class GameConsumers(WebsocketConsumer):
                     print("Esperando el timer del front")
                 else:
                     print("Error al actualizar")
-
+                    
+            elif mensaje['type'] == "Chat":
+                print(mensaje['jugador'] + ": " + mensaje['mensage_chat'])
             else:
                 #Error el backend solo recive Peticiones y Actualizaciones
                 print("")
@@ -219,6 +221,21 @@ class GameConsumers(WebsocketConsumer):
         
            
             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class GameConsumersTematica(WebsocketConsumer):   
     def connect(self):
         self.game_name = self.scope["url_route"]["kwargs"]["game_name"]
