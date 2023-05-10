@@ -118,16 +118,16 @@ class UsuarioRegistrar(APIView):
             # Creamos el registro en la base de datos
             user = Usuario.objects.create(username=username, correo=correo,telefono = telefono,fecha_nac=fecha_nac,password=password)
             user.set_password(password)
-        
+            # Ficha y tablero por defecto
             objeto_ficha = Objetos.objects.filter(id=1).first()
-            objeto_tablero = Objetos.objects.filter(id=10).first()
+            objeto_tablero = Objetos.objects.filter(id=20).first()
             user.image_ficha = objeto_ficha.image
             user.image_tablero = objeto_tablero.image
             user.save()
 
             # Hay que hacer que tenga la ficha y el tablero por defecto 
             tiene_objeto_ficha = Tiene.objects.create(id_objeto=objeto_ficha,username = user,enUso=1)
-            tiene_objeto_tablero = Tiene.objects.create(id_objeto=objeto_tablero,username = user,enUso=1)
+            tiene_objeto_tablero = Tiene.objects.create(id_objeto=objeto_tablero,username = user,enUso=20)
             
             tiene_objeto_ficha.save()
             tiene_objeto_tablero.save()
@@ -753,48 +753,130 @@ class SalaValidarUnir(APIView):
 
 
 
-# NO HAY REQUISITO, POR LO QUE YO NO LO HARÍA
-class UsuarioHistorial(APIView):
-    #Necesita la autenticazion
+
+
+
+# Lista con las partidas activas de un usuario, para que pueda volver a unirse
+class PartidaActiva(APIView):
     permission_classes = [IsAuthenticated]
-    @extend_schema(tags=["USUARIO"],request=SalaUnirRequestSerializer, responses=SalaUnirResponseSerializer)
-    def post(self, request):
+    @extend_schema(tags=["PARTIDA"],request=SalaUnirRequestSerializer, responses=SalaUnirResponseSerializer)   
+    def post(self,request):
         dict_response = {
             'OK':"",
-            'error_sala':"",
-            'ws':"",
+            'partida':[],
+            'error':"",
         }
-
         username, token = get_username_and_token(request)
-        nombre_sala = str(request.data.get('nombre_sala'))
-        password = str(request.data.get('password_sala'))
-        
+        user = Usuario.objects.filter(username=username).first() or None
+        juega = Juega.objects.filter(username=user).values('id_partida')
+        for id_partida in list(juega):
+            print(id_partida)
+            partida = Partida.objects.filter(id=id_partida['id_partida']).first() or None
+            if(partida and not partida.terminada):
+                if partida.tipo == "Clasico":
+                    ws_partida = "/ws/partida/" + str(partida.id) + "/"
+                elif partida.tipo == "Tematico":
+                    ws_partida = "/ws/partida_tematico/" + str(partida.id) + "/"
+                dict_response["partida"].append({'id':str(partida.id),'tipo':"{}".format(str(partida.tipo)),'ws':ws_partida})
+        if all_errors_empty(dict_response):
+            dict_response["OK"] = "True"
+        return Response(dict_response)
+    
 
-        sala = Sala.objects.filter(nombre_sala=nombre_sala).first() or None
+class UsuarioDarDeBaja(APIView):
+    permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["USUARIO"],request=SalaUnirRequestSerializer, responses=SalaUnirResponseSerializer)   
+    def post(self,request):
+        username, token = get_username_and_token(request)
+        user = Usuario.objects.filter(username=username).first() or None
+        if(user):
+            user.delete()
+        return Response("Deleted")
+
+
+class EliminarPregunta(APIView):
+    permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["USUARIO"],request=SalaUnirRequestSerializer, responses=SalaUnirResponseSerializer)   
+    def post(self,request):
+        dict_response = {
+            'OK':"",
+            'error':"",
+        }
+        username, token = get_username_and_token(request)
         user = Usuario.objects.filter(username=username).first() or None
 
-        #Check if sala exists
-        if sala and user:
-            usuario_en_sala = UsuariosSala.objects.filter(username=user).first() or None
-            #Check if the user is already in a sala
-            if(not usuario_en_sala):
-                jugadores_en_partida =  UsuariosSala.objects.filter(nombre_sala=nombre_sala).count()
-                if(jugadores_en_partida >= sala.n_jugadores):
-                    dict_response['error_sala'] = "La sala esta llena, no puedes unirte"
-                if(sala.tipo_sala == "Privado" and (not sala.check_password(password))):
-                    dict_response['error_sala'] = "Contraseña incorrecta"
-            else:
-                dict_response['error_sala'] = "Ya perteneces a una sala, no puedes unirte"                
+        enunciado = str(request.data.get('enunciado'))
+
+        pregunta = Pregunta.objects.filter(enunciado=enunciado).first() or None
+        if pregunta:
+            pregunta.delete()
+            dict_response["Ok"] = "True"
         else:
-            dict_response['error_sala'] = "La sala no existe"
-            
-        if all_errors_empty(dict_response):
-            dict_response['OK'] = "True"
-            dict_response["ws"] = "/ws/lobby/{0}/?username={1}&password={2}".format(nombre_sala,username,password)
-        else:
-            dict_response['OK'] = "False"
+            dict_response["Ok"] = "False"
+            dict_response["error"] = "No existe la pregunta"
         return Response(dict_response)
 
+class AddPregunta(APIView):
+    #permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["USUARIO"],request=SalaUnirRequestSerializer, responses=SalaUnirResponseSerializer)   
+    def post(self,request):
+        dict_response = {
+            'OK':"",
+            'error':"",
+        }
+        # username, token = get_username_and_token(request)
+        # user = Usuario.objects.filter(username=username).first() or None
+
+        enunciado = str(request.data.get('enunciado'))
+        r1 = str(request.data.get('r1'))
+        r2 = str(request.data.get('r2'))
+        r3 = str(request.data.get('r3'))
+        r4 = str(request.data.get('r4'))
+        rc = int(request.data.get('rc'))
+        categoria = str(request.data.get('categoria'))
+
+        pregunta_igual = Pregunta.objects.filter(enunciado=enunciado).first() or None
+        if(not pregunta_igual):
+            pregunta = Pregunta.objects.create(enunciado=enunciado,r1=r1,r2=r2,r3=r3,r4=r4,rc=rc,categoria=categoria)
+            pregunta.save()
+            dict_response["Ok"] = "True"
+        else:
+            dict_response["Ok"] = "False"
+            dict_response["error"] = "No puede haber preguntas repetidas"
+        return Response(dict_response)
+    
+class EditPregunta(APIView):
+    #permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["USUARIO"],request=SalaUnirRequestSerializer, responses=SalaUnirResponseSerializer)   
+    def post(self,request):
+        dict_response = {
+            'OK':"",
+            'error':"",
+        }
+        # username, token = get_username_and_token(request)
+        # user = Usuario.objects.filter(username=username).first() or None
+
+        enunciado_original = str(request.data.get('enunciado_original'))
+        enunciado_nuevo = str(request.data.get('enunciado_nuevo'))
+        r1 = str(request.data.get('r1'))
+        r2 = str(request.data.get('r2'))
+        r3 = str(request.data.get('r3'))
+        r4 = str(request.data.get('r4'))
+        rc = str(request.data.get('rc'))
+        categoria = str(request.data.get('categoria'))
+        if enunciado_nuevo == "":
+            enunciado_nuevo = enunciado_original
+        pregunta = Pregunta.objects.filter(enunciado=enunciado_original).first() or None
+        # Falla el que pregunta la clave primaria no tendría que ser el enunciado
+        if(pregunta):
+            pregunta.delete()
+            pregunta = Pregunta.objects.create(enunciado=enunciado_nuevo,r1=r1,r2=r2,r3=r3,r4=r4,rc=rc,categoria=categoria)
+            pregunta.save()
+            dict_response["OK"] = "True"
+        else:
+            dict_response["OK"] = "False"
+            dict_response["error"] = "No existe la pregunta"
+        return Response(dict_response)
 
 
 

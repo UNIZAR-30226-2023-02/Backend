@@ -17,6 +17,7 @@ urlpatterns = [
     path('usuarios/cambiar-datos/', UsuarioCambiarDatos.as_view()),
     path('usuarios/add/amigo/', UsuarioAddAmigo.as_view()),
     path('usuarios/delete/amigo/', UsuarioDeleteAmigo.as_view()),
+    path('usuarios/dar-baja/', UsuarioDarDeBaja.as_view()),
 
     path('usuarios/estadisticas-yo/', UsuarioEstadisticasYo.as_view()),
     path('usuarios/estadisticas-usuario/',UsuarioEstadisticasOtroUsuario.as_view()),
@@ -28,6 +29,9 @@ urlpatterns = [
     path('salas/lista-jugadores-sala/', SalaListaJugadores.as_view()),
     
     # Endpoints auxiliares
+    path('auxiliar/preguntas/add/', AddPregunta.as_view()),
+    path('auxiliar/preguntas/delete/', EliminarPregunta.as_view()),
+    path('auxiliar/preguntas/edit/', EditPregunta.as_view()),
         # Uno con todas las fotos de perfil disponibles
 
     # Endpoints para la tienda
@@ -36,7 +40,7 @@ urlpatterns = [
     path('tienda/usar/', UsarObjeto.as_view()),
     
     #Endpoints para las partidas
-    #path('partidas/empezar/', Partida.as_view()),
+    path('partidas/activas/', PartidaActiva.as_view()),
 
     # Endpoints para la documentacion
     path('documentacion/', SpectacularSwaggerView.as_view(url_name='documentacion')),

@@ -22,7 +22,7 @@ class Tablero(models.Model):
 
 
 class Pregunta(models.Model):
-    enunciado = models.CharField(max_length = 200, primary_key = True)
+    enunciado = models.CharField(max_length = 200, primary_key= True)
     r1 = models.CharField(max_length = 200, blank = True, null = False)
     r2 = models.CharField(max_length = 200, blank = True, null = False)
     r3 = models.CharField(max_length = 200, blank = True, null = False)
@@ -43,6 +43,8 @@ class Partida(models.Model):
     tiempo_respuesta = models.IntegerField(default=15)
     class Meta:
         db_table = "Partida"
+
+
 
 # Información que necesita el jugador dentro de la partida
 class Juega(models.Model):
