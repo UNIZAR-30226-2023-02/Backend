@@ -39,8 +39,6 @@ class GameConsumers(WebsocketConsumer):
         if game.terminada == True:
             print("Error partida terminada")
             return None
-        
-        self.accept()
        
         user = Usuario.objects.filter(username=username).first() or None
         # Si no existe el usuario denegamos el acceso
@@ -59,6 +57,7 @@ class GameConsumers(WebsocketConsumer):
             datos_cargar_partida = cargar_datos_partida(self,False)
             self.send(text_data=json.dumps({'type': 'enviar_datos','datos': datos_cargar_partida}))
         else:
+            self.accept()
             # Si estan los jugadores que se necesitan para iniciar la partida, entocnes le enviamos a todos los usuarios la informacion
             if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == calcular_jugadores(self.game_name):
                 datos_cargar_partida = cargar_datos_partida(self,True)
