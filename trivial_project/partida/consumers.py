@@ -132,8 +132,6 @@ class GameConsumers(WebsocketConsumer):
         #     self.send(text_data=json.dumps(mensaje))
         #     return None
         
-        #BORRAR
-        mensaje['tematica'] = "A"
         if mensaje['OK'] == "true":
             if mensaje['type'] == "Peticion":
                 if mensaje['subtype'] == "Tirar_dado":
@@ -412,7 +410,8 @@ class GameConsumersTematica(WebsocketConsumer):
                     print("Esperando el timer del front")
                 else:
                     print("Error al actualizar")
-
+            elif mensaje['type'] == "Chat":
+                print(mensaje['jugador'] + ": " + mensaje['mensage_chat'])
             else:
                 #Error el backend solo recive Peticiones y Actualizaciones
                 print("")
