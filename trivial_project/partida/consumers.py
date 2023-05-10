@@ -56,10 +56,10 @@ class GameConsumers(WebsocketConsumer):
 
         self.accept()
         
-        if(juega):
+        if(juega and not juega.activo):
             print("Volvemos a activar a : ", self.username)
             print("El orden de los jugadores es: " + str(game.orden_jugadores))
-            juega.activo=True
+            juega.activo = True
             juega.save()
             datos_cargar_partida = cargar_datos_partida(self,False)
             self.send(text_data=json.dumps({'type': 'enviar_datos','datos': datos_cargar_partida}))
