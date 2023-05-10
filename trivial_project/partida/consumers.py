@@ -26,9 +26,6 @@ class GameConsumers(WebsocketConsumer):
         username = query_params.get("username", [None])[0]
         password = query_params.get("password", [None])[0]    
         self.username = username
-        async_to_sync(self.channel_layer.group_add)(
-            self.game_group_name, self.channel_name
-        )
 
         game = Partida.objects.filter(id =self.game_name).first() or None
         # Si no existe el juego denegamos el acceso
@@ -47,7 +44,7 @@ class GameConsumers(WebsocketConsumer):
             return None
         # Si el usuario estaba desconectado entonces tengo que enviarselo solo a el
         juega = Juega.objects.filter(id_partida=game,username=user).first() or None
-        juega_activo = Juega.objects.filter(username=user, activo=1).first() or None
+        juega_activo = Juega.objects.filter(username=user, activo="1").first() or None
 
         # Si el que estaba jugando se ha desconectado y ha vuelto a entrar, entonces solo se lo envio a el
         
@@ -57,6 +54,11 @@ class GameConsumers(WebsocketConsumer):
             datos_cargar_partida = cargar_datos_partida(self,False)
             self.send(text_data=json.dumps({'type': 'enviar_datos','datos': datos_cargar_partida}))
         else:
+
+            async_to_sync(self.channel_layer.group_add)(
+                self.game_group_name, self.channel_name
+            )
+
             self.accept()
             # Si estan los jugadores que se necesitan para iniciar la partida, entocnes le enviamos a todos los usuarios la informacion
             if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == calcular_jugadores(self.game_name):
