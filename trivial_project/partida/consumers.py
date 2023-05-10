@@ -49,10 +49,11 @@ class GameConsumers(WebsocketConsumer):
             return None
         # Si el usuario estaba desconectado entonces tengo que enviarselo solo a el
         juega = Juega.objects.filter(id_partida=game,username=user).first() or None
+        juega_activo = Juega.objects.filter(username=user, activo=1).first() or None
 
         # Si el que estaba jugando se ha desconectado y ha vuelto a entrar, entonces solo se lo envio a el
         
-        if(juega and not juega.activo):
+        if(not juega_activo and juega):
             print("Volvemos a activar a : ", self.username)
             print("El orden de los jugadores es: " + str(game.orden_jugadores))
             datos_cargar_partida = cargar_datos_partida(self,False)
@@ -204,8 +205,9 @@ class GameConsumers(WebsocketConsumer):
                     print("Error al actualizar")
                     
             elif mensaje['type'] == "Chat":
-                response = mensaje
+                #response = mensaje
                 print(mensaje['jugador'] + ": " + mensaje['mensage_chat'])
+                return None
             else:
                 #Error el backend solo recive Peticiones y Actualizaciones
                 print("")
@@ -276,10 +278,11 @@ class GameConsumersTematica(WebsocketConsumer):
             return None
         # Si el usuario estaba desconectado entonces tengo que enviarselo solo a el
         juega = Juega.objects.filter(id_partida=game,username=user).first() or None
+        juega_activo = Juega.objects.filter(username=user, activo=1).first() or None
 
         # Si el que estaba jugando se ha desconectado y ha vuelto a entrar, entonces solo se lo envio a el
         
-        if(juega and not juega.activo):
+        if(not juega_activo and juega):
             print("Volvemos a activar a : ", self.username)
             print("El orden de los jugadores es: " + str(game.orden_jugadores))
             datos_cargar_partida = cargar_datos_partida(self)
