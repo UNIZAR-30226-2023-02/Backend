@@ -741,7 +741,7 @@ class SalaValidarUnir(APIView):
         
         #Check if sala exists
         if sala and user :
-            if rechazar_reconexion(user):
+            if not rechazar_reconexion(user):
                 usuario_en_sala = UsuariosSala.objects.filter(username=user).first() or None
                 #Check if the user is already in a sala
                 if(not usuario_en_sala):
