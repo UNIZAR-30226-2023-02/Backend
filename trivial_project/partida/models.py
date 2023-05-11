@@ -64,7 +64,7 @@ class Juega(models.Model):
     #NUEVO
     # Imagen de la ficha en partida
     image = models.CharField(max_length=200)
-    activo = models.BooleanField(null = False, default = False) # Para saber si el jugador se ha desconectado
+    activo = models.BooleanField(null = False, default = True) # Para saber si el jugador se ha desconectado
     
     class Meta:
         db_table = "Juega"

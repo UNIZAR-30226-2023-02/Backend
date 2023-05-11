@@ -47,13 +47,13 @@ class GameConsumers(WebsocketConsumer):
             return None
         # Si el usuario estaba desconectado entonces tengo que enviarselo solo a el
         juega = Juega.objects.filter(id_partida=game,username=user).first() or None
-        juega_activo = Juega.objects.filter(username=user, activo=1).first() or None
+        #juega_activo = Juega.objects.filter(username=user, activo=1).first() or None
 
     # No permitir entrar a 2 partidas activas TODO
-        if juega_activo:
-            print("Entra a Juega Activo")
-            self.close()
-            return None
+        # if juega_activo:
+        #    print("Entra a Juega Activo")
+         #   self.close()
+          #  return None
 
         # Si el que estaba jugando se ha desconectado y ha vuelto a entrar, entonces solo se lo envio a el
         async_to_sync(self.channel_layer.group_add)(
