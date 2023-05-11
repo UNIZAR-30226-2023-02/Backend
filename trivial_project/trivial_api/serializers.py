@@ -220,14 +220,13 @@ class UsarObjetoResponseSerializer(serializers.Serializer):
 
 
 
+# PartidaActiva
 class partida_wsSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     tipo = serializers.CharField()
     #tipo = serializers.CharField()
     ws = serializers.CharField()
 
-
-# PartidaActiva
 class PartidaActivaRequestSerializer(serializers.Serializer):
     id_partida = serializers.CharField()
 
@@ -244,3 +243,69 @@ class UsuarioDarBajaRequestSerializer(serializers.Serializer):
 class UsuarioDarBajaResponseSerializer(serializers.Serializer):
     pass
 
+# EliminarPregunta
+class EliminarPregunta1(serializers.Serializer):
+    id = serializers.IntegerField()
+
+class EliminarPregunta2(serializers.Serializer):
+    OK = serializers.CharField()
+    error = serializers.CharField()
+
+
+# AddPregunta
+class AddPregunta1(serializers.Serializer):
+    enunciado = serializers.CharField()
+    r1 = serializers.CharField()
+    r2 = serializers.CharField()
+    r3 = serializers.CharField()
+    r4 = serializers.CharField()
+    rc = serializers.IntegerField()
+    categoria = serializers.CharField()
+
+class AddPregunta2(serializers.Serializer):
+    OK = serializers.CharField()
+    error = serializers.CharField()
+
+
+# EditPregunta
+class EditPregunta1(serializers.Serializer):
+    id = serializers.IntegerField()
+    enunciado = serializers.CharField()
+    r1 = serializers.CharField()
+    r2 = serializers.CharField()
+    r3 = serializers.CharField()
+    r4 = serializers.CharField()
+    rc = serializers.IntegerField()
+    categoria = serializers.CharField()
+
+class EditPregunta2(serializers.Serializer):
+    OK = serializers.CharField()
+    error = serializers.CharField()
+
+# InforPregunta
+class InfoPregunta1(serializers.Serializer):
+    id = serializers.IntegerField()
+
+class InfoPregunta2(serializers.Serializer):
+    OK = serializers.CharField()
+    enunciado = serializers.CharField()
+    r1 = serializers.CharField()
+    r2 = serializers.CharField()
+    r3 = serializers.CharField()
+    r4 = serializers.CharField()
+    rc = serializers.IntegerField()
+    categoria = serializers.CharField()
+    error = serializers.CharField()
+
+
+# ListarPreguntas
+class enunIDPregunta(serializers.Serializer):
+    enunciado = serializers.CharField()
+    id = serializers.IntegerField()
+
+class ListarPreguntas1(serializers.Serializer):
+    pass
+
+class ListarPreguntas2(serializers.Serializer):
+    OK = serializers.CharField()
+    preguntas = enunIDPregunta(many=True)

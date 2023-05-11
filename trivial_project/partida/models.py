@@ -22,7 +22,8 @@ class Tablero(models.Model):
 
 
 class Pregunta(models.Model):
-    enunciado = models.CharField(max_length = 200, primary_key= True)
+    id = models.AutoField(primary_key=True)
+    enunciado = models.CharField(max_length = 200, unique= True)
     r1 = models.CharField(max_length = 200, blank = True, null = False)
     r2 = models.CharField(max_length = 200, blank = True, null = False)
     r3 = models.CharField(max_length = 200, blank = True, null = False)

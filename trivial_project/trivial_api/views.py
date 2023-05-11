@@ -806,12 +806,14 @@ class UsuarioDarDeBaja(APIView):
         return Response("Deleted")
 
 
+
+
 class EliminarPregunta(APIView):
     '''
     Elimina la pregunta de la base de datos
     '''
     permission_classes = [IsAuthenticated]
-    @extend_schema(tags=["PREGUNTA"],parameters=[header],request=SalaUnirRequestSerializer, responses=SalaUnirResponseSerializer)   
+    @extend_schema(tags=["ADMIN"],parameters=[header],request=EliminarPregunta1, responses=EliminarPregunta2)   
     def post(self,request):
         dict_response = {
             'OK':"",
@@ -819,10 +821,10 @@ class EliminarPregunta(APIView):
         }
         username, token = get_username_and_token(request)
         user = Usuario.objects.filter(username=username).first() or None
-        
+        id = int(request.data.get('id'))
+
         if(user and user.esAdmin):
-            enunciado = str(request.data.get('enunciado'))
-            pregunta = Pregunta.objects.filter(enunciado=enunciado).first() or None
+            pregunta = Pregunta.objects.filter(id=id).first() or None
             if pregunta:
                 pregunta.delete()
                 dict_response["Ok"] = "True"
@@ -834,12 +836,13 @@ class EliminarPregunta(APIView):
             dict_response["error"] = "No eres admin"
         return Response(dict_response)
 
+
 class AddPregunta(APIView):
     '''
     Añade la pregunta a la base de datos
     '''
     permission_classes = [IsAuthenticated]
-    @extend_schema(tags=["PREGUNTA"],parameters=[header],request=SalaUnirRequestSerializer, responses=SalaUnirResponseSerializer)   
+    @extend_schema(tags=["ADMIN"],parameters=[header],request=AddPregunta1, responses=AddPregunta2)   
     def post(self,request):
         dict_response = {
             'OK':"",
@@ -847,15 +850,23 @@ class AddPregunta(APIView):
         }
         username, token = get_username_and_token(request)
         user = Usuario.objects.filter(username=username).first() or None
-        if(user and user.esAdmin):
-            enunciado = str(request.data.get('enunciado'))
-            r1 = str(request.data.get('r1'))
-            r2 = str(request.data.get('r2'))
-            r3 = str(request.data.get('r3'))
-            r4 = str(request.data.get('r4'))
+        
+        enunciado = str(request.data.get('enunciado'))
+        r1 = str(request.data.get('r1'))
+        r2 = str(request.data.get('r2'))
+        r3 = str(request.data.get('r3'))
+        r4 = str(request.data.get('r4'))
+        rc = request.data.get('rc')
+        if(rc and rc.isdigit()):
             rc = int(request.data.get('rc'))
-            categoria = str(request.data.get('categoria'))
-
+        else:
+            dict_response["Ok"] = "False"
+            dict_response["error"] = "Formato incorrecto"
+            return Response(dict_response)
+        
+        categoria = str(request.data.get('categoria'))
+        
+        if(user and user.esAdmin):
             pregunta_igual = Pregunta.objects.filter(enunciado=enunciado).first() or None
             if(not pregunta_igual):
                 pregunta = Pregunta.objects.create(enunciado=enunciado,r1=r1,r2=r2,r3=r3,r4=r4,rc=rc,categoria=categoria)
@@ -870,12 +881,13 @@ class AddPregunta(APIView):
         return Response(dict_response)
     
 
+
 class EditPregunta(APIView):
     '''
     Edita la pregunta de la base de datos
     '''
     #permission_classes = [IsAuthenticated]
-    @extend_schema(tags=["PREGUNTA"],parameters=[header],request=SalaUnirRequestSerializer, responses=SalaUnirResponseSerializer)   
+    @extend_schema(tags=["ADMIN"],parameters=[header],request=EditPregunta1, responses=EditPregunta2)   
     def post(self,request):
         dict_response = {
             'OK':"",
@@ -883,52 +895,99 @@ class EditPregunta(APIView):
         }
         username, token = get_username_and_token(request)
         user = Usuario.objects.filter(username=username).first() or None
+
+        id = int(request.data.get('id'))
+        enunciado = str(request.data.get('enunciado'))
+        r1 = str(request.data.get('r1'))
+        r2 = str(request.data.get('r2'))
+        r3 = str(request.data.get('r3'))
+        r4 = str(request.data.get('r4'))
+        rc = request.data.get('rc')
+        if(rc and rc.isdigit()):
+            rc = int(request.data.get('rc'))
+        else:
+            dict_response["Ok"] = "False"
+            dict_response["error"] = "Formato incorrecto"
+            return Response(dict_response)
+        
+        categoria = str(request.data.get('categoria'))
+        
         if(user and user.esAdmin):
-            enunciado_original = str(request.data.get('enunciado_original'))
-            enunciado_nuevo = str(request.data.get('enunciado_nuevo'))
-            r1 = str(request.data.get('r1'))
-            r2 = str(request.data.get('r2'))
-            r3 = str(request.data.get('r3'))
-            r4 = str(request.data.get('r4'))
-            rc = str(request.data.get('rc'))
-            categoria = str(request.data.get('categoria'))
-            if enunciado_nuevo == "":
-                enunciado_nuevo = enunciado_original
-            pregunta = Pregunta.objects.filter(enunciado=enunciado_original).first() or None
-            # Falla el que pregunta la clave primaria no tendría que ser el enunciado
-            if(pregunta):
-                pregunta.delete()
-                pregunta_editada = Pregunta.objects.create(enunciado=enunciado_nuevo,r1=r1,r2=r2,r3=r3,r4=r4,rc=rc,categoria=categoria)
-                pregunta_editada.save()
+            pregunta_repetida = Pregunta.objects.filter(enunciado=enunciado).first() or None
+            pregunta = Pregunta.objects.filter(id=id).first() or None
+            if pregunta_repetida:
+                dict_response["error"] = "Pregunta repetida"
+            elif pregunta:
+                pregunta.enunciado = enunciado
+                pregunta.r1 = r1
+                pregunta.r2 = r2
+                pregunta.r3 = r3
+                pregunta.r4 = r4
+                pregunta.rc = rc
+                pregunta.categoria = categoria
+                pregunta.save()
                 dict_response["OK"] = "True"
             else:
                 dict_response["OK"] = "False"
-                dict_response["error"] = "No existe la pregunta"
+                dict_response["error"] = "No existe la pregunta que buscas"
         else:
             dict_response["Ok"] = "False"
             dict_response["error"] = "No eres admin"
         return Response(dict_response)
 
 
+class InfoPregunta(APIView):    
+    '''
+    Los datos necesarios para obtener la informacion de la pregunta
+    '''
+    permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["ADMIN"],parameters=[header],request=InfoPregunta1, responses=InfoPregunta2) 
+    def post(self,request):
+        dict_response = {
+            'OK':"",
+            'enunciado':"",
+            'r1':"",
+            'r2':"",
+            'r3':"",
+            'r4':"",
+            'rc':"",
+            'categoria':"",
+            'error':"",
+        }
+        id = int(request.data.get('id'))
+
+        pregunta = Pregunta.objects.filter(id=id).first() or None
+        if pregunta:
+            dict_response["enunciado"] = pregunta.enunciado
+            dict_response["r1"] = pregunta.r1
+            dict_response["r2"] = pregunta.r2
+            dict_response["r3"] = pregunta.r3
+            dict_response["r4"] = pregunta.r4
+            dict_response["rc"] = pregunta.rc
+            dict_response["categoria"] = pregunta.categoria
+            dict_response["OK"] = "True"
+        else:
+            dict_response["OK"] = "False"
+            dict_response["error"] = "No existe la pregunta seleccionada"
+        return Response(dict_response)
 
 
 
-# class SalaSalir(APIView):
-#     #Necesita la autenticazion
-#     permission_classes = [IsAuthenticated]
-#     @extend_schema(exclude=True)
-#     def post(self, request):
-#         any_error = 0
-#         dict_response = {
-#             'OK':"",
-#             'error_sala':"",
-#         }
-#         username, token = get_username_and_token(request)
-#         usuario_instance = Usuario.objects.filter(username=username).first() or None
-#         try:
-#             UsuariosSala.objects.filter(username=usuario_instance).delete()
-#             dict_response['OK'] = "True"
-#         except:
-#             dict_response['OK'] = "False"
-#             dict_response["error_sala"] = "Ya no perteneces a esa sala, no puedes salir"
-#         return Response(dict_response)
+class ListarPreguntas(APIView):
+    '''
+    Lista todas las preguntas de la base de datos
+    '''
+    @extend_schema(tags=["ADMIN"],parameters=[header],request=ListarPreguntas1, responses=ListarPreguntas2)   
+    def post(self,request):
+        dict_response = {
+            'OK':"",
+            'preguntas':[],
+        }
+        preguntas = Pregunta.objects.all()
+        preguntas = list(preguntas)
+        for pregunta in preguntas:
+            dict_response["preguntas"].append({'enunciado':str(pregunta.enunciado),'id':str(pregunta.id)})
+        dict_response["OK"] = "True"
+        return Response(dict_response)
+
+

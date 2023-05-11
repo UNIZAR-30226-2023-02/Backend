@@ -28,10 +28,13 @@ urlpatterns = [
     path('salas/lista-salas/', SalaLista.as_view()),
     path('salas/lista-jugadores-sala/', SalaListaJugadores.as_view()),
     
-    # Endpoints auxiliares
-    path('auxiliar/preguntas/add/', AddPregunta.as_view()),
-    path('auxiliar/preguntas/delete/', EliminarPregunta.as_view()),
-    path('auxiliar/preguntas/edit/', EditPregunta.as_view()),
+    # Endpoints ADMIN
+    path('admin/preguntas/delete/', EliminarPregunta.as_view()),
+    path('admin/preguntas/add/', AddPregunta.as_view()),
+    path('admin/preguntas/edit/', EditPregunta.as_view()),
+    path('admin/preguntas/info/', InfoPregunta.as_view()),
+    path('admin/preguntas/lista/', ListarPreguntas.as_view()),
+
         # Uno con todas las fotos de perfil disponibles
 
     # Endpoints para la tienda
