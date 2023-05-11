@@ -62,7 +62,7 @@ class GameConsumers(WebsocketConsumer):
 
         self.accept()
         
-        if(juega):
+        if(juega and not juega.activo):
             print("Volvemos a activar a : ", self.username)
             print("El orden de los jugadores es: " + str(game.orden_jugadores))
             juega.activo = True
