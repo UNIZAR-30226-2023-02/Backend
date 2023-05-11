@@ -38,7 +38,6 @@ class SalaConsumer(WebsocketConsumer):
         #Check if sala exists
         if sala and user:
             peticion = PeticionesAmigo.objects.filter(user=user,sala_inv=sala).first() or None
-            print(peticion)
             usuario_en_sala = UsuariosSala.objects.filter(username=user, nombre_sala=nombre_sala).first() or None
             #Check if the user is already in a sala
             if(not usuario_en_sala):
@@ -142,7 +141,7 @@ class SalaConsumer(WebsocketConsumer):
     def comenzar_partida(self, event):
         self.send(text_data=json.dumps({"accion": "empezar_partida", "url_partida": event["wspartida"]}))
         # TODO esto no estaba ya que no desconectaba
-        self.disconnect(0)
+        #self.disconnect(0)
 
     def sala_cancelada(self,event):
         self.send(text_data=json.dumps({"accion": "actualizar_lista", "usernames": lista_usuarios_sala(self.room_name)}))
