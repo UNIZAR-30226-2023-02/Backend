@@ -145,7 +145,7 @@ class SalaConsumer(WebsocketConsumer):
 
     def sala_cancelada(self,event):
         self.send(text_data=json.dumps({"accion": "actualizar_lista", "usernames": lista_usuarios_sala(self.room_name)}))
-        self.disconnect(0)
+        #self.disconnect(0)
 
     def actualizar_lista(self, event):
         # Send message to WebSocket, to the Frontend
