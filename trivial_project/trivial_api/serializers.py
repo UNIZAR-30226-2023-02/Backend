@@ -309,3 +309,15 @@ class ListarPreguntas1(serializers.Serializer):
 class ListarPreguntas2(serializers.Serializer):
     OK = serializers.CharField()
     preguntas = enunIDPregunta(many=True)
+
+
+# UsuarioLoginAdmin
+class AdminLogin1(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+class AdminLogin2(serializers.Serializer):
+    OK = serializers.CharField()
+    token = serializers.CharField()
+    error_username = serializers.CharField()
+    error_password = serializers.CharField()

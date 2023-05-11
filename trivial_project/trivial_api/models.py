@@ -26,10 +26,12 @@ class Usuario(AbstractUser):
     class Meta:
         db_table = "Usuario"
 
+
 class Amigos(models.Model):
     user1 = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "user1", related_name = 'user1')
     user2 = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "user2", related_name = 'user2')
-    
+    pendiente = models.BooleanField(default=True)
+
     def clean(self):
         if self.user_id == self.amigo_id:
             raise ValidationError('Username and amigo must be different.')

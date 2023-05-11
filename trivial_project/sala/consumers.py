@@ -13,7 +13,7 @@ from .funciones_auxiliares import *
 from urllib.parse import parse_qs
 
 
-#/ws/lobby/<room_name>/?token=Pepe2212&password=12345
+#/ws/lobby/<room_name>/?username=Pepe2212&password=12345
 class SalaConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
@@ -22,7 +22,7 @@ class SalaConsumer(WebsocketConsumer):
         # Get the query parameters from the URL
         query_params = parse_qs(self.scope["query_string"].decode())
         
-        # Get the token and password parameters from the query parameters
+        # Get the username and password parameters from the query parameters
         username = query_params.get("username", [None])[0]
         password = query_params.get("password", [None])[0]
         nombre_sala = self.room_name
@@ -30,11 +30,15 @@ class SalaConsumer(WebsocketConsumer):
 
         sala = Sala.objects.filter(nombre_sala=self.room_name).first() or None
         user = Usuario.objects.filter(username=username).first() or None
+
+        
         print(sala)
         print(user)
         print(username,password,nombre_sala)
         #Check if sala exists
         if sala and user:
+            peticion = PeticionesAmigo.objects.filter(user=user,sala_inv=sala).first() or None
+            print(peticion)
             usuario_en_sala = UsuariosSala.objects.filter(username=user, nombre_sala=nombre_sala).first() or None
             #Check if the user is already in a sala
             if(not usuario_en_sala):
@@ -43,7 +47,9 @@ class SalaConsumer(WebsocketConsumer):
                     print("Hay muchos usuarios")
                     self.close()
                     return None
-                if(sala.tipo_sala == "Privado"):
+                # Si es privada y no tengo peticion, entonces no puedo entrar sin la contraseña
+                # Si tengo la peticion puedo entrar directamente
+                if(sala.tipo_sala == "Privado" and not peticion):
                     if(not sala.check_password(password)):
                         print("No coincide la contraseña")
                         self.close()
@@ -135,8 +141,8 @@ class SalaConsumer(WebsocketConsumer):
 
     def comenzar_partida(self, event):
         self.send(text_data=json.dumps({"accion": "empezar_partida", "url_partida": event["wspartida"]}))
-
-        #self.disconnect(0)
+        # TODO esto no estaba ya que no desconectaba
+        self.disconnect(0)
 
     def sala_cancelada(self,event):
         self.send(text_data=json.dumps({"accion": "actualizar_lista", "usernames": lista_usuarios_sala(self.room_name)}))

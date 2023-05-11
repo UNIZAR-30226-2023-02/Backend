@@ -18,6 +18,7 @@ urlpatterns = [
     path('usuarios/add/amigo/', UsuarioAddAmigo.as_view()),
     path('usuarios/delete/amigo/', UsuarioDeleteAmigo.as_view()),
     path('usuarios/dar-baja/', UsuarioDarDeBaja.as_view()),
+    path('usuarios/listar-peticiones-sala/', ListarPeticionesSala.as_view()),
 
     path('usuarios/estadisticas-yo/', UsuarioEstadisticasYo.as_view()),
     path('usuarios/estadisticas-usuario/',UsuarioEstadisticasOtroUsuario.as_view()),
@@ -27,8 +28,11 @@ urlpatterns = [
     path('salas/validar/', SalaValidarUnir.as_view()),
     path('salas/lista-salas/', SalaLista.as_view()),
     path('salas/lista-jugadores-sala/', SalaListaJugadores.as_view()),
+    path('salas/enviar-peticion/', EnviarPeticionUnirSala.as_view()),
+
     
     # Endpoints ADMIN
+    path('admin/login/', AdminLogin.as_view()),
     path('admin/preguntas/delete/', EliminarPregunta.as_view()),
     path('admin/preguntas/add/', AddPregunta.as_view()),
     path('admin/preguntas/edit/', EditPregunta.as_view()),

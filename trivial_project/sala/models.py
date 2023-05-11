@@ -33,6 +33,18 @@ class Sala(models.Model):
         db_table = "Sala"
 
 
+# Peticiones para unirme a la partida
+class PeticionesAmigo(models.Model):
+    # user es el que recibe la peticion
+    user = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "user", related_name = 'user')
+    #peticion_amigo es quien me ha invitado
+    peticion_amigo = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "amigo_inv", related_name = 'amigo_inv')
+    sala_inv = models.ForeignKey(Sala,on_delete=models.CASCADE,db_column="sala_invitado",related_name='sala_invitado')
+    class Meta:
+            #Para indicar que la clave primaria es multiple
+            db_table = "Peticiones"
+
+
 #Guardamos los usuarios de la sala y al equipo que pertenecen
 class UsuariosSala(models.Model):
     nombre_sala = models.ForeignKey(Sala,on_delete=models.CASCADE,db_column="nombre_sala",related_name='usuarios_sala_usuario_nombre_sala')

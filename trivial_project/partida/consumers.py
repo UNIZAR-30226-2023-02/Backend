@@ -84,6 +84,8 @@ class GameConsumers(WebsocketConsumer):
 
     def disconnect(self, close_code):
         # Hacemos que el usuario no este activo
+        # TODO, si el usuario que tiene el turno se va entonces le tenemos que saltar el turno
+
         juega = Juega.objects.filter(id_partida=self.game_name,username=self.username).first() or None
         juega.activo = False
         juega.save()

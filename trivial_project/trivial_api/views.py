@@ -178,9 +178,6 @@ class UsuarioDatos(APIView):
             
             for amigo in amigos:
                 dict_response['amigos'].append(str(amigo.user2)) 
-            for amigo in amigos2:
-                dict_response['amigos'].append(str(amigo.user1)) 
-
             dict_response['OK'] = "True"
         else:
             dict_response['OK'] = "False"
@@ -216,8 +213,6 @@ class UsuarioDatosOtroUsuario(APIView):
             
             for amigo in amigos:
                 dict_response['amigos'].append(str(amigo.user2)) 
-            for amigo in amigos2:
-                dict_response['amigos'].append(str(amigo.user1)) 
 
             dict_response['OK'] = "True"
         else:
@@ -294,7 +289,7 @@ class UsuarioAddAmigo(APIView):
         if not existe_usuario(amigo):
             dict_response['error'] = "El usuario que intentas agregar no existe"
 
-        # Ordenamos alfabeticamente 
+        # # Ordenamos alfabeticamente 
         if username > amigo:
             username , amigo = amigo,username
 
@@ -306,8 +301,12 @@ class UsuarioAddAmigo(APIView):
         if all_errors_empty(dict_response):
             usuario_instance = get_object_or_404(Usuario, username=username)
             amigo_instance = get_object_or_404(Usuario, username=amigo)
+
+            # Esto es para que salga en la base de datos ambos como amigos
             amigo_db = Amigos.objects.create(user1=usuario_instance,user2=amigo_instance)
+            amigo_db1 = Amigos.objects.create(user1=amigo_instance,user2=usuario_instance)
             amigo_db.save()
+            amigo_db1.save()
             dict_response['OK'] = "True"
         else:
             dict_response["OK"] = "False"
@@ -349,8 +348,11 @@ class UsuarioDeleteAmigo(APIView):
         if all_errors_empty(dict_response):
             usuario_instance = get_object_or_404(Usuario, username=username)
             amigo_instance = get_object_or_404(Usuario, username=amigo)
+            # Eliminamos las dos instancias, ya que de momento si eliminamos en un lado se elimina en ambos
             amigo_db = Amigos.objects.filter(user1=usuario_instance,user2=amigo_instance).first()
+            amigo_db1 = Amigos.objects.filter(user1=amigo_instance,user2=usuario_instance).first()
             amigo_db.delete()
+            amigo_db1.delete()
             dict_response['OK'] = "True"
         else:
             dict_response["OK"] = "False"
@@ -991,3 +993,120 @@ class ListarPreguntas(APIView):
         return Response(dict_response)
 
 
+class AdminLogin(APIView):
+    '''
+    Solo se le permite acceder al administrador
+    '''
+    @extend_schema(tags=["ADMIN"],request=AdminLogin1, responses=AdminLogin1)
+    def post(self, request):
+        dict_response = {
+            'OK':"",
+            'token':"",
+            'error_username': "",
+            'error_password': "",
+        }
+        # Retrieve the credentials from the request data
+        username = str(request.data.get('username'))
+        password = str(request.data.get('password'))
+        # Comprobacion de errores
+        # Busca si existe el usuario, si no existe guarda None en user
+        user = Usuario.objects.filter(username=username).first() or None
+        if user == None:
+            dict_response['error_username'] = "Usuario invalido"
+        
+        if user and not user.check_password(password):
+            dict_response['error_password'] = "Contraseña invalida"
+
+        if user and not user.esAdmin:
+            dict_response['error_username'] = "No tienes acceso"
+
+        if all_errors_empty(dict_response):
+            #Se crea un token asociado al usuario, si es la primera vez que inicia.
+            #en caso contrario obtiene dicho token
+            token,_ = Token.objects.get_or_create(user=user)
+            dict_response['token'] = token.key
+            dict_response['OK'] = "True"
+        else:
+            dict_response['OK'] = "False"
+        
+        return Response(dict_response)
+
+
+# Cuando envio la peticion, estoy si o si en una sala, por lo que UsuariosSala tiene que tener la sala en la que estoy
+class EnviarPeticionUnirSala(APIView):
+    '''
+    Enviar peticion a un amigo, le envio la sala en la que estoy
+    '''
+    @extend_schema(tags=["SALA"],parameters=[header],request=AdminLogin1, responses=AdminLogin1)
+    def post(self, request):
+        dict_response = {
+            'OK':"",
+            'error': "",
+        }
+
+        username, token = get_username_and_token(request)
+        user = Usuario.objects.filter(username=username).first() or None
+        username_amigo = str(request.data.get('username_amigo'))
+
+        esAmigo = Amigos.objects.filter(user1=username,user2=username_amigo).first() or None
+        usuario_sala = UsuariosSala.objects.filter(username=user).last() or None
+        
+        if(esAmigo):
+            if(usuario_sala):
+                user_amigo = Usuario.objects.filter(username=username_amigo).first() or None
+                peticion_pendiente = PeticionesAmigo.objects.filter(user=user_amigo,peticion_amigo=user,sala_inv=usuario_sala.nombre_sala).first() or None
+                if(not peticion_pendiente):
+                    # Añado la peticion a la base de datos
+                    peticion = PeticionesAmigo.objects.create(user=user_amigo,peticion_amigo=user,sala_inv=usuario_sala.nombre_sala)
+                    peticion.save()
+                else:
+                    dict_response["error"] = "Ya has enviado una peticion"
+            else:
+                dict_response["error"] = "No existe la sala"
+        else:
+            dict_response["error"] = "No es tu amigo"
+        if(all_errors_empty(dict_response)):
+            dict_response["OK"] = "True"
+        else:
+            dict_response["OK"] = "False"
+        return Response(dict_response)
+
+
+class ListarPeticionesSala(APIView):
+    '''
+    Listo todas las peticiones que tenga 
+    '''
+    @extend_schema(tags=["USUARIO"],parameters=[header],request=AdminLogin1, responses=AdminLogin1)
+    def post(self, request):
+        dict_response = {
+            'OK':"",
+            'peticiones': [],
+        }
+        username, token = get_username_and_token(request)
+        user = Usuario.objects.filter(username=username).first() or None
+        peticiones_pendientes = list(PeticionesAmigo.objects.filter(user=user))
+        ws = "/ws/lobby/"
+        for peticion in peticiones_pendientes:
+            n_sala = str(peticion.sala_inv.nombre_sala)
+            dict_response["peticiones"].append({"me_invita":str(peticion.peticion_amigo),"ws": ws + n_sala + "/"})
+        dict_response["OK"] = "True"
+        return Response(dict_response)
+
+
+# class PeticionesAmigo(models.Model):
+#     user = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "user", related_name = 'user')
+#     peticion_amigo = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "amigo_inv", related_name = 'amigo_inv')
+#     sala_inv = models.ForeignKey(Sala,on_delete=models.CASCADE,db_column="sala_invitado",related_name='sala_invitado')
+#     class Meta:
+#             #Para indicar que la clave primaria es multiple
+#             db_table = "Peticiones"
+
+# class UsuariosSala(models.Model):
+#     nombre_sala = models.ForeignKey(Sala,on_delete=models.CASCADE,db_column="nombre_sala",related_name='usuarios_sala_usuario_nombre_sala')
+#     username = models.ForeignKey(Usuario,on_delete=models.CASCADE,db_column="username",related_name='usuarios_sala_usuario')
+#     equipo = models.IntegerField(default=1)
+#     class Meta:
+#         constraints = [
+#         models.UniqueConstraint(fields=['nombre_sala', 'username'], name='usuario_sala_pk')
+#         ] 
+#         db_table = "UsuariosSala"
