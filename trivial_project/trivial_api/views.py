@@ -1037,7 +1037,7 @@ class EnviarPeticionUnirSala(APIView):
     '''
     Enviar peticion a un amigo, le envio la sala en la que estoy
     '''
-    @extend_schema(tags=["SALA"],parameters=[header],request=AdminLogin1, responses=AdminLogin1)
+    @extend_schema(tags=["SALA"],parameters=[header],request=EnviarPeticionUnirSala1, responses=EnviarPeticionUnirSala2)
     def post(self, request):
         dict_response = {
             'OK':"",

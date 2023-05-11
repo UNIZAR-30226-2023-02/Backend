@@ -321,3 +321,39 @@ class AdminLogin2(serializers.Serializer):
     token = serializers.CharField()
     error_username = serializers.CharField()
     error_password = serializers.CharField()
+
+
+
+# UsuarioLoginAdmin
+class AdminLogin1(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+class AdminLogin2(serializers.Serializer):
+    OK = serializers.CharField()
+    token = serializers.CharField()
+    error_username = serializers.CharField()
+    error_password = serializers.CharField()
+
+
+
+# EnviarPeticionUnirSala
+class EnviarPeticionUnirSala1(serializers.Serializer):
+    username_amigo = serializers.CharField()
+
+class EnviarPeticionUnirSala2(serializers.Serializer):
+    OK = serializers.CharField()
+    error = serializers.CharField()
+
+
+# EnviarPeticionUnirSala
+class peticiones_info(serializers.Serializer):
+    me_invita = serializers.CharField()
+    ws = serializers.CharField()
+
+class ListarPeticionesSala1(serializers.Serializer):
+    pass
+
+class ListarPeticionesSala2(serializers.Serializer):
+    OK = serializers.CharField()
+    peticiones = peticiones_info(many=True)
