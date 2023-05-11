@@ -49,7 +49,7 @@ class GameConsumers(WebsocketConsumer):
         juega = Juega.objects.filter(id_partida=game,username=user).first() or None
         #juega_activo = Juega.objects.filter(username=user, activo=1).first() or None
 
-    # No permitir entrar a 2 partidas activas TODO
+    # No permitir entrar a 2 partidas activas
         # if juega_activo:
         #    print("Entra a Juega Activo")
          #   self.close()
