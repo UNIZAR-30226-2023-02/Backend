@@ -386,7 +386,7 @@ class SalaCrear(APIView):
         tipo_partida = str(request.data.get('tipo_partida'))
         
         user = Usuario.objects.filter(username=username).first() or None
-        if validar_reconexion(user):
+        if rechazar_reconexion(user):
             dict_response['error_tipo_sala'] = "Ya tienes una partida activa"
 
         if password_sala:
@@ -741,7 +741,7 @@ class SalaValidarUnir(APIView):
         
         #Check if sala exists
         if sala and user :
-            if validar_reconexion(user):
+            if rechazar_reconexion(user):
                 usuario_en_sala = UsuariosSala.objects.filter(username=user).first() or None
                 #Check if the user is already in a sala
                 if(not usuario_en_sala):
@@ -1088,7 +1088,7 @@ class ListarPeticionesSala(APIView):
             'OK':"",
             'peticiones': [],
         }
-        # TODO, validar_reconexion, para que no pueda unirse a mas de una partida
+        # TODO, rechazar_reconexion, para que no pueda unirse a mas de una partida
         username, token = get_username_and_token(request)
         user = Usuario.objects.filter(username=username).first() or None
         peticiones_pendientes = list(PeticionesAmigo.objects.filter(user=user))
