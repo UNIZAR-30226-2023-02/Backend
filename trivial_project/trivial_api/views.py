@@ -717,14 +717,13 @@ class UsarObjeto(APIView):
                 dict_response["error"] = "Compra el objeto para poder usarlo"
         else:
             dict_response["error"] = "Error al asignar el objeto"
-
         if(all_errors_empty(dict_response)):
             # Actualizamos la imagen del tablero/ficha a la nueva 
             if(objeto.tipo == "ficha"):
                 user.image_ficha = objeto.image
             elif(objeto.tipo == "tablero"):
                 user.image_tablero = objeto.image
-            tiene_objeto_anterior = Tiene.objects.filter(id_objeto=objeto,username = user,enUso=1).first() or None
+            tiene_objeto_anterior = Tiene.objects.filter(username = user,enUso=1).first() or None
             tiene_objeto_anterior.enUso = 0
             tieneObjeto.enUso = 1
             tiene_objeto_anterior.save()
