@@ -164,8 +164,9 @@ def calcular_sig_jugador(Partida_id):
 
         activo = False
         while (not activo):
+            print(str(lista_j))
             jugador = Juega.objects.filter(username=lista_j[0], id = Partida_id).first() or None
-            if (jugador.activo):
+            if (jugador and jugador.activo):
                 activo  = True
             else:
                 primer_elemento = lista_j.pop(0)
