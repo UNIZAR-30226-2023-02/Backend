@@ -39,7 +39,7 @@ class Partida(models.Model):
     tipo = models.CharField(max_length = 50, null = False)
     terminada = models.BooleanField(null = False, default = False)
     orden_jugadores = models.CharField(max_length = 100, null = False)
-    orden_jugadores_inicial = models.CharField(max_length = 100, null = False)
+    orden_jugadores_inicial = models.CharField(max_length = 100, null = False, default="tu")
     ganador = models.CharField(max_length= 100, default = "Nadie")
     tematica = models.CharField(max_length = 50, null = True)
     tiempo_respuesta = models.IntegerField(default=15)
