@@ -261,45 +261,48 @@ class GameConsumersTematica(WebsocketConsumer):
         username = query_params.get("username", [None])[0]
         password = query_params.get("password", [None])[0]    
         self.username = username
-        async_to_sync(self.channel_layer.group_add)(
-            self.game_group_name, self.channel_name
-        )
 
         game = Partida.objects.filter(id =self.game_name).first() or None
-        
         # Si no existe el juego denegamos el acceso
         if not game:
             print("Error no game")
+            self.close()
             return None
         # Si se ha acabado la partida tambien denegamos el acceso
         if game.terminada == True:
             print("Error partida terminada")
+            self.close()
             return None
-        
-        self.tematica = game.tematica
-        
-        self.accept()
        
         user = Usuario.objects.filter(username=username).first() or None
         # Si no existe el usuario denegamos el acceso
         if not user:
             print("Error not user")
+            self.close()
             return None
         # Si el usuario estaba desconectado entonces tengo que enviarselo solo a el
         juega = Juega.objects.filter(id_partida=game,username=user).first() or None
-        juega_activo = Juega.objects.filter(username=user, activo=1).first() or None
 
         # Si el que estaba jugando se ha desconectado y ha vuelto a entrar, entonces solo se lo envio a el
+        async_to_sync(self.channel_layer.group_add)(
+                self.game_group_name, self.channel_name
+            )
+
+        self.tematica = game.tematica
+        self.accept()
         
-        if(not juega_activo and juega):
+        if(juega and not juega.activo):
             print("Volvemos a activar a : ", self.username)
             print("El orden de los jugadores es: " + str(game.orden_jugadores))
-            datos_cargar_partida = cargar_datos_partida(self)
+            juega.activo = True
+            juega.save()
+            datos_cargar_partida = cargar_datos_partida(self,False)
             self.send(text_data=json.dumps({'type': 'enviar_datos','datos': datos_cargar_partida}))
         else:
+
             # Si estan los jugadores que se necesitan para iniciar la partida, entocnes le enviamos a todos los usuarios la informacion
             if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == calcular_jugadores(self.game_name):
-                datos_cargar_partida = cargar_datos_partida(self)
+                datos_cargar_partida = cargar_datos_partida(self,True)
                 print("Empieza la partida")
                 print("El orden de los jugadores es: " + str(game.orden_jugadores))
                 # Envio a todos los jugadores el mensaje 
@@ -314,12 +317,19 @@ class GameConsumersTematica(WebsocketConsumer):
 
     def disconnect(self, close_code):
         # Hacemos que el usuario no este activo
+
         juega = Juega.objects.filter(id_partida=self.game_name,username=self.username).first() or None
+        game = Partida.objects.filter(id =self.game_name).first() or None
         juega.activo = False
         juega.save()
         async_to_sync(self.channel_layer.group_discard)(
             self.game_group_name, self.channel_name
         )
+        # Si no hay jugadores en la partida la damos por terminada
+        if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == 0:
+            game.terminada = True
+            game.save()
+
         self.close()
     
     def receive(self, text_data):
