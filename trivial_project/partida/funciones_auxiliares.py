@@ -245,8 +245,8 @@ def cargar_datos_partida(self,inicio):
         informacion_jugador["jugador"] = str(juega.username)
         informacion_jugador["posicion"] = str(juega.posicion)
         informacion_jugador["turno"] = str(turno)
-        if(inicio):
-            juega.image = asignar_color_ficha(user.image_ficha,i)
+        #if(inicio):
+        juega.image = asignar_color_ficha(user.image_ficha,i)
         informacion_jugador["ficha"] = str(juega.image)
         informacion_jugador["tablero"] = str(user.image_tablero)
         informacion_jugador["activo"] = str(juega.activo)
