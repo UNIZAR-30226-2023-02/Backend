@@ -81,7 +81,6 @@ class GameConsumers(WebsocketConsumer):
 
     def disconnect(self, close_code):
         # Hacemos que el usuario no este activo
-        # TODO, si el usuario que tiene el turno se va entonces le tenemos que saltar el turno
 
         juega = Juega.objects.filter(id_partida=self.game_name,username=self.username).first() or None
         game = Partida.objects.filter(id =self.game_name).first() or None
@@ -140,12 +139,6 @@ class GameConsumers(WebsocketConsumer):
             # Si el mensaje es de tipo Fin_pregunta o CHAT no quieren que le enviemos respuesta aqui, se hace abajo
             self.send(text_data=json.dumps(mensaje))
             return None
-
-        # if(mensaje['jugador'] != jugador_con_turno(self.game_name)):
-        #     #mensaje['OK'] = "false"
-        #     #mensaje['error'] = "No es tu turno"
-        #     self.send(text_data=json.dumps(mensaje))
-        #     return None
         
         if mensaje['OK'] == "true":
             if mensaje['type'] == "Peticion":
@@ -368,13 +361,6 @@ class GameConsumersTematica(WebsocketConsumer):
         if mensaje['jugador'] != self.username:
             self.send(text_data=json.dumps(mensaje))
             return None
-
-        # if(mensaje['jugador'] != jugador_con_turno(self.game_name)):
-        #     #mensaje['OK'] = "false"
-        #     #mensaje['error'] = "No es tu turno"
-        #     self.send(text_data=json.dumps(mensaje))
-        #     return None
-        
 
         if mensaje['OK'] == "true":
             if mensaje['type'] == "Peticion":
