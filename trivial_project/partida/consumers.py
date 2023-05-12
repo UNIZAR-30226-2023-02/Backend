@@ -125,7 +125,8 @@ class GameConsumers(WebsocketConsumer):
             game.ganador = calcular_sig_jugador(self.game_name)
             
             actualizar_estadisticas_partida(game.ganador, game.orden_jugadores)
-            
+            print(game.id)
+            print("hasta aqui")
             async_to_sync(self.channel_layer.group_send)(
                 self.game_group_name, {"type": "enviar_datos", "datos": response}
             )
