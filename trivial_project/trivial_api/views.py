@@ -723,7 +723,11 @@ class UsarObjeto(APIView):
                 user.image_ficha = objeto.image
             elif(objeto.tipo == "tablero"):
                 user.image_tablero = objeto.image
-            tiene_objeto_anterior = Tiene.objects.filter(username = user,enUso=1).first() or None
+            
+            objetos_de_un_tipo = list(Objetos.objects.filter(tipo=objeto.tipo))
+            for objeto in objetos_de_un_tipo:
+                tiene_objeto_anterior = Tiene.objects.filter(id_objeto=objeto,username=user,enUso=1).first() or None            
+
             tiene_objeto_anterior.enUso = 0
             tieneObjeto.enUso = 1
             tiene_objeto_anterior.save()
