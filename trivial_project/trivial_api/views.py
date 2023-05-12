@@ -829,12 +829,12 @@ class EliminarPregunta(APIView):
             pregunta = Pregunta.objects.filter(id=id).first() or None
             if pregunta:
                 pregunta.delete()
-                dict_response["Ok"] = "True"
+                dict_response["OK"] = "True"
             else:
-                dict_response["Ok"] = "False"
+                dict_response["OK"] = "False"
                 dict_response["error"] = "No existe la pregunta"
         else:
-            dict_response["Ok"] = "False"
+            dict_response["OK"] = "False"
             dict_response["error"] = "No eres admin"
         return Response(dict_response)
 
@@ -862,7 +862,7 @@ class AddPregunta(APIView):
         if(rc and rc.isdigit()):
             rc = int(request.data.get('rc'))
         else:
-            dict_response["Ok"] = "False"
+            dict_response["OK"] = "False"
             dict_response["error"] = "Formato incorrecto"
             return Response(dict_response)
         
@@ -873,12 +873,12 @@ class AddPregunta(APIView):
             if(not pregunta_igual):
                 pregunta = Pregunta.objects.create(enunciado=enunciado,r1=r1,r2=r2,r3=r3,r4=r4,rc=rc,categoria=categoria)
                 pregunta.save()
-                dict_response["Ok"] = "True"
+                dict_response["OK"] = "True"
             else:
-                dict_response["Ok"] = "False"
+                dict_response["OK"] = "False"
                 dict_response["error"] = "No puede haber preguntas repetidas"
         else:
-            dict_response["Ok"] = "False"
+            dict_response["OK"] = "False"
             dict_response["error"] = "No eres admin"
         return Response(dict_response)
     
@@ -908,7 +908,7 @@ class EditPregunta(APIView):
         if(rc and rc.isdigit()):
             rc = int(request.data.get('rc'))
         else:
-            dict_response["Ok"] = "False"
+            dict_response["OK"] = "False"
             dict_response["error"] = "Formato incorrecto"
             return Response(dict_response)
         
@@ -917,7 +917,8 @@ class EditPregunta(APIView):
         if(user and user.esAdmin):
             pregunta_repetida = Pregunta.objects.filter(enunciado=enunciado).first() or None
             pregunta = Pregunta.objects.filter(id=id).first() or None
-            if pregunta_repetida:
+            
+            if pregunta_repetida and not pregunta.id==pregunta_repetida.id:
                 dict_response["error"] = "Pregunta repetida"
             elif pregunta:
                 pregunta.enunciado = enunciado
@@ -933,7 +934,7 @@ class EditPregunta(APIView):
                 dict_response["OK"] = "False"
                 dict_response["error"] = "No existe la pregunta que buscas"
         else:
-            dict_response["Ok"] = "False"
+            dict_response["OK"] = "False"
             dict_response["error"] = "No eres admin"
         return Response(dict_response)
 
