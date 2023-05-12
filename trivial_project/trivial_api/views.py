@@ -717,7 +717,9 @@ class UsarObjeto(APIView):
                 dict_response["error"] = "Compra el objeto para poder usarlo"
         else:
             dict_response["error"] = "Error al asignar el objeto"
+        print("Hasta aqui")
         if(all_errors_empty(dict_response)):
+            print("Entra")
             # Actualizamos la imagen del tablero/ficha a la nueva 
             if(objeto.tipo == "ficha"):
                 user.image_ficha = objeto.image

@@ -124,6 +124,8 @@ class GameConsumers(WebsocketConsumer):
             'quesito': "",
             'tematica': "",
             'esCorrecta': "",
+            'moneda_ganador': "",
+            'moneda_resto': "",
             'mensage_chat': "",
         }
 
