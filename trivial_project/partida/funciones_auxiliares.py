@@ -207,7 +207,7 @@ def obtener_quesitos_jugador(juega):
     if juega.q_entretenimiento:
         lista_quesitos.append("Entretenimiento")
     if juega.q_geografia:
-        lista_quesitos.append("Geografía")
+        lista_quesitos.append("Geografia")
     return lista_quesitos
     
 
