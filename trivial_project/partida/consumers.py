@@ -84,11 +84,17 @@ class GameConsumers(WebsocketConsumer):
         # TODO, si el usuario que tiene el turno se va entonces le tenemos que saltar el turno
 
         juega = Juega.objects.filter(id_partida=self.game_name,username=self.username).first() or None
+        game = Partida.objects.filter(id =self.game_name).first() or None
         juega.activo = False
         juega.save()
         async_to_sync(self.channel_layer.group_discard)(
             self.game_group_name, self.channel_name
         )
+        # Si no hay jugadores en la partida la damos por terminada
+        if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == 0:
+            game.terminada = True
+            game.save()
+
         self.close()
     
     def receive(self, text_data):

@@ -1004,7 +1004,7 @@ class AdminLogin(APIView):
     '''
     Solo se le permite acceder al administrador
     '''
-    @extend_schema(tags=["ADMIN"],request=AdminLogin1, responses=AdminLogin1)
+    @extend_schema(tags=["ADMIN"],request=AdminLogin1, responses=AdminLogin2)
     def post(self, request):
         dict_response = {
             'OK':"",
@@ -1083,21 +1083,28 @@ class ListarPeticionesSala(APIView):
     '''
     Listo todas las peticiones que tenga 
     '''
-    @extend_schema(tags=["USUARIO"],parameters=[header],request=AdminLogin1, responses=AdminLogin1)
+    @extend_schema(tags=["SALA"],parameters=[header],request=ListarPeticionesSala1, responses=ListarPeticionesSala2)
     def post(self, request):
         dict_response = {
             'OK':"",
             'peticiones': [],
+            'error':'',
         }
-        # TODO, rechazar_reconexion, para que no pueda unirse a mas de una partida
+        
         username, token = get_username_and_token(request)
         user = Usuario.objects.filter(username=username).first() or None
+        if rechazar_reconexion(user):
+            dict_response['error'] = "No puedes aceptar peticiones ya que perteneces a una partida"
+        
         peticiones_pendientes = list(PeticionesAmigo.objects.filter(user=user))
         ws = "/ws/lobby/"
         for peticion in peticiones_pendientes:
             n_sala = str(peticion.sala_inv.nombre_sala)
             dict_response["peticiones"].append({"me_invita":str(peticion.peticion_amigo),"ws": ws + n_sala + "/"})
-        dict_response["OK"] = "True"
+        if(all_errors_empty(dict_response)):
+            dict_response["OK"] = "True"
+        else:
+            dict_response["OK"] = "False"
         return Response(dict_response)
 
 
