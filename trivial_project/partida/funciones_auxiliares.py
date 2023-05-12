@@ -163,21 +163,14 @@ def calcular_sig_jugador(Partida_id):
         lista_j.append(primer_elemento)
 
         activo = False
-        print(str(lista_j), " buscamos al jugador: ", lista_j[0]," y el id es: ", Partida_id)
-        jugador = Juega.objects.filter(username=lista_j[0], id = Partida_id).first() or None
-        if jugador:
-            print("El jugador el: " + jugador.username)
-        else:
-            print("Jugador no encontrado")
         
-        
-        
-        # while (not activo):
-        #     if (jugador and jugador.activo):
-        #         activo  = True
-        #     else:
-        #         primer_elemento = lista_j.pop(0)
-        #         lista_j.append(primer_elemento)
+        while (not activo):
+            jugador = Juega.objects.filter(username=lista_j[0], id_partida = Partida_id).first() or None
+            if (jugador and jugador.activo):
+                activo  = True
+            else:
+                primer_elemento = lista_j.pop(0)
+                lista_j.append(primer_elemento)
         
         
         game.orden_jugadores = ",".join(lista_j)
