@@ -201,7 +201,7 @@ def obtener_quesitos_jugador(juega):
     if juega.q_arte:
         lista_quesitos.append("Arte")
     if juega.q_deporte:
-        lista_quesitos.append("Deporte")
+        lista_quesitos.append("Deportes")
     if juega.q_ciencia:
         lista_quesitos.append("Ciencia")
     if juega.q_entretenimiento:
