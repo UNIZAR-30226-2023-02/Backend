@@ -818,21 +818,21 @@ class PartidaActiva(APIView):
         juega = Juega.objects.filter(username=user).last() or None
         if juega:
             print(juega.id_partida)
-            partida = Partida.objects.filter(id=juega.id_partida).first() or None
-            if(partida and not partida.terminada):
-                if partida.tipo == "Clasico":
-                    ws_partida = "/ws/partida/" + str(partida.id) + "/"
-                elif partida.tipo == "Tematico":
-                    ws_partida = "/ws/partida_tematico/" + str(partida.id) + "/"
-                dict_response['ws_partida'] = ws_partida
-            else:
-                dict_response["error"] = "No hay partidas activas"
-        else:
-            dict_response["error"] = "No hay partidas activas"
-        if all_errors_empty(dict_response):
-            dict_response["OK"] = "True"
-        else:
-            dict_response["OK"] = "False"
+        #     partida = Partida.objects.filter(id=juega.id_partida).first() or None
+        #     if(partida and not partida.terminada):
+        #         if partida.tipo == "Clasico":
+        #             ws_partida = "/ws/partida/" + str(partida.id) + "/"
+        #         elif partida.tipo == "Tematico":
+        #             ws_partida = "/ws/partida_tematico/" + str(partida.id) + "/"
+        #         dict_response['ws_partida'] = ws_partida
+        #     else:
+        #         dict_response["error"] = "No hay partidas activas"
+        # else:
+        #     dict_response["error"] = "No hay partidas activas"
+        # if all_errors_empty(dict_response):
+        #     dict_response["OK"] = "True"
+        # else:
+        #     dict_response["OK"] = "False"
         return Response(dict_response)
     
 
