@@ -308,7 +308,6 @@ def actualizar_estadisticas_partida(ganador, jugadores):
         user = Usuario.objects.filter(username=i).first() or None
 
         if ganador == i:
-            print("hasta aqui")
             stats.partidas_ganadas += 1
             user.monedas = 5
         else:
