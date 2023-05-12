@@ -161,13 +161,11 @@ def calcular_sig_jugador(Partida_id):
 
         primer_elemento = lista_j.pop(0)
         lista_j.append(primer_elemento)
-        segundo_elemento = lista_j.pop(0)
-        lista_j.insert(0, segundo_elemento)
+        #segundo_elemento = lista_j.pop(0)
+        #lista_j.insert(0, segundo_elemento)
         
         
         game.orden_jugadores = ",".join(lista_j)
-        # turno = game.turno_actual
-        # game.turno_actual = str((int(turno) + 1) % calcular_jugadores(Partida_id))
         game.save()
 
         return lista_j[0]
