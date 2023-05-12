@@ -670,7 +670,7 @@ class ComprarObjeto(APIView):
         if(user and objeto):
             monedas_usuario = user.monedas
             coste_objeto = objeto.coste
-            tieneObjeto = Tiene.objects.filter(id_objeto=str(objeto.id),username = username).first() or None
+            tieneObjeto = Tiene.objects.filter(id_objeto=objeto,username = username).first() or None
             # Si no tiene el objeto comprado
             if(not tieneObjeto):
                 # Si tiene el saldo suficiente
@@ -682,7 +682,7 @@ class ComprarObjeto(APIView):
             dict_response["error"] = "Error al comprar"
 
         if(all_errors_empty(dict_response)):
-            objeto_usuario = Tiene.objects.create(id_objeto=str(objeto.id),username = username)
+            objeto_usuario = Tiene.objects.create(id_objeto=objeto,username = user)
             user.monedas = monedas_usuario - coste_objeto
             objeto_usuario.save()
             user.save()
@@ -711,7 +711,7 @@ class UsarObjeto(APIView):
         user = Usuario.objects.filter(username=username).first() or None
         objeto = Objetos.objects.filter(id=objeto_id).first() or None
         if(user and objeto):
-            tieneObjeto = Tiene.objects.filter(id_objeto=str(objeto.id),username = username).first() or None
+            tieneObjeto = Tiene.objects.filter(id_objeto=objeto,username = username).first() or None
             # Si no tiene el objeto comprado
             if(not tieneObjeto):
                 dict_response["error"] = "Compra el objeto para poder usarlo"
