@@ -193,10 +193,11 @@ class GameConsumers(WebsocketConsumer):
                             game = Partida.objects.filter(id =self.game_name).first() or None
                             game.terminada = True
                             game.ganador = mensaje['jugador']
+                            response['moneda_ganador'] = "5"
+                            response['moneda_resto'] = "2" #Se puede hacer funcion para calcular monedas TODO
                             game.save()
-                            
-                            actualizar_estadisticas_partida(game.ganador, game.orden_jugadores)
-                            
+
+                            actualizar_estadisticas_partida(game.ganador, game.orden_jugadores) 
                         else:
                             response['type'] = "Accion"
                             response['subtype'] = "Dados"
