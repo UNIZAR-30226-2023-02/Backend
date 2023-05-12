@@ -61,7 +61,7 @@ class GameConsumers(WebsocketConsumer):
             juega.activo = True
             juega.save()
             datos_cargar_partida = cargar_datos_partida(self,False)
-            self.send(text_data=json.dumps({'type': 'enviar_datos','datos': datos_cargar_partida}))
+            self.send(text_data=json.dumps(datos_cargar_partida))
         else:
 
             # Si estan los jugadores que se necesitan para iniciar la partida, entocnes le enviamos a todos los usuarios la informacion
