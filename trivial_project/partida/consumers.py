@@ -120,9 +120,9 @@ class GameConsumers(WebsocketConsumer):
             response['moneda_ganador'] = "5"
             response['moneda_resto'] = "2" #Se puede hacer funcion para calcular monedas TODO
             
-            game.terminada = True
-            game.save()
-            game.ganador = calcular_sig_jugador(self.game_name)
+            #game.terminada = True
+            #game.save()
+            #game.ganador = calcular_sig_jugador(self.game_name)
             
             actualizar_estadisticas_partida(game.ganador, game.orden_jugadores)
             
