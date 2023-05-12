@@ -800,7 +800,7 @@ class PartidaActiva(APIView):
     def post(self,request):
         dict_response = {
             'OK':"",
-            'partida':[],
+            'ws_partida':'',
             'error':"",
         }
         username, token = get_username_and_token(request)
@@ -815,7 +815,8 @@ class PartidaActiva(APIView):
                     ws_partida = "/ws/partida/" + str(partida.id) + "/"
                 elif partida.tipo == "Tematico":
                     ws_partida = "/ws/partida_tematico/" + str(partida.id) + "/"
-                dict_response["partida"].append({'id':str(partida.id),'tipo':"{}".format(str(partida.tipo)),'ws':ws_partida})
+                dict_response['ws_partida'] = ws_partida
+                #dict_response["partida"].append({'id':str(partida.id),'tipo':"{}".format(str(partida.tipo)),'ws':ws_partida})
         if all_errors_empty(dict_response):
             dict_response["OK"] = "True"
         return Response(dict_response)

@@ -232,7 +232,8 @@ class PartidaActivaRequestSerializer(serializers.Serializer):
 
 class PartidaActivaResponseSerializer(serializers.Serializer):
     OK = serializers.CharField()
-    partida = partida_wsSerializer(many=True)
+    ws_partida = serializers.CharField()
+    #partida = partida_wsSerializer(many=True)
     error = serializers.CharField()
 
 
