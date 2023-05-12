@@ -360,6 +360,8 @@ class GameConsumersTematica(WebsocketConsumer):
             'quesito': "",
             'tematica': "",
             'esCorrecta': "",
+            'moneda_ganador': "",
+            'moneda_resto': "",
             'mensage_chat': "",
         }
 
@@ -372,9 +374,10 @@ class GameConsumersTematica(WebsocketConsumer):
         #print(jugador_con_turno(self.game_name))
 
         if mensaje['jugador'] != self.username:
+            # Si el mensaje es de tipo Fin_pregunta o CHAT no quieren que le enviemos respuesta aqui, se hace abajo
             self.send(text_data=json.dumps(mensaje))
             return None
-
+        
         if mensaje['OK'] == "true":
             if mensaje['type'] == "Peticion":
                 if mensaje['subtype'] == "Tirar_dado":
@@ -426,10 +429,11 @@ class GameConsumersTematica(WebsocketConsumer):
                             game = Partida.objects.filter(id =self.game_name).first() or None
                             game.terminada = True
                             game.ganador = mensaje['jugador']
+                            response['moneda_ganador'] = "5"
+                            response['moneda_resto'] = "2" #Se puede hacer funcion para calcular monedas TODO
                             game.save()
-                            
-                            actualizar_estadisticas_partida(game.ganador, game.orden_jugadores)
-                            
+
+                            actualizar_estadisticas_partida(game.ganador, game.orden_jugadores) 
                         else:
                             response['type'] = "Accion"
                             response['subtype'] = "Dados"
@@ -440,12 +444,15 @@ class GameConsumersTematica(WebsocketConsumer):
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
                 elif mensaje['subtype'] == "Contestar_pregunta":
-                    # No hay que hacer nada
                     print("Esperando el timer del front")
+                    return None
                 else:
                     print("Error al actualizar")
+                    
             elif mensaje['type'] == "Chat":
+                #response = mensaje
                 print(mensaje['jugador'] + ": " + mensaje['mensage_chat'])
+                return None
             else:
                 #Error el backend solo recive Peticiones y Actualizaciones
                 print("")
