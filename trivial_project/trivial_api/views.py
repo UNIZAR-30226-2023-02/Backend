@@ -817,6 +817,7 @@ class PartidaActiva(APIView):
         user = Usuario.objects.filter(username=username).first() or None
         juega = Juega.objects.filter(username=user).last() or None
         if juega:
+            print(juega.id_partida)
             partida = Partida.objects.filter(id="81").first() or None
             print(partida)
             if(partida and not partida.terminada):
