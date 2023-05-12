@@ -385,6 +385,9 @@ class SalaCrear(APIView):
         n_jugadores = int(request.data.get('n_jugadores'))
         tipo_partida = str(request.data.get('tipo_partida'))
         
+        user = Usuario.objects.filter(username=username).first() or None
+        if rechazar_reconexion(user):
+            dict_response['error_tipo_sala'] = "Ya tienes una partida activa"
 
         if password_sala:
             tipo_sala = "Privado"
@@ -735,19 +738,22 @@ class SalaValidarUnir(APIView):
 
         sala = Sala.objects.filter(nombre_sala=nombre_sala).first() or None
         user = Usuario.objects.filter(username=username).first() or None
-
+        
         #Check if sala exists
-        if sala and user:
-            usuario_en_sala = UsuariosSala.objects.filter(username=user).first() or None
-            #Check if the user is already in a sala
-            if(not usuario_en_sala):
-                jugadores_en_partida =  UsuariosSala.objects.filter(nombre_sala=nombre_sala).count()
-                if(jugadores_en_partida >= sala.n_jugadores):
-                    dict_response['error_sala'] = "La sala esta llena, no puedes unirte"
-                if(sala.tipo_sala == "Privado" and (not sala.check_password(password))):
-                    dict_response['error_sala'] = "Contraseña incorrecta"
+        if sala and user :
+            if not rechazar_reconexion(user):
+                usuario_en_sala = UsuariosSala.objects.filter(username=user).first() or None
+                #Check if the user is already in a sala
+                if(not usuario_en_sala):
+                    jugadores_en_partida =  UsuariosSala.objects.filter(nombre_sala=nombre_sala).count()
+                    if(jugadores_en_partida >= sala.n_jugadores):
+                        dict_response['error_sala'] = "La sala esta llena, no puedes unirte"
+                    if(sala.tipo_sala == "Privado" and (not sala.check_password(password))):
+                        dict_response['error_sala'] = "Contraseña incorrecta"
+                else:
+                    dict_response['error_sala'] = "Ya perteneces a una sala, no puedes unirte"  
             else:
-                dict_response['error_sala'] = "Ya perteneces a una sala, no puedes unirte"                
+                dict_response['error_sala'] = "Ya perteneces a una partida activa, no puedes unirte"                
         else:
             dict_response['error_sala'] = "La sala no existe"
             
@@ -1083,6 +1089,7 @@ class ListarPeticionesSala(APIView):
             'OK':"",
             'peticiones': [],
         }
+        # TODO, rechazar_reconexion, para que no pueda unirse a mas de una partida
         username, token = get_username_and_token(request)
         user = Usuario.objects.filter(username=username).first() or None
         peticiones_pendientes = list(PeticionesAmigo.objects.filter(user=user))

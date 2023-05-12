@@ -31,25 +31,22 @@ class GameConsumers(WebsocketConsumer):
         # Si no existe el juego denegamos el acceso
         if not game:
             print("Error no game")
+            self.close()
             return None
         # Si se ha acabado la partida tambien denegamos el acceso
         if game.terminada == True:
             print("Error partida terminada")
+            self.close()
             return None
        
         user = Usuario.objects.filter(username=username).first() or None
         # Si no existe el usuario denegamos el acceso
         if not user:
             print("Error not user")
+            self.close()
             return None
         # Si el usuario estaba desconectado entonces tengo que enviarselo solo a el
         juega = Juega.objects.filter(id_partida=game,username=user).first() or None
-        juega_activo = Juega.objects.filter(username=user, activo=1).first() or None
-
-    # No permitir entrar a 2 partidas activas TODO
-        # if juega_activo:
-        #     print("Entra a Juega Activo")
-        #     return None
 
         # Si el que estaba jugando se ha desconectado y ha vuelto a entrar, entonces solo se lo envio a el
         async_to_sync(self.channel_layer.group_add)(

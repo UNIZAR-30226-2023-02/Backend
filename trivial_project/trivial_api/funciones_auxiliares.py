@@ -110,6 +110,16 @@ def validate_sala_crear(nombre_sala):
     return mensaje_error
 
 
+# Comprobamos si el usuario tiene una partida no terminada, que no pueda entrar ni a una sala ni partida.
+
+def rechazar_reconexion(user):
+    for i in Juega.objects.filter(username=user).values('id_partida'):
+        partida = Partida.objects.filter(id=int(i['id_partida']),terminada=False).first or None
+        if(partida):
+            return True
+        
+    return False
+
 
 
 #######################
