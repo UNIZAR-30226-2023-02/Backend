@@ -813,9 +813,9 @@ class PartidaActiva(APIView):
             'ws_partida':'',
             'error':"",
         }
-        # username, token = get_username_and_token(request)
-        # user = Usuario.objects.filter(username=username).first() or None
-        # juega = Juega.objects.filter(username=user).last() or None
+        username, token = get_username_and_token(request)
+        user = Usuario.objects.filter(username=username).first() or None
+        juega = Juega.objects.filter(username=user).last() or None
         # if juega:
         #     print("Aqui")
         #     partida = Partida.objects.filter(id=juega.id_partida).first() or None
