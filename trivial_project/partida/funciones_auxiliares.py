@@ -228,7 +228,7 @@ def cargar_datos_partida(self,inicio):
     mensaje_inicio['OK'] = "true"
     mensaje_inicio['tiempo_pregunta'] = str(partida.tiempo_respuesta)
     mensaje_inicio['tiempo_elegir_casilla'] = "5"
-    jugadores = partida.orden_jugadores.split(',')
+    jugadores = partida.orden_jugadores_inicial.split(',')
     
     for i,jugador in enumerate(jugadores):
         informacion_jugador = {'jugador':'','posicion':'','quesitos':[],'turno':'','ficha':'','tablero':'','activo':''}

@@ -82,7 +82,7 @@ class SalaConsumer(WebsocketConsumer):
             # Generamos el orden aleatorio de los jugadores
             orden_aleatorio = usuarios_orden_aleatorio(self.room_name)
             # Creamos la partida
-            partida = Partida.objects.create(tipo=sala.tipo_partida,terminada=False,tiempo_respuesta=sala.tiempo_respuesta,orden_jugadores=orden_aleatorio)
+            partida = Partida.objects.create(tipo=sala.tipo_partida,terminada=False,tiempo_respuesta=sala.tiempo_respuesta,orden_jugadores=orden_aleatorio, orden_jugadores_inicial=orden_aleatorio)
             # Creamos la instancia de juega para los jugadores
             generar_jugadores(partida)
             if sala.tipo_partida == "Clasico":
