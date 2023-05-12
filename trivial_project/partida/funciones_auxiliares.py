@@ -48,7 +48,7 @@ def calcular_siguiente_movimiento(tirada, jugador, Partida_id):
 # @param string(Partida_id numero)
 # @return vector(pregunta, r1, r2, r3, r4, rc)
 def elegir_pregunta(casilla, jugador, Partida_id, tematica = None):
-
+    #TODO
     mov_posicion = Juega.objects.filter(username_id = jugador, id_partida = Partida_id).first()
     if mov_posicion == None:
         return None
@@ -143,7 +143,7 @@ def marcar_queso(queso, jugador, Partida_id):
 # Calcula el siguente jugador a jugar dado el jugador que ha jugado en el ultimo turno
 # @Partida_id
 # @return jugador(username)
-def calcular_sig_jugador(Partida_id):
+def calcular_sig_jugador(Partida_id, equipos = None):
 
     game = Partida.objects.filter(id = Partida_id).first() or None
 
@@ -308,8 +308,10 @@ def actualizar_estadisticas_partida(ganador, jugadores):
         
         if ganador == i:
             stats.partidas_ganadas += 1
+            i.monedas = 5
         else:
             stats.partidas_perdidas += 1
+            i.monedas = 2
 
         stats.save()
 
