@@ -150,7 +150,7 @@ class UsuarioRegistrar(APIView):
 
             # Hay que hacer que tenga la ficha y el tablero por defecto 
             tiene_objeto_ficha = Tiene.objects.create(id_objeto=objeto_ficha,username = user,enUso=1)
-            tiene_objeto_tablero = Tiene.objects.create(id_objeto=objeto_tablero,username = user,enUso=20)
+            tiene_objeto_tablero = Tiene.objects.create(id_objeto=objeto_tablero,username = user,enUso=1)
             
             tiene_objeto_ficha.save()
             tiene_objeto_tablero.save()
@@ -724,9 +724,11 @@ class UsarObjeto(APIView):
             elif(objeto.tipo == "tablero"):
                 user.image_tablero = objeto.image
             
-            objetos_de_un_tipo = list(Objetos.objects.filter(tipo=objeto.tipo))
-            for objeto in objetos_de_un_tipo:
-                tiene_objeto_anterior = Tiene.objects.filter(id_objeto=objeto,username=user,enUso=1).first() or None            
+            objetos_de_un_tipo = Objetos.objects.filter(tipo=objeto.tipo)
+            for objeto_1 in objetos_de_un_tipo:
+                tiene_objeto_anterior = Tiene.objects.filter(id_objeto=objeto_1,username=user,enUso=1).first() or None
+                if(tiene_objeto_anterior):
+                    break            
 
             tiene_objeto_anterior.enUso = 0
             tieneObjeto.enUso = 1
