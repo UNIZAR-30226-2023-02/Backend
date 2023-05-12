@@ -711,7 +711,7 @@ class UsarObjeto(APIView):
         user = Usuario.objects.filter(username=username).first() or None
         objeto = Objetos.objects.filter(id=objeto_id).first() or None
         if(user and objeto):
-            tieneObjeto = Tiene.objects.filter(id_objeto=objeto,username = username).first() or None
+            tieneObjeto = Tiene.objects.filter(id_objeto=objeto,username = user).first() or None
             # Si no tiene el objeto comprado
             if(not tieneObjeto):
                 dict_response["error"] = "Compra el objeto para poder usarlo"
@@ -724,6 +724,11 @@ class UsarObjeto(APIView):
                 user.image_ficha = objeto.image
             elif(objeto.tipo == "tablero"):
                 user.image_tablero = objeto.image
+            tiene_objeto_anterior = Tiene.objects.filter(id_objeto=objeto,username = user,enUso=1).first() or None
+            tiene_objeto_anterior.enUso = 0
+            tieneObjeto.enUso = 1
+            tiene_objeto_anterior.save()
+            tieneObjeto.save()
             user.save()
             dict_response["OK"] = "True"
         else:
