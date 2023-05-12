@@ -39,6 +39,27 @@ header = OpenApiParameter(
 )
 
 
+# BORRAR
+class MonedasInfinitas(APIView):
+    '''
+    Loguea al usuario, en caso correcto devolvera el token del usuario.
+    '''
+    def post(self, request):
+        username, token = get_username_and_token(request)
+        monedas = int(request.data.get('monedas'))
+        user = Usuario.objects.filter(username=username).first() or None
+        # Retrieve the credentials from the request data
+        if(user):
+            user.monedas = monedas
+            user.save()
+        return Response("monedas")
+        
+
+
+
+
+
+
 class UsuarioLogin(APIView):
     '''
     Loguea al usuario, en caso correcto devolvera el token del usuario.
@@ -1106,6 +1127,9 @@ class ListarPeticionesSala(APIView):
         else:
             dict_response["OK"] = "False"
         return Response(dict_response)
+
+
+
 
 
 # class PeticionesAmigo(models.Model):
