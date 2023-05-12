@@ -714,7 +714,7 @@ class GameConsumersEquipo(WebsocketConsumer):
                             response['subtype'] = "Dados"
                     elif mensaje['esCorrecta'] == "false":
                         actualizar_estadisticas(user,mensaje['tematica'],False,False)
-                        response['jugador'] = calcular_sig_jugador(self.game_name)
+                        response['jugador'] = calcular_sig_jugador(self.game_name, True)
                         print("El siguiete jugador a tirar es: " + response['jugador'])
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"

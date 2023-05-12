@@ -48,7 +48,6 @@ def calcular_siguiente_movimiento(tirada, jugador, Partida_id):
 # @param string(Partida_id numero)
 # @return vector(pregunta, r1, r2, r3, r4, rc)
 def elegir_pregunta(casilla, jugador, Partida_id, tematica = None):
-    #TODO
     mov_posicion = Juega.objects.filter(username_id = jugador, id_partida = Partida_id).first()
     if mov_posicion == None:
         return None
@@ -153,8 +152,6 @@ def calcular_sig_jugador(Partida_id, equipos = None):
         #Pepe,Juan,P
         #Juan, P ,Pepe
         # Contar el numero de jugadores activos
-        # Si el numero de jugadores activos es 1 o inferior, entonces para el juego o algo
-        # TODO
         lista_j = game.orden_jugadores
         
         lista_j = lista_j.split(',')
@@ -309,10 +306,10 @@ def actualizar_estadisticas_partida(ganador, jugadores):
 
         if ganador == i:
             stats.partidas_ganadas += 1
-            user.monedas = 5
+            user.monedas = user.monedas + 5
         else:
             stats.partidas_perdidas += 1
-            user.monedas = 2
+            user.monedas = user.monedas + 2
 
         user.save()
         stats.save()
