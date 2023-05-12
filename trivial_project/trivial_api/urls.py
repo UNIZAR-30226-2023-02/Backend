@@ -49,7 +49,7 @@ urlpatterns = [
     path('tienda/usar/', UsarObjeto.as_view()),
     
     #Endpoints para las partidas
-    path('partidas/activas/', PartidaActiva.as_view()),
+    path('partida/activa/', PartidaActiva.as_view()),
 
     # Endpoints para la documentacion
     path('documentacion/', SpectacularSwaggerView.as_view(url_name='documentacion')),

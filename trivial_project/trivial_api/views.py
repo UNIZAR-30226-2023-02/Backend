@@ -803,7 +803,7 @@ class SalaValidarUnir(APIView):
 # Lista con las partidas activas de un usuario, para que pueda volver a unirse
 class PartidaActiva(APIView):
     '''
-    Muestra una lista con las partidas que tiene activas el usuario, indicando el websocket para que se una a la partida
+    Muestra la partida que este activa, si no hay no muestra el websocket y mostrara error de no partidas activas
     '''
     permission_classes = [IsAuthenticated]
     @extend_schema(tags=["PARTIDA"],parameters=[header],request=PartidaActivaRequestSerializer, responses=PartidaActivaResponseSerializer)   
