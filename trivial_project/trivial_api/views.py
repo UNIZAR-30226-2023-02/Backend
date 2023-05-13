@@ -505,7 +505,7 @@ class SalaCrear(APIView):
         }
         username, token = get_username_and_token(request)
 
-        nombre_sala = str(request.data.get('nombre_sala'))
+        nombre_sala = str(request.data.get('nombre_sala')).replace(" ","_")
         tiempo_respuesta = int(request.data.get('tiempo_respuesta'))
         password_sala = str(request.data.get('password_sala'))
         n_jugadores = int(request.data.get('n_jugadores'))
