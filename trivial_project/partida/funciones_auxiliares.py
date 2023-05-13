@@ -188,6 +188,47 @@ def calcular_sig_jugador(Partida_id, equipos = None):
 
         return lista_j[0]
     
+# Calcula el siguente jugador del equipo a jugar dado el jugador que ha jugado en el ultimo turno
+# @Partida_id
+# @return jugador(username)
+def calcular_sig_jugador_equipo(Partida_id):
+
+    game = Partida.objects.filter(id = Partida_id).first() or None
+
+    if game == None:
+        return 'Error, no existe partida'
+    else: 
+        lista_equipos = game.orden_jugadores
+        
+        lista_equipos = lista_equipos.split(';')
+
+        lista_j = lista_equipos[0].split(',')
+
+        primer_elemento = lista_j.pop(0)
+        lista_j.append(primer_elemento)
+
+        activo = False
+        i = 0
+        
+        while (not activo):
+            jugador = Juega.objects.filter(username=lista_j[0], id_partida = Partida_id).first() or None
+            if (jugador and jugador.activo):
+                activo  = True
+            else:
+                primer_elemento = lista_j.pop(0)
+                lista_j.append(primer_elemento)
+                i+= 1
+
+            if i == 10:
+                return None
+        
+        lista_equipos[0] = ",".join(lista_j)
+        
+        game.orden_jugadores = ";".join(lista_equipos)
+        game.save()
+
+        return lista_j[0]
+    
     
 # Devuelve el jugador que tiene el turno
 def jugador_con_turno(Partida_id):

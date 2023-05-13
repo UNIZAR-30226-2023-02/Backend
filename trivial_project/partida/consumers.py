@@ -732,7 +732,7 @@ class GameConsumersEquipo(WebsocketConsumer):
                         else:
                             actualizar_estadisticas(user,mensaje['tematica'],True,False)
 
-                        response['jugador'] = mensaje['jugador']
+                        response['jugador'] = calcular_sig_jugador_equipo(self.game_name)
                         if fin == True:
                             response['type'] = "Fin"
                             game = Partida.objects.filter(id =self.game_name).first() or None

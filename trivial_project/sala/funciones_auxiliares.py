@@ -15,15 +15,20 @@ def lista_usuarios_sala(room_name):
 
     return lista_usuarios
 
-def usuarios_orden_aleatorio(room_name):
+def usuarios_orden_aleatorio(room_name, tipo):
     usuarios = UsuariosSala.objects.filter(nombre_sala=room_name).values("username")
     lista_usuarios=""
     usuarios = list(usuarios)
     # Generamos el orden aleatorio
     random.shuffle(usuarios)
-    for i in usuarios:
-        lista_usuarios = lista_usuarios + str(i['username'] + ',')
-    lista_usuarios = lista_usuarios[:-1]
+    if tipo == "Equipo":
+        lista_usuarios = ""
+        while (len(usuarios) > 0):
+            lista_usuarios = lista_usuarios + ",".join(usuarios[0:2]) + ";"
+            usuarios = usuarios[2:]
+        lista_usuarios = lista_usuarios[:-1]
+    else:
+        lista_usuarios = ",".join(usuarios)
 
     return lista_usuarios
 
