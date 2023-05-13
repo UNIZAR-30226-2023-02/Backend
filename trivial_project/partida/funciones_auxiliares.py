@@ -70,7 +70,6 @@ def elegir_pregunta(casilla, jugador, Partida_id, tematica = None):
             pregunta_devolver = {'enunciado':""}
             pregunta_devolver['enunciado'] = 'repetir'
             return pregunta_devolver
-
     else:
         if inf_casilla['tematica'] == 'Dados':
             pregunta_devolver = {'enunciado':""}
