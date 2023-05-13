@@ -60,7 +60,7 @@ def elegir_pregunta(casilla, jugador, Partida_id, tematica = False):
         inf_casilla = {}
         inf_casilla['quesito'] = "false"
         inf_casilla['tematica'] = listaTematicas[random.randint(0, (len(listaTematicas) - 1))]
-        else:
+    else:
         inf_casilla = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
 
     if tematica:
