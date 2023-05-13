@@ -28,7 +28,9 @@ def usuarios_orden_aleatorio(room_name, tipo):
             usuarios = usuarios[2:]
         lista_usuarios = lista_usuarios[:-1]
     else:
-        lista_usuarios = ",".join(usuarios)
+        for i in usuarios:
+            lista_usuarios = lista_usuarios + str(i['username'] + ',')
+        lista_usuarios = lista_usuarios[:-1]
 
     return lista_usuarios
 
