@@ -65,7 +65,7 @@ def elegir_pregunta(casilla, jugador, Partida_id, tematica = False):
 
     if tematica:
         inf_casilla['tematica'] = tematica
-        inf_tematica_quesito = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
+        inf_tematica_quesito = Casilla_Tematica_Tematico.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
         if inf_tematica_quesito['tematica'] == 'Dados':
             pregunta_devolver = {'enunciado':""}
             pregunta_devolver['enunciado'] = 'repetir'
@@ -172,8 +172,8 @@ def calcular_sig_jugador(Partida_id, equipos = None):
                 if (jugador and jugador.activo):
                     activo  = True
                 else:
-                    primer_elemento = lista_jugador.pop(0)
-                    lista_jugador.append(primer_elemento)
+                    primer_elemento = lista_jugadores.pop(0)
+                    lista_jugadores.append(primer_elemento)
                     i+= 1
 
                 if i == 10:

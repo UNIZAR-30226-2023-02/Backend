@@ -11,6 +11,14 @@ class Casilla_Tematica(models.Model):
     class Meta:
         db_table = "Casilla_Tematica"
 
+class Casilla_Tematica_Tematico(models.Model):
+    casilla = models.IntegerField(primary_key = True)
+    tematica = models.CharField(max_length = 50, null = False)
+    quesito = models.BooleanField(null = False)
+
+    class Meta:
+        db_table = "Casilla_Tematica_Tematico"
+
 # Modelo que calcula las posibles posiciones del jugador dada la tirada
 class Tablero(models.Model):
     casilla_actual = models.ForeignKey(Casilla_Tematica, on_delete = models.CASCADE, db_column="casilla_actual", related_name='tablero_ac')
