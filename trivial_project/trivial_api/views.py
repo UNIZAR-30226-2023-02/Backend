@@ -637,7 +637,7 @@ class UsuarioEstadisticasYo(APIView):
                 if total_categoria == 0:
                     dict_response[categoria]["porcentaje"] = 0
                 else:
-                    dict_response[categoria]["porcentaje"] = round(bien_categoria / total_categoria,2)
+                    dict_response[categoria]["porcentaje"] = round(bien_categoria / total_categoria,2) * 100
                 total_respuestas_correctas += bien_categoria
                 total_respuestas_incorrectas += mal_categoria
 
@@ -649,7 +649,7 @@ class UsuarioEstadisticasYo(APIView):
             if total_preguntas == 0:
                 dict_response["porcentaje_respuestas"] = 0
             else:
-                dict_response["porcentaje_respuestas"] = round(total_respuestas_correctas / total_preguntas,2)
+                dict_response["porcentaje_respuestas"] = round(total_respuestas_correctas / total_preguntas,2) * 100
             dict_response['OK'] = "True"
         else:
             dict_response['OK'] = "False"
@@ -696,7 +696,7 @@ class UsuarioEstadisticasOtroUsuario(APIView):
                 if total_categoria == 0:
                     dict_response[categoria]["porcentaje"] = 0
                 else:
-                    dict_response[categoria]["porcentaje"] = round(bien_categoria / total_categoria,2)
+                    dict_response[categoria]["porcentaje"] = round(bien_categoria / total_categoria,2) * 100
                 total_respuestas_correctas += bien_categoria
                 total_respuestas_incorrectas += mal_categoria
 
@@ -708,7 +708,7 @@ class UsuarioEstadisticasOtroUsuario(APIView):
             if total_preguntas == 0:
                 dict_response["porcentaje_respuestas"] = 0
             else:
-                dict_response["porcentaje_respuestas"] = round(total_respuestas_correctas / total_preguntas,2)
+                dict_response["porcentaje_respuestas"] = round(total_respuestas_correctas / total_preguntas,2) * 100
             dict_response['OK'] = "True"
         else:
             dict_response['OK'] = "False"
