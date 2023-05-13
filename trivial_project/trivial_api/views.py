@@ -625,7 +625,7 @@ class UsuarioEstadisticasYo(APIView):
             'porcentaje_respuestas':"",
             'total_partidas':"",
             'total_partidas_ganadas':"",
-            'total_partida_perdidas':"",
+            'total_partidas_perdidas':"",
             'porcentaje_partidas':"",
             'error_usuario':"",
         }
@@ -697,7 +697,7 @@ class UsuarioEstadisticasOtroUsuario(APIView):
             'porcentaje_respuestas':"",
             'total_partidas':"",
             'total_partidas_ganadas':"",
-            'total_partida_perdidas':"",
+            'total_partidas_perdidas':"",
             'porcentaje_partidas':"",
             'error_usuario':"",
         }
