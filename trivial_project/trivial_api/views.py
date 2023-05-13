@@ -441,6 +441,8 @@ class UsuarioRechazarAmigo(APIView):
         }
         es_amigo = Amigos.objects.filter(user1=username,user2=amigo).first() or None
         
+        print(es_amigo)
+        print(es_amigo.pendiente)
         # No se puede eliminar a un amigo que no es tu amigo, o que este pendiente
         if not (es_amigo and es_amigo.pendiente):
             dict_response['error'] = "No es una peticion de amigo"
