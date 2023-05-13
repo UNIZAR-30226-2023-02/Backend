@@ -672,8 +672,8 @@ class UsuarioEstadisticasYo(APIView):
         else:
             dict_response['OK'] = "False"
             dict_response["error_usuario"] = "No se ha encontrado el usuario"
-        serializer = UsuarioEstadisticasYoResponseSerializer(dict_response)
-        return Response(serializer.data)
+        #serializer = UsuarioEstadisticasYoResponseSerializer(dict_response)
+        return Response(dict_response)
     
 
 class UsuarioEstadisticasOtroUsuario(APIView):
@@ -743,8 +743,8 @@ class UsuarioEstadisticasOtroUsuario(APIView):
         else:
             dict_response['OK'] = "False"
             dict_response["error_usuario"] = "No se ha encontrado el usuario"
-        serializer = UsuarioEstadisticasYoResponseSerializer(dict_response)
-        return Response(serializer.data)
+        #serializer = UsuarioEstadisticasYoResponseSerializer(dict_response)
+        return Response(dict_response)
     
 
 
