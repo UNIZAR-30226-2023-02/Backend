@@ -66,14 +66,19 @@ def elegir_pregunta(casilla, jugador, Partida_id, tematica = None):
     if tematica:
         inf_casilla['tematica'] = tematica
         inf_tematica_quesito = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
+        if inf_tematica_quesito['tematica'] == 'Dados':
+            pregunta_devolver = {'enunciado':""}
+            pregunta_devolver['enunciado'] = 'repetir'
+            return pregunta_devolver
+
+    else:
+        if inf_casilla['tematica'] == 'Dados':
+            pregunta_devolver = {'enunciado':""}
+            pregunta_devolver['enunciado'] = 'repetir'
+            return pregunta_devolver
     
 
     print("La tematica elegida es: " + inf_casilla['tematica'])
-    
-    if inf_casilla['tematica'] == 'Dados':
-        pregunta_devolver = {'enunciado':""}
-        pregunta_devolver['enunciado'] = 'repetir'
-        return pregunta_devolver
     
     all_preguntas = Pregunta.objects.values('enunciado', 'r1', 'r2', 'r3', 'r4', 'rc').filter(categoria = inf_casilla['tematica'])
     pregunta_devolver = all_preguntas[random.randint(0,len(all_preguntas) - 1)]
