@@ -47,7 +47,7 @@ def calcular_siguiente_movimiento(tirada, jugador, Partida_id):
 # @param string(jugdor username)
 # @param string(Partida_id numero)
 # @return vector(pregunta, r1, r2, r3, r4, rc)
-def elegir_pregunta(casilla, jugador, Partida_id, tematica = None):
+def elegir_pregunta(casilla, jugador, Partida_id, tematica = False):
     mov_posicion = Juega.objects.filter(username_id = jugador, id_partida = Partida_id).first()
     if mov_posicion == None:
         return None
