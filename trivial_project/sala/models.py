@@ -21,6 +21,7 @@ class Sala(models.Model):
     password_sala = models.CharField(default="",max_length=200) #La contraseña cifrada ocupa 128 caracteres
     tipo_partida = models.CharField(max_length=10,choices=PARTIDA_CHOICES)
     tipo_sala = models.CharField(max_length=10,choices=SALA_CHOICES)
+    tematica = models.CharField(max_length=15, null = True, default="Sin tematica")
 
     
     def set_password(self, raw_password):

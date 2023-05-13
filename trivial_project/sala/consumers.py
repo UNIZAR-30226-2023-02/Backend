@@ -88,9 +88,8 @@ class SalaConsumer(WebsocketConsumer):
             if sala.tipo_partida == "Clasico":
                 wspartida = "/ws/partida/" + str(partida.id) + "/"
             elif sala.tipo_partida == "Tematico":
-                listaTematicas = ['Historia','Entretenimiento','Ciencia','Geografia','Arte','Deportes']
                 wspartida = "/ws/partida_tematico/" + str(partida.id) + "/"
-                partida.tematica = listaTematicas[random.randint(0,len(listaTematicas) - 1)]
+                partida.tematica =  sala.tematica
                 partida.save()
             elif sala.tipo_partida == "Equipo":
                 wspartida = "/ws/partida_equipo/" + str(partida.id) + "/"

@@ -187,8 +187,8 @@ class UsuarioDatos(APIView):
         }
         user = Usuario.objects.filter(username=username).first() or None
         if user:
-            amigos = Amigos.objects.filter(user1=username)
-            amigos2 = Amigos.objects.filter(user2=username)
+            # Solo muestro los amigos que he aceptado
+            amigos = Amigos.objects.filter(user1=username,pendiente=False)
             dict_response['username'] = user.username
             dict_response['correo'] = user.correo
             dict_response['fecha_nac'] = user.fecha_nac
@@ -203,6 +203,7 @@ class UsuarioDatos(APIView):
         else:
             dict_response['OK'] = "False"
         return Response(dict_response)
+
 
 class UsuarioDatosOtroUsuario(APIView):
     '''
@@ -223,8 +224,8 @@ class UsuarioDatosOtroUsuario(APIView):
         }
         user = Usuario.objects.filter(username=username).first() or None
         if user:
-            amigos = Amigos.objects.filter(user1=username)
-            amigos2 = Amigos.objects.filter(user2=username)
+            # Solo muestro los amigos que he aceptado
+            amigos = Amigos.objects.filter(user1=username,pendiente=False)
             dict_response['username'] = user.username
             dict_response['correo'] = user.correo
             dict_response['fecha_nac'] = user.fecha_nac
@@ -293,7 +294,7 @@ class UsuarioAddAmigo(APIView):
     '''
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
-    @extend_schema(tags=["USUARIO"],parameters=[header],request=UsuarioAddAmigoRequestSerializer, responses=UsuarioAddAmigoResponseSerializer)
+    @extend_schema(tags=["AMIGOS"],parameters=[header],request=UsuarioAddAmigoRequestSerializer, responses=UsuarioAddAmigoResponseSerializer)
     def post(self, request):
         #Con esto comprobamos si el usuario tiene acceso a la informacion
         username, token = get_username_and_token(request)
@@ -310,22 +311,23 @@ class UsuarioAddAmigo(APIView):
         if not existe_usuario(amigo):
             dict_response['error'] = "El usuario que intentas agregar no existe"
 
-        # # Ordenamos alfabeticamente 
-        if username > amigo:
-            username , amigo = amigo,username
-
         if username == amigo:
             dict_response['error'] = "El usuario no puede ser amigo de si mismo"
-        if es_amigo(username,amigo):
-            dict_response['error'] = "Ya tienes el amigo agregado"
+        
+        es_amigo = Amigos.objects.filter(user1=username,user2=amigo).first() or None
+        if es_amigo:
+            if(es_amigo.pendiente):
+                dict_response['error'] = "Ya has enviado una peticion"
+            else:
+                dict_response['error'] = "Ya tienes el amigo agregado"
                 
         if all_errors_empty(dict_response):
             usuario_instance = get_object_or_404(Usuario, username=username)
             amigo_instance = get_object_or_404(Usuario, username=amigo)
 
-            # Esto es para que salga en la base de datos ambos como amigos
-            amigo_db = Amigos.objects.create(user1=usuario_instance,user2=amigo_instance)
-            amigo_db1 = Amigos.objects.create(user1=amigo_instance,user2=usuario_instance)
+            # Esto es para que salga en la base de datos ambos como amigos pendientes, necesitan ser aceptados
+            amigo_db = Amigos.objects.create(user1=usuario_instance,user2=amigo_instance,pendiente=True)
+            amigo_db1 = Amigos.objects.create(user1=amigo_instance,user2=usuario_instance,pendiente=True)
             amigo_db.save()
             amigo_db1.save()
             dict_response['OK'] = "True"
@@ -340,7 +342,7 @@ class UsuarioDeleteAmigo(APIView):
     '''
     #Necesita la autenticazion
     permission_classes = [IsAuthenticated]
-    @extend_schema(tags=["USUARIO"],parameters=[header],request=UsuarioDeleteAmigoRequestSerializer, responses=UsuarioDeleteAmigoResponseSerializer)
+    @extend_schema(tags=["AMIGOS"],parameters=[header],request=UsuarioDeleteAmigoRequestSerializer, responses=UsuarioDeleteAmigoResponseSerializer)
     def post(self, request):
          #Con esto comprobamos si el usuario tiene acceso a la informacion
         username, token = get_username_and_token(request)
@@ -357,15 +359,15 @@ class UsuarioDeleteAmigo(APIView):
         if not existe_usuario(amigo):
             dict_response['error'] = "El usuario que intentas eliminar no existe"
 
-        # Ordenamos alfabeticamente 
-        if username > amigo:
-            username , amigo = amigo,username
-
         if username == amigo:
             dict_response['error'] = "El usuario no puede ser amigo de si mismo"
-        if not es_amigo(username,amigo):
+
+        es_amigo = Amigos.objects.filter(user1=username,user2=amigo).first() or None
+
+        # No se puede eliminar a un amigo que no es tu amigo, o que este pendiente
+        if not es_amigo or (es_amigo and es_amigo.pendiente):
             dict_response['error'] = "No puedes eliminarlo ya que no es tu amigo"
-                
+          
         if all_errors_empty(dict_response):
             usuario_instance = get_object_or_404(Usuario, username=username)
             amigo_instance = get_object_or_404(Usuario, username=amigo)
@@ -377,6 +379,108 @@ class UsuarioDeleteAmigo(APIView):
             dict_response['OK'] = "True"
         else:
             dict_response["OK"] = "False"
+        return Response(dict_response)
+
+
+
+class UsuarioAceptarAmigo(APIView):
+    '''
+    Aceptar la invitacion de un amigo
+    '''
+    #Necesita la autenticazion
+    permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["AMIGOS"],parameters=[header],request=UsuarioAceptarAmigo1, responses=UsuarioAceptarAmigo2)
+    def post(self, request):
+        #Con esto comprobamos si el usuario tiene acceso a la informacion
+        username, token = get_username_and_token(request)
+        amigo = request.data.get('amigo')
+        
+        dict_response = {
+            'OK':"",
+            'error':""
+        }
+        es_amigo = Amigos.objects.filter(user1=username,user2=amigo).first() or None
+        
+        # No se puede eliminar a un amigo que no es tu amigo, o que este pendiente
+        if not (es_amigo and es_amigo.pendiente):
+            dict_response['error'] = "No es una peticion de amigo"
+
+        if all_errors_empty(dict_response):
+            usuario_instance = get_object_or_404(Usuario, username=username)
+            amigo_instance = get_object_or_404(Usuario, username=amigo)
+            amigo_db = Amigos.objects.filter(user1=usuario_instance,user2=amigo_instance).first()
+            amigo_db1 = Amigos.objects.filter(user1=amigo_instance,user2=usuario_instance).first()
+            amigo_db.pendiente = False
+            amigo_db1.pendiente = False
+            amigo_db.save()
+            amigo_db1.save()
+            dict_response['OK'] = "True"
+        else:
+            dict_response["OK"] = "False"
+        return Response(dict_response)
+
+
+
+class UsuarioRechazarAmigo(APIView):
+    '''
+    Rechazar la invitacion de un amigo
+    '''
+    #Necesita la autenticazion
+    permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["AMIGOS"],parameters=[header],request=UsuarioRechazarAmigo1, responses=UsuarioRechazarAmigo2)
+    def post(self, request):
+        #Con esto comprobamos si el usuario tiene acceso a la informacion
+        username, token = get_username_and_token(request)
+        amigo = request.data.get('amigo')
+        
+        dict_response = {
+            'OK':"",
+            'error':""
+        }
+        es_amigo = Amigos.objects.filter(user1=username,user2=amigo).first() or None
+        
+        # No se puede eliminar a un amigo que no es tu amigo, o que este pendiente
+        if not (es_amigo and es_amigo.pendiente):
+            dict_response['error'] = "No es una peticion de amigo"
+
+        if all_errors_empty(dict_response):
+            usuario_instance = get_object_or_404(Usuario, username=username)
+            amigo_instance = get_object_or_404(Usuario, username=amigo)
+            amigo_db = Amigos.objects.filter(user1=usuario_instance,user2=amigo_instance).first()
+            amigo_db1 = Amigos.objects.filter(user1=amigo_instance,user2=usuario_instance).first()
+            amigo_db.delete()
+            amigo_db1.delete()
+            dict_response['OK'] = "True"
+        else:
+            dict_response["OK"] = "False"
+        return Response(dict_response)
+
+
+
+
+class UsuarioListarPeticionesAmigo(APIView):
+    '''
+    Listar peticiones amigos
+    '''
+    #Necesita la autenticazion
+    permission_classes = [IsAuthenticated]
+    @extend_schema(tags=["AMIGOS"],parameters=[header],request=UsuarioListarPeticionesAmigo1, responses=UsuarioListarPeticionesAmigo2)
+    def post(self, request):
+        #Con esto comprobamos si el usuario tiene acceso a la informacion
+        username, token = get_username_and_token(request)
+        amigo = request.data.get('amigo')
+        
+        dict_response = {
+            'OK':"",
+            'amigos_pendientes':[],
+            'error':"",
+        }
+
+        # Solo muestro los amigos que he aceptado
+        amigos = Amigos.objects.filter(user1=username,pendiente=True)
+        for amigo in amigos:
+            dict_response['amigos_pendientes'].append(str(amigo.user2)) 
+        dict_response['OK'] = "True"
         return Response(dict_response)
 
 
@@ -397,6 +501,7 @@ class SalaCrear(APIView):
             'error_tipo_partida':"",
             'error_n_jugadores':"",
             'error_tiempo_respuesta':"",
+            'error_tematica':"",
         }
         username, token = get_username_and_token(request)
 
@@ -405,6 +510,7 @@ class SalaCrear(APIView):
         password_sala = str(request.data.get('password_sala'))
         n_jugadores = int(request.data.get('n_jugadores'))
         tipo_partida = str(request.data.get('tipo_partida'))
+        tematica = str(request.data.get('tematica'))
         
         user = Usuario.objects.filter(username=username).first() or None
         if rechazar_reconexion(user):
@@ -433,12 +539,17 @@ class SalaCrear(APIView):
         # Check tiempo_respuesta
         if(tiempo_respuesta <10 or tiempo_respuesta >50):
             dict_response['error_tiempo_respuesta'] = "Tiempo de respuesta invalido (10-50)"
+            
+        if(tipo_partida == "Tematico"):
+            if(tematica != "Deportes" and tematica != "Arte" and tematica != "Entretenimiento" and tematica != "Historia" 
+            and tematica != "Ciencia" and tematica != "Geografia" ):
+                dict_response['error_tematica'] = "Tematica invalida"
 
         if all_errors_empty(dict_response):
             usuario_instance = get_object_or_404(Usuario, username=username)
             # Creamos la sala
             sala = Sala.objects.create(nombre_sala=nombre_sala,creador_username=usuario_instance,tiempo_respuesta=tiempo_respuesta
-                                       ,n_jugadores=n_jugadores,password_sala=password_sala,tipo_partida=tipo_partida,tipo_sala=tipo_sala)
+                                       ,n_jugadores=n_jugadores,password_sala=password_sala,tipo_partida=tipo_partida,tipo_sala=tipo_sala, tematica=tematica)
             sala.set_password(password_sala)
             sala.save()
             dict_response['OK'] = "True"
@@ -811,6 +922,7 @@ class PartidaActiva(APIView):
         dict_response = {
             'OK':"",
             'ws_partida':'',
+            'tipo':'',
             'error':"",
         }
         username, token = get_username_and_token(request)
@@ -821,8 +933,13 @@ class PartidaActiva(APIView):
             if(partida and not partida.terminada):
                 if partida.tipo == "Clasico":
                     ws_partida = "/ws/partida/" + str(partida.id) + "/"
+                    dict_response['Tipo'] = "Clasico"
                 elif partida.tipo == "Tematico":
                     ws_partida = "/ws/partida_tematico/" + str(partida.id) + "/"
+                    dict_response['Tipo'] = "Tematico"
+                elif partida.tipo == "Equipo":
+                    ws_partida = "/ws/partida_tematico/" + str(partida.id) + "/"
+                    dict_response['Tipo'] = "Equipo"
                 dict_response['ws_partida'] = ws_partida
             else:
                 dict_response["error"] = "No hay partidas activas"

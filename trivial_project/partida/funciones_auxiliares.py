@@ -220,6 +220,7 @@ def cargar_datos_partida(self,inicio):
         'OK':"",
         'jugadores':[],
         'tiempo_pregunta': "",
+        'tematica':"",
         'tiempo_elegir_casilla': "",
         'error': "",
     }
@@ -227,7 +228,8 @@ def cargar_datos_partida(self,inicio):
 
     mensaje_inicio['OK'] = "true"
     mensaje_inicio['tiempo_pregunta'] = str(partida.tiempo_respuesta)
-    mensaje_inicio['tiempo_elegir_casilla'] = "5"
+    mensaje_inicio['tiempo_elegir_casilla'] = "10"
+    mensaje_inicio['tematica'] = str(partida.tematica)
     jugadores = partida.orden_jugadores_inicial.split(',')
     
     for i,jugador in enumerate(jugadores):
@@ -242,7 +244,6 @@ def cargar_datos_partida(self,inicio):
         informacion_jugador["jugador"] = str(juega.username)
         informacion_jugador["posicion"] = str(juega.posicion)
         informacion_jugador["turno"] = str(turno)
-        #if(inicio):
         juega.image = asignar_color_ficha(user.image_ficha,i)
         informacion_jugador["ficha"] = str(juega.image)
         informacion_jugador["tablero"] = str(user.image_tablero)

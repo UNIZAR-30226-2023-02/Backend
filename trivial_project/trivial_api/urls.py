@@ -15,14 +15,17 @@ urlpatterns = [
     path('usuarios/datos-yo/', UsuarioDatos.as_view()),
     path('usuarios/datos-usuario/', UsuarioDatosOtroUsuario.as_view()),
     path('usuarios/cambiar-datos/', UsuarioCambiarDatos.as_view()),
-    path('usuarios/add/amigo/', UsuarioAddAmigo.as_view()),
-    path('usuarios/delete/amigo/', UsuarioDeleteAmigo.as_view()),
     path('usuarios/dar-baja/', UsuarioDarDeBaja.as_view()),
     
-
     path('usuarios/estadisticas-yo/', UsuarioEstadisticasYo.as_view()),
     path('usuarios/estadisticas-usuario/',UsuarioEstadisticasOtroUsuario.as_view()),
 
+    path('usuarios/add/amigo/', UsuarioAddAmigo.as_view()),
+    path('usuarios/delete/amigo/', UsuarioDeleteAmigo.as_view()),
+    path('usuarios/aceptar/amigo/', UsuarioAceptarAmigo.as_view()),
+    path('usuarios/rechazar/amigo/', UsuarioRechazarAmigo.as_view()),
+    path('usuarios/listar-peticiones-amigos/', UsuarioListarPeticionesAmigo.as_view()),
+    
     # Endpoints para las salas
     path('salas/crear/', SalaCrear.as_view()),
     path('salas/validar/', SalaValidarUnir.as_view()),

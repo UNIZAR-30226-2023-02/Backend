@@ -96,6 +96,39 @@ class UsuarioDeleteAmigoResponseSerializer(serializers.Serializer):
     OK = serializers.CharField()
     error = serializers.CharField()
 
+
+# UsuarioAceptarAmigo
+class UsuarioAceptarAmigo1(serializers.Serializer):
+    amigo = serializers.CharField()
+    
+class UsuarioAceptarAmigo2(serializers.Serializer):
+    OK = serializers.CharField()
+    error = serializers.CharField()
+
+
+# UsuarioRechazarAmigo
+class UsuarioRechazarAmigo1(serializers.Serializer):
+    amigo = serializers.CharField()
+    
+class UsuarioRechazarAmigo2(serializers.Serializer):
+    OK = serializers.CharField()
+    error = serializers.CharField()
+
+
+# UsuarioListarPeticionesAmigo
+class UsuarioListarPeticionesAmigo1(serializers.Serializer):
+    amigo = serializers.CharField()
+    
+class UsuarioListarPeticionesAmigo2(serializers.Serializer):
+    OK = serializers.CharField()
+    amigos_pendientes = serializers.ListField(
+        child=serializers.CharField(),
+        allow_empty=False,
+        required=False,
+    )
+    error = serializers.CharField()
+
+
 # SalaCrear
 class SalaCrearRequestSerializer(serializers.Serializer):
     nombre_sala = serializers.CharField()
@@ -103,7 +136,7 @@ class SalaCrearRequestSerializer(serializers.Serializer):
     password_sala = serializers.CharField()
     n_jugadores = serializers.IntegerField()
     tipo_partida = serializers.CharField()
-    
+    tematica = serializers.CharField()
     
 class SalaCrearResponseSerializer(serializers.Serializer):
     OK = serializers.CharField()
@@ -111,6 +144,7 @@ class SalaCrearResponseSerializer(serializers.Serializer):
     error_tipo_partida = serializers.CharField()
     error_n_jugadores = serializers.CharField()
     error_tiempo_respuesta = serializers.CharField()
+    error_tematica = serializers.CharField()
 
 # SalaUnir
 class SalaUnirRequestSerializer(serializers.Serializer):
@@ -233,6 +267,7 @@ class PartidaActivaRequestSerializer(serializers.Serializer):
 class PartidaActivaResponseSerializer(serializers.Serializer):
     OK = serializers.CharField()
     ws_partida = serializers.CharField()
+    tipo = serializers.CharField() 
     #partida = partida_wsSerializer(many=True)
     error = serializers.CharField()
 
