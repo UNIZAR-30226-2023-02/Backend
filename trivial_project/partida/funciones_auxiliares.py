@@ -160,31 +160,35 @@ def calcular_sig_jugador(Partida_id, equipos = None):
         #Pepe,Juan,P
         #Juan, P ,Pepe
         # Contar el numero de jugadores activos
-        lista_j = game.orden_jugadores
-        
-        lista_j = lista_j.split(',')
+        if equipos == True:
+            
 
-        primer_elemento = lista_j.pop(0)
-        lista_j.append(primer_elemento)
+        else:
+            lista_j = game.orden_jugadores
+            
+            lista_j = lista_j.split(',')
 
-        activo = False
-        i = 0
-        
-        while (not activo):
-            jugador = Juega.objects.filter(username=lista_j[0], id_partida = Partida_id).first() or None
-            if (jugador and jugador.activo):
-                activo  = True
-            else:
-                primer_elemento = lista_j.pop(0)
-                lista_j.append(primer_elemento)
-                i+= 1
+            primer_elemento = lista_j.pop(0)
+            lista_j.append(primer_elemento)
 
-            if i == 10:
-                return None
-        
-        
-        game.orden_jugadores = ",".join(lista_j)
-        game.save()
+            activo = False
+            i = 0
+            
+            while (not activo):
+                jugador = Juega.objects.filter(username=lista_j[0], id_partida = Partida_id).first() or None
+                if (jugador and jugador.activo):
+                    activo  = True
+                else:
+                    primer_elemento = lista_j.pop(0)
+                    lista_j.append(primer_elemento)
+                    i+= 1
+
+                if i == 10:
+                    return None
+            
+            
+            game.orden_jugadores = ",".join(lista_j)
+            game.save()
 
         return lista_j[0]
     

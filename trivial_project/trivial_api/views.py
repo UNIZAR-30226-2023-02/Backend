@@ -623,6 +623,10 @@ class UsuarioEstadisticasYo(APIView):
             'total_respuestas_correctas':"",
             'total_respuestas_incorrectas':"",
             'porcentaje_respuestas':"",
+            'total_partidas':"",
+            'total_partidas_ganadas':"",
+            'total_partida_perdidas':"",
+            'porcentaje_partidas':"",
             'error_usuario':"",
         }
         username, token = get_username_and_token(request)
@@ -651,10 +655,19 @@ class UsuarioEstadisticasYo(APIView):
             dict_response["total_preguntas"] = total_preguntas
             dict_response["total_respuestas_correctas"] = total_respuestas_correctas
             dict_response["total_respuestas_incorrectas"] = total_respuestas_incorrectas
+            total_partidas = stats.partidas_ganadas + stats.partidas_perdidas
+            dict_response['total_partidas'] = total_partidas
+            dict_response['total_partidas_ganadas'] = stats.partidas_ganadas
+            dict_response['total_partidas_perdidas'] = stats.partidas_perdidas
             if total_preguntas == 0:
                 dict_response["porcentaje_respuestas"] = 0
             else:
                 dict_response["porcentaje_respuestas"] = round(total_respuestas_correctas / total_preguntas,2) * 100
+            
+            if total_partidas == 0:
+                dict_response["porcentaje_partidas"] = 0
+            else:
+                dict_response["porcentaje_partidas"] = round(stats.partidas_ganadas / total_partidas,2) * 100
             dict_response['OK'] = "True"
         else:
             dict_response['OK'] = "False"
@@ -682,6 +695,10 @@ class UsuarioEstadisticasOtroUsuario(APIView):
             'total_respuestas_correctas':"",
             'total_respuestas_incorrectas':"",
             'porcentaje_respuestas':"",
+            'total_partidas':"",
+            'total_partidas_ganadas':"",
+            'total_partida_perdidas':"",
+            'porcentaje_partidas':"",
             'error_usuario':"",
         }
         username = request.data.get('username')
@@ -710,10 +727,18 @@ class UsuarioEstadisticasOtroUsuario(APIView):
             dict_response["total_preguntas"] = total_preguntas
             dict_response["total_respuestas_correctas"] = total_respuestas_correctas
             dict_response["total_respuestas_incorrectas"] = total_respuestas_incorrectas
+            total_partidas = stats.partidas_ganadas + stats.partidas_perdidas
+            dict_response['total_partidas'] = total_partidas
+            dict_response['total_partidas_ganadas'] = stats.partidas_ganadas
+            dict_response['total_partidas_perdidas'] = stats.partidas_perdidas
             if total_preguntas == 0:
                 dict_response["porcentaje_respuestas"] = 0
             else:
                 dict_response["porcentaje_respuestas"] = round(total_respuestas_correctas / total_preguntas,2) * 100
+            if total_partidas == 0:
+                dict_response["porcentaje_partidas"] = 0
+            else:
+                dict_response["porcentaje_partidas"] = round(stats.partidas_ganadas / total_partidas,2) * 100
             dict_response['OK'] = "True"
         else:
             dict_response['OK'] = "False"
