@@ -65,6 +65,7 @@ def elegir_pregunta(casilla, jugador, Partida_id, tematica = None):
 
     if tematica:
         inf_casilla['tematica'] = tematica
+        inf_tematica_quesito = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
     
 
     print("La tematica elegida es: " + inf_casilla['tematica'])
@@ -76,7 +77,6 @@ def elegir_pregunta(casilla, jugador, Partida_id, tematica = None):
     
     all_preguntas = Pregunta.objects.values('enunciado', 'r1', 'r2', 'r3', 'r4', 'rc').filter(categoria = inf_casilla['tematica'])
     pregunta_devolver = all_preguntas[random.randint(0,len(all_preguntas) - 1)]
-    #pregunta_devolver = [enunciado, r1, r2, r3, r4, rc]
 
     respuestas = []
     for i in ['r1','r2','r3','r4']:
@@ -91,9 +91,9 @@ def elegir_pregunta(casilla, jugador, Partida_id, tematica = None):
     pregunta_devolver['rc'] = rc+1
 
 
-    pregunta_devolver['tematica'] = inf_casilla['tematica']
+    pregunta_devolver['tematica'] = inf_tematica_quesito['tematica']
 
-    pregunta_devolver['quesito'] = inf_casilla['quesito']
+    pregunta_devolver['quesito'] = inf_tematica_quesito['quesito']
 
 
     
