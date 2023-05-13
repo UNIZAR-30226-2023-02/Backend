@@ -517,6 +517,7 @@ class SalaCrear(APIView):
         tematica = str(request.data.get('tematica'))
         
         user = Usuario.objects.filter(username=username).first() or None
+        print(user)
         if rechazar_reconexion(user):
             dict_response['error_tipo_sala'] = "Ya tienes una partida activa"
 
