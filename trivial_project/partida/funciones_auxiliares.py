@@ -161,7 +161,7 @@ def calcular_sig_jugador(Partida_id, equipos = None):
         #Juan, P ,Pepe
         # Contar el numero de jugadores activos
         if equipos == True:
-            
+            return None
 
         else:
             lista_j = game.orden_jugadores
