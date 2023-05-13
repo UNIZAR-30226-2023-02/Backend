@@ -1125,17 +1125,19 @@ class ListarPeticionesSala(APIView):
             'peticiones': [],
             'error':'',
         }
-        
+        //sala, modo, n_jugadores
         username, token = get_username_and_token(request)
         user = Usuario.objects.filter(username=username).first() or None
         if rechazar_reconexion(user):
             dict_response['error'] = "No puedes aceptar peticiones ya que perteneces a una partida"
         
         peticiones_pendientes = list(PeticionesAmigo.objects.filter(user=user))
-        ws = "/ws/lobby/"
+        ws = "/ws/lobby/?username=" + username
         for peticion in peticiones_pendientes:
             n_sala = str(peticion.sala_inv.nombre_sala)
-            dict_response["peticiones"].append({"me_invita":str(peticion.peticion_amigo),"ws": ws + n_sala + "/"})
+            nombre_sala = peticion.sala_inv.nombre_sala
+            tipo_partida = peticion.sala_inv.tipo_partida
+            dict_response["peticiones"].append({"nombre_sala":nombre_sala,"tipo_partida":tipo_partida,"me_invita":str(peticion.peticion_amigo),"ws": ws + n_sala + "/"})
         if(all_errors_empty(dict_response)):
             dict_response["OK"] = "True"
         else:

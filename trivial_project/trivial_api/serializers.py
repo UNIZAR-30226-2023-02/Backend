@@ -336,6 +336,8 @@ class EnviarPeticionUnirSala2(serializers.Serializer):
 
 # EnviarPeticionUnirSala
 class peticiones_info(serializers.Serializer):
+    nombre_sala = serializers.CharField()
+    tipo_partida = serializers.CharField()
     me_invita = serializers.CharField()
     ws = serializers.CharField()
 
