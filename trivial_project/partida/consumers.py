@@ -606,7 +606,7 @@ class GameConsumersEquipo(WebsocketConsumer):
             juega.activo = True
             juega.save()
             datos_cargar_partida = cargar_datos_partida(self,False)
-            self.send(text_data=json.dumps({'type': 'enviar_datos','datos': datos_cargar_partida}))
+            self.send(text_data=json.dumps(datos_cargar_partida))
         else:
 
             # Si estan los jugadores que se necesitan para iniciar la partida, entocnes le enviamos a todos los usuarios la informacion
@@ -635,9 +635,45 @@ class GameConsumersEquipo(WebsocketConsumer):
             self.game_group_name, self.channel_name
         )
         # Si no hay jugadores en la partida la damos por terminada
-        if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == 0:
+        if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == 1:
+            
+            response = {
+                'OK':"",
+                'error': "",
+                'jugador':"",
+                'type':"",
+                'subtype': "",
+                'valor_dado': "",
+                'casilla_elegida': "",
+                'casillas_nuevas': "",
+                'enunciado': "",
+                'r1': "",
+                'r2': "",
+                'r3': "",
+                'r4': "",
+                'rc': "",
+                'quesito': "",
+                'tematica': "",
+                'esCorrecta': "",
+                'moneda_ganador': "",
+                'moneda_resto': "",
+                'mensage_chat': "",
+            }
+            response['OK'] = "true"
+            response['type'] = "Fin"
+            response['jugador'] = calcular_sig_jugador(self.game_name)
+            response['moneda_ganador'] = "5"
+            response['moneda_resto'] = "2" #Se puede hacer funcion para calcular monedas TODO
+            
             game.terminada = True
+            game.ganador = calcular_sig_jugador(self.game_name)
             game.save()
+            
+            actualizar_estadisticas_partida(game.ganador, game.orden_jugadores)
+            
+            async_to_sync(self.channel_layer.group_send)(
+                self.game_group_name, {"type": "enviar_datos", "datos": response}
+            )
 
         self.close()
     
