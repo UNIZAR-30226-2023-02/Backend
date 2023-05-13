@@ -1136,7 +1136,8 @@ class ListarPeticionesSala(APIView):
             n_sala = str(peticion.sala_inv.nombre_sala)
             nombre_sala = peticion.sala_inv.nombre_sala
             tipo_partida = peticion.sala_inv.tipo_partida
-            dict_response["peticiones"].append({"nombre_sala":nombre_sala,"tipo_partida":tipo_partida,"me_invita":str(peticion.peticion_amigo),"ws": ws + n_sala + "/"})
+            n_jugadores = int(peticion.sala_inv.n_jugadores)
+            dict_response["peticiones"].append({"nombre_sala":nombre_sala,"tipo_partida":tipo_partida,"me_invita":str(peticion.peticion_amigo),"ws": ws + n_sala + "/","n_jugadores":n_jugadores})
         if(all_errors_empty(dict_response)):
             dict_response["OK"] = "True"
         else:

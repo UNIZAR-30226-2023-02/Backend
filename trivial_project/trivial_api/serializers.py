@@ -340,6 +340,7 @@ class peticiones_info(serializers.Serializer):
     tipo_partida = serializers.CharField()
     me_invita = serializers.CharField()
     ws = serializers.CharField()
+    n_jugadores = serializers.IntegerField()
 
 class ListarPeticionesSala1(serializers.Serializer):
     pass
