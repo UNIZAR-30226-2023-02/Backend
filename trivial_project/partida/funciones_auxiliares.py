@@ -60,27 +60,24 @@ def elegir_pregunta(casilla, jugador, Partida_id, tematica = False):
         inf_casilla = {}
         inf_casilla['quesito'] = "false"
         inf_casilla['tematica'] = listaTematicas[random.randint(0, (len(listaTematicas) - 1))]
+        else:
+        inf_casilla = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
 
     if tematica:
-        inf_casilla = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
-        if inf_casilla['tematica'] == 'Dados':
+        inf_casilla['tematica'] = tematica
+        inf_tematica_quesito = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
+        if inf_tematica_quesito['tematica'] == 'Dados':
             pregunta_devolver = {'enunciado':""}
             pregunta_devolver['enunciado'] = 'repetir'
             return pregunta_devolver
-
-        pregunta_devolver['tematica'] = inf_casilla['tematica']
-
-        pregunta_devolver['quesito'] = inf_casilla['quesito']
     else:
-        inf_casilla = Casilla_Tematica.objects.filter(casilla = casilla).values('tematica', 'quesito').first()
         if inf_casilla['tematica'] == 'Dados':
             pregunta_devolver = {'enunciado':""}
             pregunta_devolver['enunciado'] = 'repetir'
             return pregunta_devolver
-        pregunta_devolver['tematica'] = inf_casilla['tematica']
 
-        pregunta_devolver['quesito'] = inf_casilla['quesito']
-    
+
+    print("La tematica elegida es: " + inf_casilla['tematica'])
 
     all_preguntas = Pregunta.objects.values('enunciado', 'r1', 'r2', 'r3', 'r4', 'rc').filter(categoria = inf_casilla['tematica'])
     pregunta_devolver = all_preguntas[random.randint(0,len(all_preguntas) - 1)]
@@ -90,12 +87,20 @@ def elegir_pregunta(casilla, jugador, Partida_id, tematica = False):
         respuestas.append(pregunta_devolver[i])
     random.shuffle(respuestas)
     rc = respuestas.index(pregunta_devolver['r1'])
-
     j = 0
     for i in ['r1','r2','r3','r4']:
         pregunta_devolver[i] = respuestas[j]
         j = j + 1
     pregunta_devolver['rc'] = rc+1
+
+    if tematica:
+        pregunta_devolver['tematica'] = inf_tematica_quesito['tematica']
+
+        pregunta_devolver['quesito'] = inf_tematica_quesito['quesito']
+    else:
+        pregunta_devolver['tematica'] = inf_casilla['tematica']
+
+        pregunta_devolver['quesito'] = inf_casilla['quesito']
 
     return pregunta_devolver
 
@@ -155,28 +160,28 @@ def calcular_sig_jugador(Partida_id, equipos = None):
             lista_equipos = game.orden_jugadores.split(';')
             temp = lista_equipos.pop(0)
             lista_equipos.append(temp)
-            lista_j = lista_equipos[0].split(',')
-            temp = lista_j.pop(0)
-            lista_j.append(temp)
+            lista_jugadores = lista_equipos[0].split(',')
+            temp = lista_jugadores.pop(0)
+            lista_jugadores.append(temp)
 
             activo = False
             i = 0
             
             while (not activo):
-                jugador = Juega.objects.filter(username=lista_j[0], id_partida = Partida_id).first() or None
+                jugador = Juega.objects.filter(username=lista_jugadores[0], id_partida = Partida_id).first() or None
                 if (jugador and jugador.activo):
                     activo  = True
                 else:
-                    primer_elemento = lista_j.pop(0)
-                    lista_j.append(primer_elemento)
+                    primer_elemento = lista_jugador.pop(0)
+                    lista_jugador.append(primer_elemento)
                     i+= 1
 
                 if i == 10:
                     return None
             
-            lista_equipos[0] = ",".join(lista_j)
+            lista_equipos[0] = ",".join(lista_jugadores)
 
-            game.orden_jugadores = ";".join(lista_equipos)
+            game.orden_jugadores = "".join(lista_equipos)
             game.save()
 
         else:

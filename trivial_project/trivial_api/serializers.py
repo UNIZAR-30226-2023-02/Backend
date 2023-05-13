@@ -262,7 +262,7 @@ class partida_wsSerializer(serializers.Serializer):
     ws = serializers.CharField()
 
 class PartidaActivaRequestSerializer(serializers.Serializer):
-    id_partida = serializers.CharField()
+    pass
 
 class PartidaActivaResponseSerializer(serializers.Serializer):
     OK = serializers.CharField()

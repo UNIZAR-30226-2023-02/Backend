@@ -42,8 +42,8 @@ class PeticionesAmigo(models.Model):
     peticion_amigo = models.ForeignKey(Usuario, on_delete = models.CASCADE, db_column = "amigo_inv", related_name = 'amigo_inv')
     sala_inv = models.ForeignKey(Sala,on_delete=models.CASCADE,db_column="sala_invitado",related_name='sala_invitado')
     class Meta:
-            #Para indicar que la clave primaria es multiple
-            db_table = "Peticiones"
+        #Para indicar que la clave primaria es multiple
+        db_table = "Peticiones"
 
 
 #Guardamos los usuarios de la sala y al equipo que pertenecen
