@@ -1125,7 +1125,6 @@ class ListarPeticionesSala(APIView):
             'peticiones': [],
             'error':'',
         }
-        //sala, modo, n_jugadores
         username, token = get_username_and_token(request)
         user = Usuario.objects.filter(username=username).first() or None
         if rechazar_reconexion(user):
