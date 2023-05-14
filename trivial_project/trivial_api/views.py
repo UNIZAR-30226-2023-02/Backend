@@ -402,8 +402,7 @@ class UsuarioAceptarAmigo(APIView):
         es_amigo = Amigos.objects.filter(user1=username,user2=amigo).first() or None
         
         # No se puede eliminar a un amigo que no es tu amigo, o que este pendiente
-        print(es_amigo)
-        print(es_amigo.pendiente)
+
         if not (es_amigo and es_amigo.pendiente):
             dict_response['error'] = "No es una peticion de amigo"
 
@@ -424,7 +423,7 @@ class UsuarioAceptarAmigo(APIView):
                 amigo_db1.pendiente = False
                 amigo_db1.save()
             else:
-                amigo_db1 = Amigos.objects.create(user1=amigo_instance,user2=usuario_instance,pendiente=True)
+                amigo_db1 = Amigos.objects.create(user1=amigo_instance,user2=usuario_instance,pendiente=False)
                 amigo_db1.save()
 
             dict_response['OK'] = "True"
@@ -452,8 +451,6 @@ class UsuarioRechazarAmigo(APIView):
         }
         es_amigo = Amigos.objects.filter(user1=username,user2=amigo).first() or None
         
-        print(es_amigo)
-        print(es_amigo.pendiente)
         # No se puede eliminar a un amigo que no es tu amigo, o que este pendiente
         if not (es_amigo and es_amigo.pendiente):
             dict_response['error'] = "No es una peticion de amigo"
