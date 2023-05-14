@@ -117,7 +117,8 @@ class UsuarioRechazarAmigo2(serializers.Serializer):
 
 # UsuarioListarPeticionesAmigo
 class UsuarioListarPeticionesAmigo1(serializers.Serializer):
-    amigo = serializers.CharField()
+    #amigo = serializers.CharField()
+    pass
     
 class UsuarioListarPeticionesAmigo2(serializers.Serializer):
     OK = serializers.CharField()

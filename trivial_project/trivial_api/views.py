@@ -482,8 +482,8 @@ class UsuarioListarPeticionesAmigo(APIView):
 
         # Solo muestro los amigos que he aceptado
         amigos = Amigos.objects.filter(user1=username,pendiente=True)
-        for amigo in amigos:
-            dict_response['amigos_pendientes'].append(str(amigo.user2)) 
+        for amigo_1 in amigos:
+            dict_response['amigos_pendientes'].append(str(amigo_1.user2)) 
         dict_response['OK'] = "True"
         return Response(dict_response)
 

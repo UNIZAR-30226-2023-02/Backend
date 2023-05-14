@@ -779,7 +779,7 @@ class GameConsumersEquipo(WebsocketConsumer):
                             response['type'] = "Fin"
                             game = Partida.objects.filter(id =self.game_name).first() or None
                             game.terminada = True
-                            game.ganador = mensaje['jugador']
+                            game.ganador = nombre_jugador1 + ',' + nombre_jugador2
                             response['moneda_ganador'] = "5"
                             response['moneda_resto'] = "2" #Se puede hacer funcion para calcular monedas TODO
                             game.save()
