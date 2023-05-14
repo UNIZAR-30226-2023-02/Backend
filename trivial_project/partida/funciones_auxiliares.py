@@ -263,6 +263,20 @@ def calcular_sig_jugador_equipo(Partida_id):
 
         return lista_j[0]
     
+def obtener_jugadores_equipo(Partida_id):
+    game = Partida.objects.filter(id = Partida_id).first() or None
+
+    if game == None:
+        return 'Error, no existe partida'
+    else: 
+        lista_equipos = game.orden_jugadores
+        
+        lista_equipos = lista_equipos.split(';')
+
+        lista_j = lista_equipos[0].split(',')
+        return lista_j[0],lista_j[1] # Devuelve los dos jugadores del equipo
+       
+
     
 # Devuelve el jugador que tiene el turno
 def jugador_con_turno(Partida_id):

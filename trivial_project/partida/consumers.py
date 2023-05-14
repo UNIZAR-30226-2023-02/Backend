@@ -763,23 +763,17 @@ class GameConsumersEquipo(WebsocketConsumer):
                     if mensaje['esCorrecta'] == "true":
                         print("Ha acertado la pregunta el usuario: " + self.username)
                         
-                        # Marcamos el quesito y actualizamos las estadisticas del primer jugador del equipo
+                        nombre_jugador1, nombre_jugador2 = obtener_jugadores_equipo(self.game_name)
                         if mensaje['quesito'] == True:
-                            fin = marcar_queso(mensaje['tematica'], mensaje['jugador'], self.game_name)
+                            fin = marcar_queso(mensaje['tematica'], nombre_jugador1, self.game_name)
+                            fin = marcar_queso(mensaje['tematica'], nombre_jugador2, self.game_name)
                             actualizar_estadisticas(user,mensaje['tematica'],True,True)
                         else:
                             actualizar_estadisticas(user,mensaje['tematica'],True,False)
-                        response['jugador'] = calcular_sig_jugador_equipo(self.game_name)
-
-                        # Marcamos el quesito y actualizamos las estadisticas del segundo jugador del equipo
-                        user1 = Usuario.objects.filter(username=response['jugador']).first() or None
-                        if mensaje['quesito'] == True:
-                            fin = marcar_queso(mensaje['tematica'], response['jugador'], self.game_name)
-                            actualizar_estadisticas(user1,mensaje['tematica'],True,True)
-                        else:
-                            actualizar_estadisticas(user1,mensaje['tematica'],True,False)
-                        print("Ha acertado, Modo equipos siguiente: " + response['jugador'])
                         
+                        response['jugador'] = calcular_sig_jugador_equipo(self.game_name)
+                        print("Ha acertado, Modo equipos siguiente: " + response['jugador'])
+                                                
                         if fin == True:
                             response['type'] = "Fin"
                             game = Partida.objects.filter(id =self.game_name).first() or None
@@ -788,11 +782,11 @@ class GameConsumersEquipo(WebsocketConsumer):
                             response['moneda_ganador'] = "5"
                             response['moneda_resto'] = "2" #Se puede hacer funcion para calcular monedas TODO
                             game.save()
-
-                            actualizar_estadisticas_partida_equipo(mensaje['jugador'],response['jugador'],game.orden_jugadores) 
+                            actualizar_estadisticas_partida_equipo(nombre_jugador1,nombre_jugador2,game.orden_jugadores) 
                         else:
                             response['type'] = "Accion"
                             response['subtype'] = "Dados"
+                            
                     elif mensaje['esCorrecta'] == "false":
                         actualizar_estadisticas(user,mensaje['tematica'],False,False)
                         response['jugador'] = calcular_sig_jugador(self.game_name, True)
