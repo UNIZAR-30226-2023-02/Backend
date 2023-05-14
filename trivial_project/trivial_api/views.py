@@ -399,7 +399,7 @@ class UsuarioAceptarAmigo(APIView):
             'OK':"",
             'error':""
         }
-        es_amigo = Amigos.objects.filter(user1=username,user2=amigo).first() or None
+        es_amigo = Amigos.objects.filter(user1=amigo,user2=username).first() or None
         
         # No se puede eliminar a un amigo que no es tu amigo, o que este pendiente
 
