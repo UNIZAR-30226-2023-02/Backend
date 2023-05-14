@@ -307,6 +307,7 @@ def cargar_datos_partida(self,inicio):
 
     if partida.tipo == "Equipo":
         equipos = partida.orden_jugadores_inicial.split(';')
+        print("Cargando modo equipos: " + str(equipos))
         for e,equipo in enumerate(equipos):
             jugadores = equipo.split(',')    
             for i,jugador in enumerate(jugadores):
@@ -326,6 +327,7 @@ def cargar_datos_partida(self,inicio):
                 informacion_jugador["tablero"] = str(user.image_tablero)
                 informacion_jugador["activo"] = str(juega.activo)
                 informacion_jugador["equipo"] = str(e)
+                print("Añadiendo al jugador "+ str(jugador) + " al equpo " + str(e))
                 mensaje_inicio["jugadores"].append(informacion_jugador)
     else:
         jugadores = partida.orden_jugadores_inicial.split(',')
