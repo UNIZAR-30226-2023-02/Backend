@@ -652,7 +652,7 @@ class UsuarioEstadisticasYo(APIView):
                 total_respuestas_incorrectas += mal_categoria
 
             total_preguntas = total_respuestas_correctas + total_respuestas_incorrectas
-            dict_response["quesitos_totales"] = stats.quesitos
+            dict_response["quesitos_totales"] = str(stats.quesitos)
             dict_response["total_preguntas"] = total_preguntas
             dict_response["total_respuestas_correctas"] = total_respuestas_correctas
             dict_response["total_respuestas_incorrectas"] = total_respuestas_incorrectas
@@ -727,7 +727,7 @@ class UsuarioEstadisticasOtroUsuario(APIView):
                 total_respuestas_incorrectas += mal_categoria
 
             total_preguntas = total_respuestas_correctas + total_respuestas_incorrectas
-            dict_response["quesitos_totales"] = stats.quesitos
+            dict_response["quesitos_totales"] = str(stats.quesitos)
             dict_response["total_preguntas"] = total_preguntas
             dict_response["total_respuestas_correctas"] = total_respuestas_correctas
             dict_response["total_respuestas_incorrectas"] = total_respuestas_incorrectas
