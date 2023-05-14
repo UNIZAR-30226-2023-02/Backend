@@ -70,7 +70,7 @@ def validate_telefono(telefono):
         mensaje_error = "El telefono no puede estar vacio"
     elif not str(telefono).isnumeric():
         mensaje_error = "Telefono no numerico"
-    elif len(str(telefono)) == 9 :
+    elif len(str(telefono)) != 9 :
         mensaje_error = "El telefono tiene que tener 9 dígitos"
     return mensaje_error
 
