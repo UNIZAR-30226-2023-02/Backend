@@ -964,7 +964,7 @@ class PartidaActiva(APIView):
         username, token = get_username_and_token(request)
         user = Usuario.objects.filter(username=username).first() or None
         juega = Juega.objects.filter(username=user).last() or None
-        if juega:
+        if juega and not juega.activo:
             partida = Partida.objects.filter(id=juega.id_partida.id).first() or None
             if(partida and not partida.terminada):
                 if partida.tipo == "Clasico":
