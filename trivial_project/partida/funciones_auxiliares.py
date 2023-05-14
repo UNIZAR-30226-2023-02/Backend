@@ -386,37 +386,38 @@ def asignar_color_ficha(url,posicion):
 
 def actualizar_estadisticas(user,tematica,bien,quesito):
     stats = Estadisticas.objects.filter(username=user).first() or None
-    if(bien):
-        if(tematica == "Historia"):
-            stats.historia_bien +=1
-        elif(tematica == "Arte"):
-            stats.arte_y_literatura_bien +=1
-        elif(tematica == "Deportes"):
-             stats.deportes_bien +=1
-        elif(tematica == "Entretenimiento"):
-            stats.entretenimiento_bien +=1
-        elif(tematica == "Ciencia"):
-            stats.ciencias_bien +=1
-        elif(tematica == "Geografia"):
-            stats.geografia_bien +=1
-    else:
-        if(tematica == "Historia"):
-            stats.historia_mal +=1
-        elif(tematica == "Arte"):
-            stats.arte_y_literatura_mal +=1
-        elif(tematica == "Deportes"):
-             stats.deportes_mal +=1
-        elif(tematica == "Entretenimiento"):
-            stats.entretenimiento_mal +=1
-        elif(tematica == "Ciencia"):
-            stats.ciencias_mal +=1
-        elif(tematica == "Geografia"):
-            stats.geografia_mal +=1
+    if(stats):
+        if(bien):
+            if(tematica == "Historia"):
+                stats.historia_bien +=1
+            elif(tematica == "Arte"):
+                stats.arte_y_literatura_bien +=1
+            elif(tematica == "Deportes"):
+                stats.deportes_bien +=1
+            elif(tematica == "Entretenimiento"):
+                stats.entretenimiento_bien +=1
+            elif(tematica == "Ciencia"):
+                stats.ciencias_bien +=1
+            elif(tematica == "Geografia"):
+                stats.geografia_bien +=1
+        else:
+            if(tematica == "Historia"):
+                stats.historia_mal +=1
+            elif(tematica == "Arte"):
+                stats.arte_y_literatura_mal +=1
+            elif(tematica == "Deportes"):
+                stats.deportes_mal +=1
+            elif(tematica == "Entretenimiento"):
+                stats.entretenimiento_mal +=1
+            elif(tematica == "Ciencia"):
+                stats.ciencias_mal +=1
+            elif(tematica == "Geografia"):
+                stats.geografia_mal +=1
 
-    if(quesito):
-        stats.quesitos +=1
+        if(quesito):
+            stats.quesitos +=1
 
-    stats.save()
+        stats.save()
 
 
 
