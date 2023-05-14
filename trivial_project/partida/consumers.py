@@ -764,6 +764,7 @@ class GameConsumersEquipo(WebsocketConsumer):
                         print("Ha acertado la pregunta el usuario: " + self.username)
                         
                         nombre_jugador1, nombre_jugador2 = obtener_jugadores_equipo(self.game_name)
+                        print("Van juntos: " + nombre_jugador1 + " - "+ nombre_jugador2)
                         if mensaje['quesito'] == True:
                             fin = marcar_queso(mensaje['tematica'], nombre_jugador1, self.game_name)
                             fin = marcar_queso(mensaje['tematica'], nombre_jugador2, self.game_name)
@@ -786,7 +787,7 @@ class GameConsumersEquipo(WebsocketConsumer):
                         else:
                             response['type'] = "Accion"
                             response['subtype'] = "Dados"
-                            
+
                     elif mensaje['esCorrecta'] == "false":
                         actualizar_estadisticas(user,mensaje['tematica'],False,False)
                         response['jugador'] = calcular_sig_jugador(self.game_name, True)
