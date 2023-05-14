@@ -640,11 +640,11 @@ class UsuarioEstadisticasYo(APIView):
                 bien_categoria = getattr(stats, f"{categoria}_bien")
                 mal_categoria = getattr(stats, f"{categoria}_mal")
                 total_categoria = bien_categoria + mal_categoria
-                dict_response[categoria]["total"] =  total_categoria
-                dict_response[categoria]["bien"] = bien_categoria
-                dict_response[categoria]["mal"] = mal_categoria
+                dict_response[categoria]["total"] =  str(total_categoria)
+                dict_response[categoria]["bien"] = str(bien_categoria)
+                dict_response[categoria]["mal"] = str(mal_categoria)
                 if total_categoria == 0:
-                    dict_response[categoria]["porcentaje"] = 0
+                    dict_response[categoria]["porcentaje"] = "0"
                 else:
                     porcentaje = (bien_categoria / total_categoria) * 100
                     dict_response[categoria]["porcentaje"] = str(round(porcentaje,2))
@@ -653,15 +653,15 @@ class UsuarioEstadisticasYo(APIView):
 
             total_preguntas = total_respuestas_correctas + total_respuestas_incorrectas
             dict_response["quesitos_totales"] = str(stats.quesitos)
-            dict_response["total_preguntas"] = total_preguntas
-            dict_response["total_respuestas_correctas"] = total_respuestas_correctas
-            dict_response["total_respuestas_incorrectas"] = total_respuestas_incorrectas
+            dict_response["total_preguntas"] = str(total_preguntas)
+            dict_response["total_respuestas_correctas"] = str(total_respuestas_correctas)
+            dict_response["total_respuestas_incorrectas"] = str(total_respuestas_incorrectas)
             total_partidas = stats.partidas_ganadas + stats.partidas_perdidas
-            dict_response['total_partidas'] = total_partidas
-            dict_response['total_partidas_ganadas'] = stats.partidas_ganadas
-            dict_response['total_partidas_perdidas'] = stats.partidas_perdidas
+            dict_response['total_partidas'] = str(total_partidas)
+            dict_response['total_partidas_ganadas'] = str(stats.partidas_ganadas)
+            dict_response['total_partidas_perdidas'] = str(stats.partidas_perdidas)
             if total_preguntas == 0:
-                dict_response["porcentaje_respuestas"] = 0
+                dict_response["porcentaje_respuestas"] = "0"
             else:
                 porcentaje = (total_respuestas_correctas / total_preguntas) * 100
                 dict_response["porcentaje_respuestas"] = str(round(porcentaje,2))
@@ -715,11 +715,11 @@ class UsuarioEstadisticasOtroUsuario(APIView):
                 bien_categoria = getattr(stats, f"{categoria}_bien")
                 mal_categoria = getattr(stats, f"{categoria}_mal")
                 total_categoria = bien_categoria + mal_categoria
-                dict_response[categoria]["total"] =  total_categoria
-                dict_response[categoria]["bien"] = bien_categoria
-                dict_response[categoria]["mal"] = mal_categoria
+                dict_response[categoria]["total"] =  str(total_categoria)
+                dict_response[categoria]["bien"] = str(bien_categoria)
+                dict_response[categoria]["mal"] = str(mal_categoria)
                 if total_categoria == 0:
-                    dict_response[categoria]["porcentaje"] = 0
+                    dict_response[categoria]["porcentaje"] = "0"
                 else:
                     porcentaje = (bien_categoria / total_categoria) * 100
                     dict_response[categoria]["porcentaje"] = str(round(porcentaje,2))
@@ -728,15 +728,15 @@ class UsuarioEstadisticasOtroUsuario(APIView):
 
             total_preguntas = total_respuestas_correctas + total_respuestas_incorrectas
             dict_response["quesitos_totales"] = str(stats.quesitos)
-            dict_response["total_preguntas"] = total_preguntas
-            dict_response["total_respuestas_correctas"] = total_respuestas_correctas
-            dict_response["total_respuestas_incorrectas"] = total_respuestas_incorrectas
+            dict_response["total_preguntas"] = str(total_preguntas)
+            dict_response["total_respuestas_correctas"] = str(total_respuestas_correctas)
+            dict_response["total_respuestas_incorrectas"] = str(total_respuestas_incorrectas)
             total_partidas = stats.partidas_ganadas + stats.partidas_perdidas
-            dict_response['total_partidas'] = total_partidas
-            dict_response['total_partidas_ganadas'] = stats.partidas_ganadas
-            dict_response['total_partidas_perdidas'] = stats.partidas_perdidas
+            dict_response['total_partidas'] = str(total_partidas)
+            dict_response['total_partidas_ganadas'] = str(stats.partidas_ganadas)
+            dict_response['total_partidas_perdidas'] = str(stats.partidas_perdidas)
             if total_preguntas == 0:
-                dict_response["porcentaje_respuestas"] = 0
+                dict_response["porcentaje_respuestas"] = "0"
             else:
                 porcentaje = (total_respuestas_correctas / total_preguntas) * 100
                 dict_response["porcentaje_respuestas"] = str(round(porcentaje,2))
