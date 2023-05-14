@@ -304,25 +304,49 @@ def cargar_datos_partida(self,inicio):
     mensaje_inicio['tiempo_pregunta'] = str(partida.tiempo_respuesta)
     mensaje_inicio['tiempo_elegir_casilla'] = "10"
     mensaje_inicio['tematica'] = str(partida.tematica)
-    jugadores = partida.orden_jugadores_inicial.split(',')
-    
-    for i,jugador in enumerate(jugadores):
-        informacion_jugador = {'jugador':'','posicion':'','quesitos':[],'turno':'','ficha':'','tablero':'','activo':''}
-        user = Usuario.objects.filter(username=jugador).first() or None
-        juega = Juega.objects.filter(username=user,id_partida=partida).first() or None
-        if(i==0):
-            turno = 1
-        else:
-            turno = 0
-        informacion_jugador["quesitos"] = obtener_quesitos_jugador(juega)
-        informacion_jugador["jugador"] = str(juega.username)
-        informacion_jugador["posicion"] = str(juega.posicion)
-        informacion_jugador["turno"] = str(turno)
-        juega.image = asignar_color_ficha(user.image_ficha,i)
-        informacion_jugador["ficha"] = str(juega.image)
-        informacion_jugador["tablero"] = str(user.image_tablero)
-        informacion_jugador["activo"] = str(juega.activo)
-        mensaje_inicio["jugadores"].append(informacion_jugador)
+
+    if partida.tipo == "Equipo":
+        equipos = partida.orden_jugadores_inicial.split(';')
+        for e,equipo in enumerate(equipos):
+            jugadores = equipo.split(',')    
+            for i,jugador in enumerate(jugadores):
+                informacion_jugador = {'jugador':'','posicion':'','quesitos':[],'turno':'','ficha':'','tablero':'','activo':'','equipo':''}
+                user = Usuario.objects.filter(username=jugador).first() or None
+                juega = Juega.objects.filter(username=user,id_partida=partida).first() or None
+                if(i==0):
+                    turno = 1
+                else:
+                    turno = 0
+                informacion_jugador["quesitos"] = obtener_quesitos_jugador(juega)
+                informacion_jugador["jugador"] = str(juega.username)
+                informacion_jugador["posicion"] = str(juega.posicion)
+                informacion_jugador["turno"] = str(turno)
+                juega.image = asignar_color_ficha(user.image_ficha,i)
+                informacion_jugador["ficha"] = str(juega.image)
+                informacion_jugador["tablero"] = str(user.image_tablero)
+                informacion_jugador["activo"] = str(juega.activo)
+                informacion_jugador["equipo"] = str(e)
+                mensaje_inicio["jugadores"].append(informacion_jugador)
+    else:
+        jugadores = partida.orden_jugadores_inicial.split(',')
+        
+        for i,jugador in enumerate(jugadores):
+            informacion_jugador = {'jugador':'','posicion':'','quesitos':[],'turno':'','ficha':'','tablero':'','activo':''}
+            user = Usuario.objects.filter(username=jugador).first() or None
+            juega = Juega.objects.filter(username=user,id_partida=partida).first() or None
+            if(i==0):
+                turno = 1
+            else:
+                turno = 0
+            informacion_jugador["quesitos"] = obtener_quesitos_jugador(juega)
+            informacion_jugador["jugador"] = str(juega.username)
+            informacion_jugador["posicion"] = str(juega.posicion)
+            informacion_jugador["turno"] = str(turno)
+            juega.image = asignar_color_ficha(user.image_ficha,i)
+            informacion_jugador["ficha"] = str(juega.image)
+            informacion_jugador["tablero"] = str(user.image_tablero)
+            informacion_jugador["activo"] = str(juega.activo)
+            mensaje_inicio["jugadores"].append(informacion_jugador)
     return mensaje_inicio
 
 
