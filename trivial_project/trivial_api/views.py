@@ -327,9 +327,9 @@ class UsuarioAddAmigo(APIView):
 
             # Esto es para que salga en la base de datos ambos como amigos pendientes, necesitan ser aceptados
             amigo_db = Amigos.objects.create(user1=usuario_instance,user2=amigo_instance,pendiente=True)
-            amigo_db1 = Amigos.objects.create(user1=amigo_instance,user2=usuario_instance,pendiente=True)
+            #amigo_db1 = Amigos.objects.create(user1=amigo_instance,user2=usuario_instance,pendiente=True)
             amigo_db.save()
-            amigo_db1.save()
+            #amigo_db1.save()
             dict_response['OK'] = "True"
         else:
             dict_response["OK"] = "False"
@@ -412,10 +412,21 @@ class UsuarioAceptarAmigo(APIView):
             amigo_instance = get_object_or_404(Usuario, username=amigo)
             amigo_db = Amigos.objects.filter(user1=usuario_instance,user2=amigo_instance).first()
             amigo_db1 = Amigos.objects.filter(user1=amigo_instance,user2=usuario_instance).first()
-            amigo_db.pendiente = False
-            amigo_db1.pendiente = False
-            amigo_db.save()
-            amigo_db1.save()
+            
+            if(amigo_db):
+                amigo_db.pendiente = False
+                amigo_db.save()
+            else:
+                amigo_db = Amigos.objects.create(user1=usuario_instance,user2=amigo_instance,pendiente=False)
+                amigo_db.save()
+
+            if(amigo_db1):
+                amigo_db1.pendiente = False
+                amigo_db1.save()
+            else:
+                amigo_db1 = Amigos.objects.create(user1=amigo_instance,user2=usuario_instance,pendiente=True)
+                amigo_db1.save()
+
             dict_response['OK'] = "True"
         else:
             dict_response["OK"] = "False"
@@ -452,8 +463,11 @@ class UsuarioRechazarAmigo(APIView):
             amigo_instance = get_object_or_404(Usuario, username=amigo)
             amigo_db = Amigos.objects.filter(user1=usuario_instance,user2=amigo_instance).first()
             amigo_db1 = Amigos.objects.filter(user1=amigo_instance,user2=usuario_instance).first()
-            amigo_db.delete()
-            amigo_db1.delete()
+
+            if(amigo_db):
+                amigo_db.delete()
+            if(amigo_db1):
+                amigo_db1.delete()
             dict_response['OK'] = "True"
         else:
             dict_response["OK"] = "False"
@@ -480,10 +494,11 @@ class UsuarioListarPeticionesAmigo(APIView):
             'error':"",
         }
 
+        # polo -> pollon
         # Solo muestro los amigos que he aceptado
-        amigos = Amigos.objects.filter(user1=username,pendiente=True)
+        amigos = Amigos.objects.filter(user2=username,pendiente=True)
         for amigo_1 in amigos:
-            dict_response['amigos_pendientes'].append(str(amigo_1.user2)) 
+            dict_response['amigos_pendientes'].append(str(amigo_1.user1)) 
         dict_response['OK'] = "True"
         return Response(dict_response)
 
