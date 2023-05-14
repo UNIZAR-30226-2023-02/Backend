@@ -70,8 +70,8 @@ def validate_telefono(telefono):
         mensaje_error = "El telefono no puede estar vacio"
     elif not str(telefono).isnumeric():
         mensaje_error = "Telefono no numerico"
-    elif len(str(telefono)) < 9 :
-        mensaje_error = "Telefono inferior a 9 numeros"
+    elif len(str(telefono)) == 9 :
+        mensaje_error = "El telefono tiene que tener 9 dígitos"
     return mensaje_error
 
 def validate_fecha_nac(fecha_nac):
@@ -107,6 +107,8 @@ def validate_sala_crear(nombre_sala):
         mensaje_error = "La sala ya existe, selecciona otro nombre"
     elif not nombre_sala.isascii():
         mensaje_error = "La sala tiene caracteres no permitidos"
+    elif nombre_sala == "":
+        mensaje_error = "La sala no puede tener nombre vacio"
     return mensaje_error
 
 

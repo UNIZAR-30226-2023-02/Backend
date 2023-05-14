@@ -762,13 +762,24 @@ class GameConsumersEquipo(WebsocketConsumer):
                     # Si el usuario acierta la pregunta
                     if mensaje['esCorrecta'] == "true":
                         print("Ha acertado la pregunta el usuario: " + self.username)
+                        
+                        # Marcamos el quesito y actualizamos las estadisticas del primer jugador del equipo
                         if mensaje['quesito'] == True:
                             fin = marcar_queso(mensaje['tematica'], mensaje['jugador'], self.game_name)
                             actualizar_estadisticas(user,mensaje['tematica'],True,True)
                         else:
                             actualizar_estadisticas(user,mensaje['tematica'],True,False)
-
                         response['jugador'] = calcular_sig_jugador_equipo(self.game_name)
+
+                        # Marcamos el quesito y actualizamos las estadisticas del segundo jugador del equipo
+                        user1 = Usuario.objects.filter(username=response['jugador']).first() or None
+                        if mensaje['quesito'] == True:
+                            fin = marcar_queso(mensaje['tematica'], response['jugador'], self.game_name)
+                            actualizar_estadisticas(user1,mensaje['tematica'],True,True)
+                        else:
+                            actualizar_estadisticas(user1,mensaje['tematica'],True,False)
+                        print("Ha acertado, Modo equipos siguiente: " + response['jugador'])
+                        
                         if fin == True:
                             response['type'] = "Fin"
                             game = Partida.objects.filter(id =self.game_name).first() or None
@@ -778,14 +789,14 @@ class GameConsumersEquipo(WebsocketConsumer):
                             response['moneda_resto'] = "2" #Se puede hacer funcion para calcular monedas TODO
                             game.save()
 
-                            actualizar_estadisticas_partida(game.ganador, game.orden_jugadores) 
+                            actualizar_estadisticas_partida_equipo(mensaje['jugador'],response['jugador'],game.orden_jugadores) 
                         else:
                             response['type'] = "Accion"
                             response['subtype'] = "Dados"
                     elif mensaje['esCorrecta'] == "false":
                         actualizar_estadisticas(user,mensaje['tematica'],False,False)
                         response['jugador'] = calcular_sig_jugador(self.game_name, True)
-                        print("El siguiete jugador a tirar es: " + response['jugador'])
+                        print("Ha Fallado, Modo equipos siguiente: " + response['jugador'])
                         response['type'] = "Accion"
                         response['subtype'] = "Dados"
                 elif mensaje['subtype'] == "Contestar_pregunta":

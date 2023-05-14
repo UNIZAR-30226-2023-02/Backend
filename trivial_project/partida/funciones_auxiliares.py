@@ -407,14 +407,28 @@ def actualizar_estadisticas(user,tematica,bien,quesito):
 
 
 def actualizar_estadisticas_partida(ganador, jugadores):
-    
-    
     for i in jugadores.split(','):
         
         stats = Estadisticas.objects.filter(username=i).first() or None
         user = Usuario.objects.filter(username=i).first() or None
 
         if ganador == i:
+            stats.partidas_ganadas += 1
+            user.monedas = user.monedas + 5
+        else:
+            stats.partidas_perdidas += 1
+            user.monedas = user.monedas + 2
+
+        user.save()
+        stats.save()
+
+def actualizar_estadisticas_partida_equipo(ganador1,ganador2, jugadores):
+    for i in jugadores.split(','):
+        
+        stats = Estadisticas.objects.filter(username=i).first() or None
+        user = Usuario.objects.filter(username=i).first() or None
+
+        if ganador1 == i or ganador2 == i:
             stats.partidas_ganadas += 1
             user.monedas = user.monedas + 5
         else:
