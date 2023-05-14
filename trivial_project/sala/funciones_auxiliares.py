@@ -59,8 +59,14 @@ def orden_inicio_jugadores(Partida_id):
 # Función crea en la base de datos una instancia del jugador y la partida
 # @param string(Partida_id numero)
 # @return true si la ha podido crear false en caso contrario 
-def generar_jugadores(game):
-    jugadores = game.orden_jugadores.split(',')
+def generar_jugadores(game, tipo):
+    if (tipo == "Equipo"):
+        tmp = game.orden_jugadores.split(';')
+        jugadores = []
+        for i in tmp:
+            jugadores = jugadores + i.split(',')
+    else:
+        jugadores = game.orden_jugadores.split(',')
 
     for i in jugadores:
         user = Usuario.objects.filter(username = i).first()
