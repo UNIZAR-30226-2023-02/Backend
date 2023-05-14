@@ -646,7 +646,8 @@ class UsuarioEstadisticasYo(APIView):
                 if total_categoria == 0:
                     dict_response[categoria]["porcentaje"] = 0
                 else:
-                    dict_response[categoria]["porcentaje"] = round(bien_categoria / total_categoria,2) * 100
+                    porcentaje = (bien_categoria / total_categoria) * 100
+                    dict_response[categoria]["porcentaje"] = round(porcentaje,2)
                 total_respuestas_correctas += bien_categoria
                 total_respuestas_incorrectas += mal_categoria
 
@@ -662,12 +663,14 @@ class UsuarioEstadisticasYo(APIView):
             if total_preguntas == 0:
                 dict_response["porcentaje_respuestas"] = 0
             else:
-                dict_response["porcentaje_respuestas"] = round(total_respuestas_correctas / total_preguntas,2) * 100
+                porcentaje = (total_respuestas_correctas / total_preguntas) * 100
+                dict_response["porcentaje_respuestas"] = round(porcentaje,2)
             
             if total_partidas == 0:
                 dict_response["porcentaje_partidas"] = 0
             else:
-                dict_response["porcentaje_partidas"] = round(stats.partidas_ganadas / total_partidas,2) * 100
+                porcentaje = (stats.partidas_ganadas / total_partidas) * 100
+                dict_response["porcentaje_partidas"] = round(porcentaje,2)
             dict_response['OK'] = "True"
         else:
             dict_response['OK'] = "False"
@@ -718,7 +721,8 @@ class UsuarioEstadisticasOtroUsuario(APIView):
                 if total_categoria == 0:
                     dict_response[categoria]["porcentaje"] = 0
                 else:
-                    dict_response[categoria]["porcentaje"] = round(bien_categoria / total_categoria,2) * 100
+                    porcentaje = (bien_categoria / total_categoria) * 100
+                    dict_response[categoria]["porcentaje"] = round(porcentaje,2)
                 total_respuestas_correctas += bien_categoria
                 total_respuestas_incorrectas += mal_categoria
 
@@ -734,11 +738,13 @@ class UsuarioEstadisticasOtroUsuario(APIView):
             if total_preguntas == 0:
                 dict_response["porcentaje_respuestas"] = 0
             else:
-                dict_response["porcentaje_respuestas"] = round(total_respuestas_correctas / total_preguntas,2) * 100
+                porcentaje = (total_respuestas_correctas / total_preguntas) * 100
+                dict_response["porcentaje_respuestas"] = round(porcentaje,2)
             if total_partidas == 0:
                 dict_response["porcentaje_partidas"] = 0
             else:
-                dict_response["porcentaje_partidas"] = round(stats.partidas_ganadas / total_partidas,2) * 100
+                porcentaje = (stats.partidas_ganadas / total_partidas) * 100
+                dict_response["porcentaje_partidas"] = round(porcentaje,2)
             dict_response['OK'] = "True"
         else:
             dict_response['OK'] = "False"
