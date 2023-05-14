@@ -163,12 +163,15 @@ def calcular_sig_jugador(Partida_id, equipos = None):
         #Juan, P ,Pepe
         # Contar el numero de jugadores activos
         if equipos == True:
-            lista_equipos = game.orden_jugadores.split(';')
-            temp = lista_equipos.pop(0)
-            lista_equipos.append(temp)
-            lista_j = lista_equipos[0].split(',')
-            temp = lista_j.pop(0)
-            lista_j.append(temp)
+            print("Cambiando turno al siguiente equipo")
+
+            lista_equipos = game.orden_jugadores.split(';') #Cambiamos al siguiente equipo
+            primer_elemento = lista_equipos.pop(0)
+            lista_equipos.append(primer_elemento)
+
+            lista_j = lista_equipos[0].split(',') # Cambiamos al siguiente jugador
+            primer_elemento = lista_j.pop(0)
+            lista_j.append(primer_elemento)
 
             activo = False
             i = 0
@@ -187,7 +190,7 @@ def calcular_sig_jugador(Partida_id, equipos = None):
             
             lista_equipos[0] = ",".join(lista_j)
 
-            game.orden_jugadores = "".join(lista_equipos)
+            game.orden_jugadores = ";".join(lista_equipos)
             game.save()
 
         else:
