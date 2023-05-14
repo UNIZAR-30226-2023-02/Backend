@@ -13,7 +13,13 @@ import random
 
 def calcular_jugadores(Partida_id):
     game = Partida.objects.filter(id = Partida_id).first() or None
-    jugadores = game.orden_jugadores.split(',')
+    if game.tipo == "Equipo":
+        jugadores = []
+        equipos = game.orden_jugadores.split(';')
+        for e in equipos:
+            jugadores = jugadores + e.split(',')
+    else:
+        jugadores = game.orden_jugadores.split(',')
     return len(jugadores)
 
 
