@@ -120,11 +120,15 @@ class GameConsumers(WebsocketConsumer):
             response['moneda_ganador'] = "5"
             response['moneda_resto'] = "2" #Se puede hacer funcion para calcular monedas TODO
             
+            if game.terminada == False:
+                actualizar_estadisticas_partida(game.ganador, game.orden_jugadores)
+            
             game.terminada = True
             game.ganador = calcular_sig_jugador(self.game_name)
             game.save()
             
-            actualizar_estadisticas_partida(game.ganador, game.orden_jugadores)
+
+            
             
             async_to_sync(self.channel_layer.group_send)(
                 self.game_group_name, {"type": "enviar_datos", "datos": response}
@@ -233,7 +237,7 @@ class GameConsumers(WebsocketConsumer):
                             response['moneda_resto'] = "2" #Se puede hacer funcion para calcular monedas TODO
                             game.save()
 
-                            #actualizar_estadisticas_partida(game.ganador, game.orden_jugadores) 
+                            actualizar_estadisticas_partida(game.ganador, game.orden_jugadores) 
                         else:
                             response['type'] = "Accion"
                             response['subtype'] = "Dados"
