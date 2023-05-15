@@ -329,7 +329,7 @@ def cargar_datos_partida(self,inicio):
     mensaje_inicio['tematica'] = str(partida.tematica)
 
     if partida.tipo == "Equipo":
-        equipos = partida.orden_jugadores_inicial.split(';')
+        equipos = partida.orden_jugadores.split(';')
         print("Cargando modo equipos: " + str(equipos))
         for e,equipo in enumerate(equipos):
             jugadores = equipo.split(',')    
