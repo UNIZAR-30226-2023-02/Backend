@@ -353,7 +353,7 @@ def cargar_datos_partida(self,inicio):
                 print("Añadiendo al jugador "+ str(jugador) + " al equpo " + str(e))
                 mensaje_inicio["jugadores"].append(informacion_jugador)
     else:
-        jugadores = partida.orden_jugadores_inicial.split(',')
+        jugadores = partida.orden_jugadores.split(',')
         
         for i,jugador in enumerate(jugadores):
             informacion_jugador = {'jugador':'','posicion':'','quesitos':[],'turno':'','ficha':'','tablero':'','activo':''}
