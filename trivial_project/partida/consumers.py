@@ -674,12 +674,12 @@ class GameConsumersEquipo(WebsocketConsumer):
                 'moneda_resto': "",
                 'mensage_chat': "",
             }
+            nombre_jugador1, nombre_jugador2 = obtener_jugadores_equipo(self.game_name)
             response['OK'] = "true"
             response['type'] = "Fin"
-            response['jugador'] = calcular_sig_jugador(self.game_name)
+            response['jugador'] = nombre_jugador1 + "," +  nombre_jugador2
             response['moneda_ganador'] = "5"
             response['moneda_resto'] = "2" #Se puede hacer funcion para calcular monedas TODO
-            nombre_jugador1, nombre_jugador2 = obtener_jugadores_equipo(self.game_name)
             if game.terminada == False:
                 game.terminada = True
                 game.ganador = nombre_jugador1 + "," +  nombre_jugador2
