@@ -41,8 +41,6 @@ urlpatterns = [
     path('admin/preguntas/edit/', EditPregunta.as_view()),
     path('admin/preguntas/info/', InfoPregunta.as_view()),
     path('admin/preguntas/lista/', ListarPreguntas.as_view()),
-        # BORRAR
-    path('admin/monedas-infinitas/', MonedasInfinitas.as_view()),
 
         # Uno con todas las fotos de perfil disponibles
 
