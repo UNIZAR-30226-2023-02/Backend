@@ -337,7 +337,7 @@ def cargar_datos_partida(self,inicio):
                 informacion_jugador = {'jugador':'','posicion':'','quesitos':[],'turno':'','ficha':'','tablero':'','activo':'','equipo':''}
                 user = Usuario.objects.filter(username=jugador).first() or None
                 juega = Juega.objects.filter(username=user,id_partida=partida).first() or None
-                if(e==0):
+                if(e==0 and i == 0):
                     turno = 1
                 else:
                     turno = 0
