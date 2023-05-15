@@ -634,8 +634,23 @@ class GameConsumersEquipo(WebsocketConsumer):
         async_to_sync(self.channel_layer.group_discard)(
             self.game_group_name, self.channel_name
         )
-        # Si no hay jugadores en la partida la damos por terminada
-        if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == 1:
+
+                    
+        # Comprobamos que si quedan dos no son del mismo equipo, si lo son acabo la partida.
+        acabo_partida = False
+        if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == 2:
+            lista_equipos = game.orden_jugadores
+            lista_equipos = lista_equipos.split(';')
+            for i in lista_equipos:
+                lista_j = i.split(',')
+                juega = Juega.objects.filter(id_partida=self.game_name,username=lista_j[0],activo=True).first() or None
+                juega1 = Juega.objects.filter(id_partida=self.game_name,username=lista_j[1],activo=True).first() or None
+                if(juega and juega1):
+                    acabo_partida = True
+                    break
+
+        # Si no hay jugadores en la partida la damos por terminada, o si los dos que estan son del mismo equipo
+        if len(self.channel_layer.groups.get(self.game_group_name, {}).items()) == 1 or acabo_partida:
             
             response = {
                 'OK':"",
@@ -664,12 +679,12 @@ class GameConsumersEquipo(WebsocketConsumer):
             response['jugador'] = calcular_sig_jugador(self.game_name)
             response['moneda_ganador'] = "5"
             response['moneda_resto'] = "2" #Se puede hacer funcion para calcular monedas TODO
-            
+            nombre_jugador1, nombre_jugador2 = obtener_jugadores_equipo(self.game_name)
             if game.terminada == False:
                 game.terminada = True
-                game.ganador = calcular_sig_jugador(self.game_name)
+                game.ganador = nombre_jugador1 + "," +  nombre_jugador2
                 game.save()
-                actualizar_estadisticas_partida(game.ganador, game.orden_jugadores)
+                actualizar_estadisticas_partida_equipo(nombre_jugador1, nombre_jugador2, game.orden_jugadores)
             
             async_to_sync(self.channel_layer.group_send)(
                 self.game_group_name, {"type": "enviar_datos", "datos": response}
