@@ -440,7 +440,10 @@ def actualizar_estadisticas_partida(ganador, jugadores):
         user.save()
         stats.save()
 
+
 def actualizar_estadisticas_partida_equipo(ganador1,ganador2, jugadores):
+    if (';' in jugadores):
+        jugadores = jugadores.replace(';',',')
     for i in jugadores.split(','):
         
         stats = Estadisticas.objects.filter(username=i).first() or None
