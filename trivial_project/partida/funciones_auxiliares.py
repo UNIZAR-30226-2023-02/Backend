@@ -422,12 +422,15 @@ def actualizar_estadisticas(user,tematica,bien,quesito):
 
 
 def actualizar_estadisticas_partida(ganador, jugadores):
+    if (';' in jugadores):
+        jugadores = jugadores.replace(';',',')
+    
     for i in jugadores.split(','):
         
         stats = Estadisticas.objects.filter(username=i).first() or None
         user = Usuario.objects.filter(username=i).first() or None
 
-        if ganador == i:
+        if i in ganador:
             stats.partidas_ganadas += 1
             user.monedas = user.monedas + 5
         else:
